@@ -115,8 +115,8 @@ def main():
     mycursor = mydb.cursor()
     database_connect()
     role = database_role(mycursor, role)
-    if os.path.isfile("spreadsheet.tsv"):
-        file = codecs.open("spreadsheet.tsv", 'r', "utf-8")
+    if os.path.isfile("dps.tsv"):
+        file = codecs.open("dps.tsv", 'r', "utf-8")
         for item in file:
             line = item.strip()
             line = line.split("\t")
