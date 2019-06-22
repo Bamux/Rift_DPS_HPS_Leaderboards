@@ -133,10 +133,18 @@ def change_rolename(rolename):
         rolename = rolename.split("unknown/")[1]
     if rolename == "support/heal":
         rolename = "heal/support"
-    elif rolename == "support/heal":
+    elif rolename == "support/dps":
         rolename = "dps/support"
+    elif rolename == "heal/tank":
+        rolename = "tank/heal"
+    elif rolename == "dps/tank":
+        rolename = "tank/dps"
     elif rolename == "tank/support/heal":
         rolename = "tank/heal/support"
+    elif rolename == "tank/heal/dps" or rolename == "dps/heal/tank":
+        rolename = "tank/dps/heal"
+    elif rolename == "support/heal/dps" or rolename == "heal/dps/support":
+        rolename = "dps/heal/support"
     return rolename
 
 
@@ -180,7 +188,7 @@ def main():
             boss = database_boss(mycursor, boss, bossname)
             playerclass = player_class(classid, playerclass)
             player = database_player(mydb, mycursor, guild[guildname], player, playerid, playername, playerclass)
-            # print(player)
+            # print(playername + "-" + str(dps))
             database_encounter(mydb, mycursor, encounterid, boss[bossname], player[playerid], role[rolename], dps,
                                hps, thps, aps, time, totaltime, date, bossname, playername, guild[guildname])
             # print(boss)
@@ -189,4 +197,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-
+   
