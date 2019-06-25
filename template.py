@@ -6,7 +6,7 @@ def database_connect():
     mydb = mysql.connector.connect(
         host="localhost",
         user="root",
-        passwd="dublin12",  # enter your password to your mysql database here
+        passwd="",  # enter your password to your mysql database here
         database="rift_leaderboards")
     return mydb
 
