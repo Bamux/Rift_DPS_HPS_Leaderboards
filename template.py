@@ -16,13 +16,13 @@ def mysql_leaders_html_comps(mycursor, bossid, number_of_players):
     time = "totaltime"
     if bossid == "2":
         time = "time"
-    sql = "select playername, dps, time, totaltime, date, hps, class, " \
-          "role, guildname " \
-          "from Encounterinfo inner join Encounter on Encounterinfo.id = Encounter.encounterid " \
+    sql = "select playername, dps, time, totaltime, date, hps, class, role, a.encounterid, ptid, guildname " \
+          "from Encounterinfo a " \
+          "inner join Encounter on a.id = Encounter.encounterid " \
           "inner join Player on Encounter.playerid = Player.id " \
           "inner join Classes on Player.classid = Classes.id " \
           "inner join Roles on Encounter.roleid = Roles.id " \
-          "inner join Guild on Guild.id = Encounterinfo.guildid " \
+          "inner join Guild on Guild.id = a.guildid " \
           "where bossid = " + bossid + " " \
           "order by " + time + ", date, Encounter.dps desc limit " + number_of_players + ""
     mycursor.execute(sql)
@@ -36,7 +36,7 @@ def mysql_leaders_html_fastest_kills(mycursor, bossid, number_of_players):
     if bossid == "2":
         mintime = " Min(time) as mintime, totaltime"
         time = "time"
-    sql = "select Guild.guildname, sum(dps), " + mintime + " from Encounterinfo a " \
+    sql = "select Guild.guildname, sum(dps), " + mintime + ", a.encounterid from Encounterinfo a " \
           "inner join Encounter on a.id = Encounter.encounterid " \
           "inner join Guild on a.guildid = Guild.id " \
           "where a.bossid = " + bossid + " and a.id = ( " \
@@ -51,9 +51,9 @@ def mysql_leaders_html_fastest_kills(mycursor, bossid, number_of_players):
 
 
 def mysql_leaders_html_top_dps_overall(mycursor, bossid, number_of_players):
-    sql = "SELECT playername, dps AS DPS, time, totaltime, date, hps, class, role FROM ( " \
+    sql = "SELECT playername, dps AS DPS, time, totaltime, date, hps, class, role,encounterid, ptid FROM ( " \
           "SELECT DISTINCT playername, dps, a.encounterid, playerid AS id, dps AS maxdps ," \
-          " TIME, totaltime, date, hps, class, role FROM Encounterinfo a " \
+          " TIME, totaltime, date, hps, class, role, ptid FROM Encounterinfo a " \
           "INNER JOIN Encounter ON a.id = Encounter.encounterid " \
           "INNER JOIN Player ON Encounter.playerid = Player.id " \
           "inner join Classes on Player.classid = Classes.id " \
@@ -68,9 +68,9 @@ def mysql_leaders_html_top_dps_overall(mycursor, bossid, number_of_players):
 
 
 def mysql_leaders_html_top_dps_role(mycursor, bossid, number_of_players, role):
-    sql = "SELECT playername, dps AS DPS, time, totaltime, date, hps, class, role, encounterid FROM ( " \
+    sql = "SELECT playername, dps AS DPS, time, totaltime, date, hps, class, role, encounterid, ptid FROM ( " \
           "SELECT DISTINCT playername, dps, a.encounterid, playerid AS id, dps AS maxdps ," \
-          " TIME, totaltime, date, hps, class, role, encounterid FROM Encounterinfo a " \
+          " TIME, totaltime, date, hps, class, role, ptid FROM Encounterinfo a " \
           "INNER JOIN Encounter ON a.id = Encounter.encounterid " \
           "INNER JOIN Player ON Encounter.playerid = Player.id " \
           "inner join Classes on Player.classid = Classes.id " \
@@ -81,7 +81,7 @@ def mysql_leaders_html_top_dps_role(mycursor, bossid, number_of_players, role):
           "ORDER BY DPS DESC LIMIT " + number_of_players + ""
     mycursor.execute(sql)
     myresult = mycursor.fetchall()
-    print(myresult)
+    # print(myresult)
     return myresult
 
 
@@ -104,25 +104,45 @@ def format_number(number):
     return number
 
 
+def create_url_dps(encounterid, playerid, text):
+    url = "https://prancingturtle.com"
+    url = '<a href="' + url + '/Encounter/Interaction?id=' + encounterid + "&p=" + playerid + \
+          '&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">' + text + "</a>"
+    return url
+
+
+def create_url_overview(encounterid, text):
+    url = "https://prancingturtle.com"
+    url = '<a href="' + url + '/Encounter/PlayerDamageDone/' + encounterid + '" target="_blank">' + text + "</a>"
+    return url
+
+
 def exchange(template, file, mysql_data):  # exchanges the placeholders in the template file with the mysql data
     i = 0
     tbody = False
+    header = ""
     for line in template:
+        if "<h2>" in line:
+            header = line.split("<h2>")[1].split("</h2>")[0]
         if "<tbody>" in line:
             tbody = True
         elif "</tbody>" in line:
             tbody = False
         elif "#guild" in line:
-            line = line.replace("#guild", mysql_data[i][8])
+            line = line.replace("#guild", mysql_data[i][10])
         if tbody:
             if "#name" in line:
-                line = line.replace("#name", mysql_data[i][0])
+                name = mysql_data[i][0]
+                if header == "Fastest Kills":
+                    name = create_url_overview(str(mysql_data[i][4]), str(mysql_data[i][0]))
+                line = line.replace("#name", name)
             if "#class" in line:
                 line = line.replace("#class", mysql_data[i][6])
             elif "#dps" in line:
                 line = line.replace("#dps", format_number(mysql_data[i][1]))
             elif "#date" in line:
-                line = line.replace("#date", str(mysql_data[i][4]))
+                url = create_url_dps(str(mysql_data[i][8]), str(mysql_data[i][9]), str(mysql_data[i][4]))
+                line = line.replace("#date", url)
             elif "#hps" in line:
                 line = line.replace("#hps", format_number(mysql_data[i][5]))
             elif "#time" in line:
@@ -137,7 +157,9 @@ def exchange(template, file, mysql_data):  # exchanges the placeholders in the t
                     role = role.replace("/heal/support", "/heal/s")
                 elif "/support" in role:
                     role = role.replace("/support", "/supp")
-                line = line.replace("#role", role)
+                url = create_url_dps(str(mysql_data[i][8]), str(mysql_data[i][9]), role)
+                # line = line.replace("#date", url)
+                line = line.replace("#role", url)
             elif "#fastest_time" in line:
                 time = str(mysql_data[i-1][2]).split("0:0")[1]
                 line = line.replace("#fastest_time", time)
