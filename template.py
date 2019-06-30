@@ -50,49 +50,24 @@ def mysql_leaders_html_fastest_kills(mycursor, bossid, number_of_players):
     return myresult
 
 
-def mysql_leaders_html_top_dps_overall(mycursor, bossid, number_of_players):
-    sql = "SELECT playername, dps AS DPS, time, totaltime, date, hps, class, role,encounterid, ptid FROM ( " \
-          "SELECT DISTINCT playername, dps, a.encounterid, playerid AS id, dps AS maxdps ," \
-          " TIME, totaltime, date, hps, class, role, ptid FROM Encounterinfo a " \
+def mysql_top_dps_hps(mycursor, bossid, classid, number_of_players, role, dps_hps):
+    condition = ""
+    if role:
+        condition = " and Roles.role like '%" + role + "%'"
+    elif classid:
+        condition = " and Player.classid = " + classid + ""
+    sql = "SELECT playername, dps AS DPS, time, totaltime, date, HPSAPS, class, role, " \
+          "encounterid, ptid, aps, thps FROM ( " \
+          "SELECT DISTINCT playername, dps, a.encounterid, playerid AS id, dps AS max_dps_hps ," \
+          " TIME, totaltime, date, hps + aps as HPSAPS, class, role, ptid, aps, thps FROM Encounterinfo a " \
           "INNER JOIN Encounter ON a.id = Encounter.encounterid " \
           "INNER JOIN Player ON Encounter.playerid = Player.id " \
           "inner join Classes on Player.classid = Classes.id " \
           "inner join Roles on Encounter.roleid = Roles.id " \
-          "WHERE bossid = " + bossid + " " \
-          "ORDER BY maxdps DESC) AS Maxdps " \
+          "WHERE bossid = " + bossid + condition + " " \
+          "ORDER BY " + dps_hps + " DESC) AS top_dps_hps " \
           "GROUP BY playername " \
-          "ORDER BY DPS DESC LIMIT " + number_of_players + ""
-    mycursor.execute(sql)
-    myresult = mycursor.fetchall()
-    return myresult
-
-
-def mysql_leaders_html_top_dps_role(mycursor, bossid, number_of_players, role):
-    sql = "SELECT playername, dps AS DPS, time, totaltime, date, hps, class, role, encounterid, ptid FROM ( " \
-          "SELECT DISTINCT playername, dps, a.encounterid, playerid AS id, dps AS maxdps ," \
-          " TIME, totaltime, date, hps, class, role, ptid FROM Encounterinfo a " \
-          "INNER JOIN Encounter ON a.id = Encounter.encounterid " \
-          "INNER JOIN Player ON Encounter.playerid = Player.id " \
-          "inner join Classes on Player.classid = Classes.id " \
-          "inner join Roles on Encounter.roleid = Roles.id " \
-          "WHERE bossid = " + bossid + " and Roles.role like '%" + role + "%' " \
-          "ORDER BY maxdps DESC) AS Maxdps " \
-          "GROUP BY playername " \
-          "ORDER BY DPS DESC LIMIT " + number_of_players + ""
-    mycursor.execute(sql)
-    myresult = mycursor.fetchall()
-    # print(myresult)
-    return myresult
-
-
-def mysql_dps_html(mycursor, bossid, classid, number_of_players):
-    sql = "select Player.playername, max(dps) as maxdps, time, totaltime  from Encounter a " \
-          "inner join Encounterinfo on a.encounterid = Encounterinfo.id " \
-          "inner join Player on a.playerid = Player.id " \
-          "inner join Classes on Player.classid = Classes.id " \
-          "where Encounterinfo.bossid = " + bossid + " and Player.classid = " + classid + " " \
-          "group by Player.id " \
-          "order by maxdps desc limit " + number_of_players + ""
+          "ORDER BY " + dps_hps + " DESC LIMIT " + number_of_players + ""
     mycursor.execute(sql)
     myresult = mycursor.fetchall()
     return myresult
@@ -130,14 +105,15 @@ def exchange(template, file, mysql_data):  # exchanges the placeholders in the t
             tbody = False
         elif "#guild" in line:
             line = line.replace("#guild", mysql_data[i][10])
+        elif "#class" in line:
+            line = line.replace("#class", mysql_data[i][6])
+            # print(i)
         if tbody:
             if "#name" in line:
                 name = mysql_data[i][0]
                 if header == "Fastest Kills":
                     name = create_url_overview(str(mysql_data[i][4]), str(mysql_data[i][0]))
                 line = line.replace("#name", name)
-            if "#class" in line:
-                line = line.replace("#class", mysql_data[i][6])
             elif "#dps" in line:
                 line = line.replace("#dps", format_number(mysql_data[i][1]))
             elif "#date" in line:
@@ -145,6 +121,14 @@ def exchange(template, file, mysql_data):  # exchanges the placeholders in the t
                 line = line.replace("#date", url)
             elif "#hps" in line:
                 line = line.replace("#hps", format_number(mysql_data[i][5]))
+            elif "#thps" in line:
+                line = line.replace("#thps", format_number(mysql_data[i][11]))
+            elif "#ohps" in line:
+                hps = (mysql_data[i][5] - mysql_data[i][10])
+                ohps = mysql_data[i][11] - hps
+                line = line.replace("#ohps", format_number(ohps))
+            elif "#aps" in line:
+                line = line.replace("#aps", format_number(mysql_data[i][10]))
             elif "#time" in line:
                 time = str(mysql_data[i][2]).split("0:0")[1]
                 line = line.replace("#time", time)
@@ -170,50 +154,75 @@ def exchange(template, file, mysql_data):  # exchanges the placeholders in the t
         file.write(line)
 
 
-def average(data, number_of_players):
+def average(data, number_of_players, dps_hps):
     dps_sum = 0
+    place = 1
+    if dps_hps == "HPS":
+        place = 5
     for dps in data:
-        dps_sum += (dps[1])
+        dps_sum += (dps[place])
     dps_sum = round(dps_sum/number_of_players)
     return dps_sum
 
 
-def leaders_html(mycursor, bossid):
+def leaders_html(mycursor, bossid, html_file):
     mysql_data = []
     roles = ["support", "tank", "heal"]
-    template = codecs.open("template/leaders.html", 'r', "utf-8")
-    file = codecs.open("public/leaders.html", 'w', "utf-8")
+    template = codecs.open("template/" + html_file, 'r', "utf-8")
+    file = codecs.open("public/" + html_file, 'w', "utf-8")
     number_of_players = 10
     for boss_id in bossid:
         data = mysql_leaders_html_fastest_kills(mycursor, str(boss_id), str(number_of_players))
-        mysql_data += data + [average(data, number_of_players)]
+        mysql_data += data + [average(data, number_of_players, "DPS")]
     for boss_id in bossid:
         data = mysql_leaders_html_comps(mycursor, str(boss_id), str(number_of_players))
-        mysql_data += data + [average(data, number_of_players)]
+        mysql_data += data + [average(data, number_of_players, "DPS")]
     number_of_players = 15
     for boss_id in bossid:
-        data = mysql_leaders_html_top_dps_overall(mycursor, str(boss_id), str(number_of_players))
-        mysql_data += data + [average(data, number_of_players)]
+        data = mysql_top_dps_hps(mycursor, str(boss_id), "", str(number_of_players), "", "DPS")
+        mysql_data += data + [average(data, number_of_players, "DPS")]
     number_of_players = 10
     for role in roles:
         for boss_id in bossid:
-            data = mysql_leaders_html_top_dps_role(mycursor, str(boss_id), str(number_of_players), role)
-            mysql_data += data + [average(data, number_of_players)]
+            data = mysql_top_dps_hps(mycursor, str(boss_id), "", str(number_of_players), role, "DPS")
+            mysql_data += data + [average(data, number_of_players, "DPS")]
     exchange(template, file, mysql_data)
     file.close()
     template.close()
+    print("public/" + html_file + " created")
 
 
-def dps_html(mycursor, bossid, classid):
+def dps_html(mycursor, bossid, classid, html_file):
     mysql_data = []
-    html_file = "dps.html"
     template = codecs.open("template/" + html_file, 'r', "utf-8")
-    file = codecs.open("public/dps.html", 'w', "utf-8")
+    file = codecs.open("public/" + html_file, 'w', "utf-8")
     number_of_players = 10
+    role = ""
     for boss_id in bossid:
         for class_id in classid:
-            data = mysql_dps_html(mycursor, str(boss_id), str(class_id), "10")
-            mysql_data += data + [average(data, number_of_players)]
+            data = mysql_top_dps_hps(mycursor, str(boss_id), str(class_id), str(number_of_players), role, "DPS")
+            mysql_data += data + [average(data, number_of_players, "DPS")]
+    exchange(template, file, mysql_data)
+    file.close()
+    template.close()
+    print("public/" + html_file + " created")
+
+
+def hps_html(mycursor, bossid, classid, html_file):
+    mysql_data = []
+    template = codecs.open("template/" + html_file, 'r', "utf-8")
+    file = codecs.open("public/" + html_file, 'w', "utf-8")
+    number_of_players = 15
+    for boss_id in bossid:
+        if boss_id != 2:
+            data = mysql_top_dps_hps(mycursor, str(boss_id), "", str(number_of_players), "", "HPSAPS")
+            mysql_data += data + [average(data, number_of_players, "HPS")]
+    number_of_players = 10
+    for class_id in classid:
+        for boss_id in bossid:
+            if boss_id != 2:
+                data = mysql_top_dps_hps(mycursor, str(boss_id), str(class_id), str(number_of_players), "", "HPSAPS")
+                mysql_data += data + [average(data, number_of_players, "HPS")]
     exchange(template, file, mysql_data)
     file.close()
     template.close()
@@ -226,8 +235,9 @@ def main():
     mydb = database_connect()
     mycursor = mydb.cursor()
     database_connect()
-    # dps_html(mycursor, bossid, classid)
-    leaders_html(mycursor, bossid)
+    leaders_html(mycursor, bossid, "leaders.html")
+    dps_html(mycursor, bossid, classid, "dps.html")
+    hps_html(mycursor, bossid, classid, 'hps.html')
 
 
 if __name__ == "__main__":
