@@ -1,2 +1,4 @@
-# Rift DPS HPS Ranking
-SQL Database with all data from https://docs.google.com/spreadsheets/d/1_cKIaSH6mhHYlHKvZzRBB-1uMTAJJ0k831LrqxdjjtQ/edit#gid=1686100336 for the year 2019
+# Rift DPS HPS Leaderboards
+
+Here are the Python scripts, mysql database and templates with which the website is created.
+Website: http://rift-stats.s3-website.eu-central-1.amazonaws.com
