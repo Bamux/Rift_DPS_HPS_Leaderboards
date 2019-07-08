@@ -211,17 +211,13 @@ def main():
             hps = line[11]
             thps = line[12]
             aps = line[13]
-            # session = database_session(mydb, mycursor, session, sessionid)
             guild = database_guild(mydb, mycursor, guild, guildname)
-            # print(guild[guildname])
             boss = database_boss(mycursor, boss, bossname)
             playerclass = player_class(classid, playerclass)
             player = database_player(mydb, mycursor, guild[guildname], player, playerid, playername, playerclass)
-            # print(playername + "-" + str(dps) + " - " + playerid)
             database_encounter(mydb, mycursor, encounterid, boss[bossname], player, role[rolename], dps,
                                hps, thps, aps, time, totaltime, date, bossname, playername, guild[guildname],
                                playerclass)
-            # print(boss)
         file.close()
 
 
