@@ -1,5 +1,5 @@
 # Rift DPS HPS Leaderboards
 
-Here are the Python scripts, mysql database and templates with which the website is created.
+Python scripts, MySQL Database and templates with which the leaderboards are created.
 
 Website: http://rift-stats.s3-website.eu-central-1.amazonaws.com
