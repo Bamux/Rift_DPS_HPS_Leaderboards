@@ -44,10 +44,6 @@ h2{
 	color:white;
 }
 
-th{
-	overflow:hidden;
-}
-
 .navbar{
 	padding:.1rem;
 	position: sticky;
@@ -70,22 +66,18 @@ th{
 
 .pt_table_blank td:nth-child(1){
  	width:40px;
-	overflow:hidden;
 }
 
 .pt_table_blank td:nth-child(2){
  	width:185px;
-	overflow:hidden;
 }
 
 .pt_table_blank td:nth-child(3){
  	width:90px;
-	overflow:hidden;
 }
 
 .pt_table_blank td:nth-child(4){
  	width:70px;
-	overflow:hidden;
 }
 
 .pt_table_blank th:nth-child(4){
@@ -114,12 +106,12 @@ th{
 
 .pt_table_blank_leader th:nth-child(1){
  	width:90px;
-	overflow:hidden;
+	
 }
 
 .pt_table_blank_leader th:nth-child(2){
  	width:130px;
-	overflow:hidden;
+	
 	
 }
 
@@ -137,13 +129,13 @@ th{
 
 .pt_table_blank_leader_dps th:nth-child(1){
  	width:100px;
-	overflow:hidden;
+	
 /*	padding:5px; */
 }
 
 .pt_table_blank_leader_dps th:nth-child(2){
  	width:140px;
-	overflow:hidden;
+	
 	padding:3px;
 }
 
@@ -153,11 +145,12 @@ th{
 	width:550px;
 	margin:5px 5px 5px 5px;
 	float:left;
-	font-size:.80rem;
+	font-size:.70rem;
+        overflow-x: auto;
 }
 
 .pt_table_blank_hps th:nth-child(2){
-    overflow:hidden;
+  /*   */
  	width:110px;
 }
 
@@ -165,7 +158,8 @@ th{
 	width:100%;
 	margin:5px 5px 5px 5px;
 	float:left;
-	font-size:.80rem;
+	font-size:.70rem;
+
 }
 
 .pt_table_blank_mostplayed{
@@ -176,24 +170,29 @@ th{
 }
 
 .pt_table_blank_mostplayed th:nth-child(1){
-    overflow:hidden;
+    
  	width:90px;
 }
 
+.pt_table_blank_latestuploads{
+	width:100%;
+	margin:5px 5px 5px 5px;
+	float:left;
+	font-size:.80rem;
+}
 
-/* latestuploads sticky tabletop*/
-.pt_table_blank_large thead th{
-	position: sticky;
+/* mostplayed and latestuploads sticky tabletop*/
+.pt_table_blank_latestuploads thead th{
+    position: sticky;
         top: 0px;
-	background-color:#000;
+    background-color:#000;
 }
 
 .pt_table_blank_mostplayed thead th{
-	position: sticky;
+    position: sticky;
         top: 0px;
-	background-color:#000;
+    background-color:#000;
 }
-
 /* adjust table size here */
 
 .table td, .table th {
@@ -215,6 +214,12 @@ th{
 	background-color:#000;
 }
 
+.navbar{
+    padding:.1rem;
+    position: sticky;
+        top: 0px;
+}
+
 .Cleric {background-color: green !important;}
 .Warrior {background-color:#CC0000!important;}
 .Primalist {background-color:#0b5394 !important;}
@@ -226,4 +231,21 @@ th{
 .hidden{
 	display:none;
 }
+
+@media only screen and (max-width: 1000px) {
+  .content {
+	display: inline-block;
+	width:90%;
+  }
+
+}
+/*
+@media only screen and (max-width: 1000px) {
+.pt_table_fastest_kill{
+	width:auto; !important;
+	min-width:360px;
+	display:table;
+	padding: .3rem .4rem .3rem .8rem;
+	
+}}/*
 
