@@ -6,7 +6,6 @@ import scripts.upload_html_aws
 
 def main():
     new_sessions = scripts.get_data_prancingturtle.main()
-    new_sessions = True
     if new_sessions:
         scripts.mysql_add_data.main()
         scripts.create_html_files.main()
