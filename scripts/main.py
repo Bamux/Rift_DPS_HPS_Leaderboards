@@ -2,7 +2,6 @@ import get_data_prancingturtle
 import mysql_add_data
 import create_html_files
 import upload_html_aws
-import mysql_connect_config
 
 
 def main():
