@@ -432,7 +432,7 @@ def get_player_class_dps(eid, player_class, website):
 
 def main():
     website = "https://prancingturtle.com/"
-    parse_date = "2018-07-12"  # the date from which you want to collect the data 2018-05-17
+    parse_date = "2019-07-10"  # the date from which you want to collect the data
     bossfight = (163, 164, 165)  # Azranel, Commander Isiel, Titan X
     session_id = []
     old_session_id = []
@@ -466,7 +466,6 @@ def main():
         print(session_id)
         print("Start searching for Encounter ID's:")
         encounter_id = get_encounter_id(session_id, bossfight, website, parse_date)
-        # encounter_id = [["201724", "2018-05-17"]]
         player_class_dps = get_player_class_dps(encounter_id, playerclass, website)
         file = codecs.open("../help_files/dps.tsv", 'w', "utf-8")
         for line in player_class_dps:
@@ -478,8 +477,11 @@ def main():
             file.write(line + ' ')
         file.close()
         print("The file dps.tsv with all new encounters has been created.")
+        new_sessions = True
     else:
         print("No new sessions found")
+        new_sessions = False
+    return new_sessions
 
 
 if __name__ == "__main__":

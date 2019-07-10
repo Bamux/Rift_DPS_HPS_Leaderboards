@@ -177,8 +177,9 @@ def main():
     mycursor = mydb.cursor()
     role = database_role(mycursor, role)
     classid = get_classid(mycursor)
-    if os.path.isfile("help_files/dps.tsv"):
-        file = codecs.open("help_files/dps.tsv", 'r', "utf-8")
+    print("Transfer data to the database")
+    if os.path.isfile("../help_files/dps.tsv"):
+        file = codecs.open("../help_files/dps.tsv", 'r', "utf-8")
         for item in file:
             line = item.strip()
             line = line.split("\t")

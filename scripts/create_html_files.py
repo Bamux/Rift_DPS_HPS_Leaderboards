@@ -132,118 +132,148 @@ def create_url_overview(encounterid, text):
     return url
 
 
-def exchange(mycursor, template, file, mysql_data):  # exchanges placeholders in the template file with the mysql data
+def head_html(title, nav_link):
+    html = []
+    head = "head.html"
+    template = codecs.open("../template/" + head, 'r', "utf-8")
+    for line in template:
+        if '<title>' in line:
+            html += ["    <title>" + title + "</title>\n"]
+        elif nav_link in line:
+            html.pop()
+            html += ['                <li class="nav-item active">\n']
+            line = line.split("</a>")[0]
+            html += [line + '</a><span class="sr-only">(current)</span>\n']
+        else:
+            html += [line]
+    template.close()
+    return html
+
+
+# exchanges placeholders in the template file with the mysql data
+def exchange(mycursor, template, file, mysql_data, nav_link):
     i = 0
     boss_counter = 0
     tbody = False
+    normal_content_zone = False
     for line in template:
-        if "<h2>" in line:
-            boss_counter += 1
-        if "<tbody>" in line:
-            tbody = True
-        elif "</tbody>" in line:
-            tbody = False
-        elif "#content" in line:
-            line = line.replace("#content", content(mycursor))
-        elif "#guild" in line:
-            guild = mysql_data[i][10]
-            line = line.replace("#guild", guild)
-        elif "#class" in line:
-            if mysql_data[i][0] != 0:
-                line = line.replace("#class", mysql_data[i][6])
-            else:
-                line = line.replace("#class", mysql_data[i][1])
-        if tbody:
-            if "#name" in line:
+        if "<title>" in line:
+            title = line.split("<title>")[1].split("</title>")[0]
+            html = head_html(title, nav_link)
+            for item in html:
+                file.write(item)
+        if "<!-- Normal Content Zone -->" in line:
+            normal_content_zone = True
+        if normal_content_zone:
+            if "<h2>" in line:
+                boss_counter += 1
+            if "<tbody>" in line:
+                tbody = True
+            elif "</tbody>" in line:
+                tbody = False
+            elif "#content" in line:
+                line = line.replace("#content", content(mycursor))
+            elif "#guild" in line:
+                guild = mysql_data[i][10]
+                line = line.replace("#guild", guild)
+            elif "#class" in line:
                 if mysql_data[i][0] != 0:
-                    name = str(mysql_data[i][0])
-                    name = name[0:17]
-                    line = line.replace("#name", name)
+                    line = line.replace("#class", mysql_data[i][6])
                 else:
-                    line = line.replace("#name", "")
-            elif "#link" in line or "#url" in line:
-                if mysql_data[i][0] != 0:
-                    if "#link" in line:
-                        if "#linkhps" in line:
-                            name = create_url_hps(str(mysql_data[i][8]), str(mysql_data[i][9]), str(mysql_data[i][0]))
-                            line = line.replace("#linkhps", name)
+                    line = line.replace("#class", mysql_data[i][1])
+            if tbody:
+                if "#name" in line:
+                    if mysql_data[i][0] != 0:
+                        name = str(mysql_data[i][0])
+                        name = name[0:17]
+                        line = line.replace("#name", name)
+                    else:
+                        line = line.replace("#name", "")
+                elif "#link" in line or "#url" in line:
+                    if mysql_data[i][0] != 0:
+                        if "#link" in line:
+                            if "#linkhps" in line:
+                                name = create_url_hps(str(mysql_data[i][8]), str(mysql_data[i][9]),
+                                                      str(mysql_data[i][0]))
+                                line = line.replace("#linkhps", name)
+                            else:
+                                name = create_url_dps(str(mysql_data[i][8]), str(mysql_data[i][9]),
+                                                      str(mysql_data[i][0]))
+                                line = line.replace("#link", name)
                         else:
-                            name = create_url_dps(str(mysql_data[i][8]), str(mysql_data[i][9]), str(mysql_data[i][0]))
-                            line = line.replace("#link", name)
+                            name = create_url_overview(str(mysql_data[i][4]), str(mysql_data[i][0]))
+                            line = line.replace("#url", name)
                     else:
-                        name = create_url_overview(str(mysql_data[i][4]), str(mysql_data[i][0]))
-                        line = line.replace("#url", name)
-                else:
-                    if "linkhps" in line:
-                        line = line.replace("#linkhps", "")
+                        if "linkhps" in line:
+                            line = line.replace("#linkhps", "")
+                        else:
+                            line = line.replace("#link", "")
+                elif "#dps" in line:
+                    if mysql_data[i][0] != 0:
+                        dps = format_number(mysql_data[i][1])
+                        line = line.replace("#dps", dps)
                     else:
-                        line = line.replace("#link", "")
-            elif "#dps" in line:
-                if mysql_data[i][0] != 0:
-                    dps = format_number(mysql_data[i][1])
-                    line = line.replace("#dps", dps)
-                else:
-                    line = line.replace("#dps", "")
-            elif "#date" in line:
-                if "#datehps" in line:
-                    url = create_url_hps(str(mysql_data[i][8]), str(mysql_data[i][9]), str(mysql_data[i][4]))
-                    line = line.replace("#datehps", url)
-                else:
-                    url = create_url_dps(str(mysql_data[i][8]), str(mysql_data[i][9]), str(mysql_data[i][4]))
-                    line = line.replace("#date", url)
-            elif "#hps" in line:
-                if mysql_data[i][0] != 0:
-                    line = line.replace("#hps", format_number(mysql_data[i][5]))
-                else:
-                    line = line.replace("#hps", "")
-            elif "#thps" in line:
-                line = line.replace("#thps", format_number(mysql_data[i][11]))
-            elif "#ohps" in line:
-                hps = (mysql_data[i][5] - mysql_data[i][10])
-                ohps = mysql_data[i][11] - hps
-                line = line.replace("#ohps", format_number(ohps))
-            elif "#aps" in line:
-                line = line.replace("#aps", format_number(mysql_data[i][10]))
-            elif "#totaltime" in line:
-                if mysql_data[i][0] != 0:
-                    time = str(mysql_data[i][3]).split("0:0")[1]
-                    totaltime = str(mysql_data[i][2]).split("0:0")[1]
-                    if time != totaltime:
-                        time += " | " + totaltime
-                    line = line.replace("#totaltime", time)
-                else:
-                    line = line.replace("#totaltime", "")
-            elif "#time" in line:
-                if mysql_data[i][0] != 0:
-                    time = str(mysql_data[i][2]).split("0:0")[1]
-                    line = line.replace("#time", time)
-                else:
-                    line = line.replace("#time", "")
-            elif "#role" in line:
-                role = mysql_data[i][7]
-                if "/heal/support" in role:
-                    role = role.replace("/heal/support", "/heal/s")
-                elif "/support" in role:
-                    role = role.replace("/support", "/supp")
-                url = create_url_dps(str(mysql_data[i][8]), str(mysql_data[i][9]), role)
-                # line = line.replace("#date", url)
-                line = line.replace("#role", url)
-            elif "#fastest_time" in line:
-                time = str(mysql_data[i-1][2]).split("0:0")[1]
-                line = line.replace("#fastest_time", time)
-            elif "#avg" in line:
-                if mysql_data[i] != 0:
-                    line = line.replace("#avg", format_number(mysql_data[i]))
-                    if "#percent" in line:
-                        x = (11*5*boss_counter)-1
-                        percent = mysql_data[i]/mysql_data[x]*100
-                        percent = round(percent)
-                        line = line.replace("#percent", str(percent) + "%")
-                else:
-                    line = line.replace("#avg", "")
-            if "</tr>" in line:
-                i += 1
-        file.write(line)
+                        line = line.replace("#dps", "")
+                elif "#date" in line:
+                    if "#datehps" in line:
+                        url = create_url_hps(str(mysql_data[i][8]), str(mysql_data[i][9]), str(mysql_data[i][4]))
+                        line = line.replace("#datehps", url)
+                    else:
+                        url = create_url_dps(str(mysql_data[i][8]), str(mysql_data[i][9]), str(mysql_data[i][4]))
+                        line = line.replace("#date", url)
+                elif "#hps" in line:
+                    if mysql_data[i][0] != 0:
+                        line = line.replace("#hps", format_number(mysql_data[i][5]))
+                    else:
+                        line = line.replace("#hps", "")
+                elif "#thps" in line:
+                    line = line.replace("#thps", format_number(mysql_data[i][11]))
+                elif "#ohps" in line:
+                    hps = (mysql_data[i][5] - mysql_data[i][10])
+                    ohps = mysql_data[i][11] - hps
+                    line = line.replace("#ohps", format_number(ohps))
+                elif "#aps" in line:
+                    line = line.replace("#aps", format_number(mysql_data[i][10]))
+                elif "#totaltime" in line:
+                    if mysql_data[i][0] != 0:
+                        time = str(mysql_data[i][3]).split("0:0")[1]
+                        totaltime = str(mysql_data[i][2]).split("0:0")[1]
+                        if time != totaltime:
+                            time += " | " + totaltime
+                        line = line.replace("#totaltime", time)
+                    else:
+                        line = line.replace("#totaltime", "")
+                elif "#time" in line:
+                    if mysql_data[i][0] != 0:
+                        time = str(mysql_data[i][2]).split("0:0")[1]
+                        line = line.replace("#time", time)
+                    else:
+                        line = line.replace("#time", "")
+                elif "#role" in line:
+                    role = mysql_data[i][7]
+                    if "/heal/support" in role:
+                        role = role.replace("/heal/support", "/heal/s")
+                    elif "/support" in role:
+                        role = role.replace("/support", "/supp")
+                    url = create_url_dps(str(mysql_data[i][8]), str(mysql_data[i][9]), role)
+                    # line = line.replace("#date", url)
+                    line = line.replace("#role", url)
+                elif "#fastest_time" in line:
+                    time = str(mysql_data[i-1][2]).split("0:0")[1]
+                    line = line.replace("#fastest_time", time)
+                elif "#avg" in line:
+                    if mysql_data[i] != 0:
+                        line = line.replace("#avg", format_number(mysql_data[i]))
+                        if "#percent" in line:
+                            x = (11*5*boss_counter)-1
+                            percent = mysql_data[i]/mysql_data[x]*100
+                            percent = round(percent)
+                            line = line.replace("#percent", str(percent) + "%")
+                    else:
+                        line = line.replace("#avg", "")
+                if "</tr>" in line:
+                    i += 1
+            file.write(line)
 
 
 def average(data, number_of_players, dps_hps):
@@ -277,7 +307,7 @@ def content(mycursor):
     return html
 
 
-def leaders_html(mycursor, bossid, html_file):
+def leaders_html(mycursor, bossid, html_file, nav_link):
     mysql_data = []
     roles = ["support", "tank", "heal"]
     template = codecs.open("../template/" + html_file, 'r', "utf-8")
@@ -298,13 +328,13 @@ def leaders_html(mycursor, bossid, html_file):
         for boss_id in bossid:
             data = mysql_top_dps_hps(mycursor, str(boss_id), "", str(number_of_players), role, "DPS")
             mysql_data += data + [average(data, number_of_players, "DPS")]
-    exchange(mycursor, template, file, mysql_data)
+    exchange(mycursor, template, file, mysql_data, nav_link)
     file.close()
     template.close()
     print("../public/" + html_file + " created")
 
 
-def dps_html(mycursor, bossid, classid, html_file):
+def dps_html(mycursor, bossid, classid, html_file, nav_link):
     mysql_data = []
     template = codecs.open("../template/" + html_file, 'r', "utf-8")
     file = codecs.open("../public/" + html_file, 'w', "utf-8")
@@ -314,13 +344,13 @@ def dps_html(mycursor, bossid, classid, html_file):
         for class_id in classid:
             data = mysql_top_dps_hps(mycursor, str(boss_id), str(class_id), str(number_of_players), role, "DPS")
             mysql_data += data + [average(data, number_of_players, "DPS")]
-    exchange(mycursor, template, file, mysql_data)
+    exchange(mycursor, template, file, mysql_data, nav_link)
     file.close()
     template.close()
     print("../public/" + html_file + " created")
 
 
-def tank_sup_dps_hps_html(mycursor, bossid, classid, role, sort_order, html_file):
+def tank_sup_dps_hps_html(mycursor, bossid, classid, role, sort_order, html_file, nav_link):
     mysql_data = []
     template = codecs.open("../template/" + html_file, 'r', "utf-8")
     file = codecs.open("../public/" + html_file, 'w', "utf-8")
@@ -336,13 +366,13 @@ def tank_sup_dps_hps_html(mycursor, bossid, classid, role, sort_order, html_file
                 mysql_data += data + [average(data, players, sort_order)]
             else:
                 mysql_data += data + [average(data, number_of_players, sort_order)]
-    exchange(mycursor, template, file, mysql_data)
+    exchange(mycursor, template, file, mysql_data, nav_link)
     file.close()
     template.close()
     print("../public/" + html_file + " created")
 
 
-def hps_html(mycursor, bossid, classid, html_file):
+def hps_html(mycursor, bossid, classid, html_file, nav_link):
     mysql_data = []
     template = codecs.open("../template/" + html_file, 'r', "utf-8")
     file = codecs.open("../public/" + html_file, 'w', "utf-8")
@@ -357,58 +387,74 @@ def hps_html(mycursor, bossid, classid, html_file):
             if boss_id != 2:
                 data = mysql_top_dps_hps(mycursor, str(boss_id), str(class_id), str(number_of_players), "", "HPSAPS")
                 mysql_data += data + [average(data, number_of_players, "HPSAPS")]
-    exchange(mycursor, template, file, mysql_data)
+    exchange(mycursor, template, file, mysql_data, nav_link)
     file.close()
     template.close()
     print("../public/" + html_file + " created")
 
 
-def most_played_specs_html(mycursor, html_file):
+def resources(mycursor, html_file):
+    normal_content_zone = False
     template = codecs.open("../template/" + html_file, 'r', "utf-8")
     file = codecs.open("../public/" + html_file, 'w', "utf-8")
     for line in template:
-        if "#content" in line:
+        if "<title>" in line:
+            title = line.split("<title>")[1].split("</title>")[0]
+            html = head_html(title, "nothing")
+            for item in html:
+                file.write(item)
+        elif "<!-- Normal Content Zone -->" in line:
+            normal_content_zone = True
+        elif "#content" in line:
             line = line.replace("#content", content(mycursor))
-        file.write(line)
+        if normal_content_zone:
+            file.write(line)
     file.close()
     template.close()
     print("../public/" + html_file + " created")
 
 
-def las_uploads_html(mycursor, html_file):
+def last_uploads_html(mycursor, html_file, nav_link):
     html = []
     table = False
+    normal_content_zone = False
     template = codecs.open("../template/" + html_file, 'r', "utf-8")
     file = codecs.open("../public/" + html_file, 'w', "utf-8")
     mysql_data = mysql_last_uploads(mycursor)
     for line in template:
-        if "<!-- row template here -->" in line:
-            table = True
-            html += ['            <!-- row template here -->\n']
-            for item in mysql_data:
-                html += ['            <tr>\n']
-                i = 0
-                for data in item:
-                    i += 1
-                    if type(data) == int:
-                        data = format_number(data)
-                    if i == 1:
-                        encounterid = item[12]
-                        playerid = item[13]
-                        html += ['                <td scope="row">'
-                                 + create_url_dps(str(encounterid), str(playerid), str(data)) + '</td>\n']
-                    elif i == 11 or i == 12:
-                            html += ['                <td scope="col">' + str(data).split("0:")[1] + '</td>\n']
-                    else:
-                        html += ['                <td scope="col">' + str(data) + '</td>\n']
-                    if i == 12:
-                        break
-                html += ['            </tr>\n']
-        if "<!-- end row template -->" in line:
-            table = False
-        else:
-            if not table:
-                html += [line]
+        if "<title>" in line:
+            title = line.split("<title>")[1].split("</title>")[0]
+            html = head_html(title, nav_link)
+        elif "<!-- Normal Content Zone -->" in line:
+            normal_content_zone = True
+        if normal_content_zone:
+            if "<!-- row template here -->" in line:
+                table = True
+                html += ['            <!-- row template here -->\n']
+                for item in mysql_data:
+                    html += ['            <tr>\n']
+                    i = 0
+                    for data in item:
+                        i += 1
+                        if type(data) == int:
+                            data = format_number(data)
+                        if i == 1:
+                            encounterid = item[12]
+                            playerid = item[13]
+                            html += ['                <td scope="row">'
+                                     + create_url_dps(str(encounterid), str(playerid), str(data)) + '</td>\n']
+                        elif i == 11 or i == 12:
+                                html += ['                <td scope="col">' + str(data).split("0:")[1] + '</td>\n']
+                        else:
+                            html += ['                <td scope="col">' + str(data) + '</td>\n']
+                        if i == 12:
+                            break
+                    html += ['            </tr>\n']
+            if "<!-- end row template -->" in line:
+                table = False
+            else:
+                if not table:
+                    html += [line]
     for line in html:
         if "#content" in line:
             line = line.replace("#content", content(mycursor))
@@ -437,21 +483,22 @@ def main():
     bossid = [1, 2, 3, 4]  # 1 Azranel, 2 Vindicator MK1, 3 Commander Isiel, 4 Titan X
     mydb = mysql_connect_config.database_connect()
     mycursor = mydb.cursor()
-    leaders_html(mycursor, bossid, "index.html")
+    leaders_html(mycursor, bossid, "index.html", "Overall DPS")
     classid = [4, 3, 5, 2, 1]  # 1 Cleric, 2 Mage, 3 Primalist, 4 Rogue, 5 Warrior
-    dps_html(mycursor, bossid, classid, "dps.html")
+    dps_html(mycursor, bossid, classid, "dps.html", "DPS Class Leaders")
     classid = [2, 5, 3, 4, 1]
-    hps_html(mycursor, bossid, classid, 'hps.html')
+    hps_html(mycursor, bossid, classid, 'hps.html', "HPS Leaders")
     classid = [3, 2, 1, 4, 5]
-    tank_sup_dps_hps_html(mycursor, bossid, classid, "support", "DPS", "supdps.html")
+    tank_sup_dps_hps_html(mycursor, bossid, classid, "support", "DPS", "supdps.html", "Support DPS")
     classid = [1, 4, 2, 3, 5]
-    tank_sup_dps_hps_html(mycursor, bossid, classid, "support", "HPSAPS", "suphps.html")
+    tank_sup_dps_hps_html(mycursor, bossid, classid, "support", "HPSAPS", "suphps.html", "Support HPS")
     classid = [1, 4, 3, 2, 5]
-    tank_sup_dps_hps_html(mycursor, bossid, classid, "tank", "DPS", "tdps.html")
+    tank_sup_dps_hps_html(mycursor, bossid, classid, "tank", "DPS", "tdps.html", "Tank DPS Leaders")
     classid = [2, 4, 1, 3, 5]
-    tank_sup_dps_hps_html(mycursor, bossid, classid, "tank", "HPSAPS", "thps.html")
-    most_played_specs_html(mycursor, "mostplayed.html")
-    las_uploads_html(mycursor, "latestuploads.html")
+    tank_sup_dps_hps_html(mycursor, bossid, classid, "tank", "HPSAPS", "thps.html", "Tank HPS")
+    resources(mycursor, "mostplayed.html")
+    resources(mycursor, "videos.html")
+    last_uploads_html(mycursor, "latestuploads.html", "Latest Uploads")
 
 
 if __name__ == "__main__":
