@@ -4,18 +4,6 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-143516769-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'UA-143516769-1');
-
-    </script>
-
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -26,6 +14,7 @@
 
 
 <!-- Optional JavaScript -->
+
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -36,7 +25,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
-<script type="text/javascript" src="https://www.magelocdn.com/pack/rift/en/magelo-bar.js#1"></script>
+<script type="text/javascript" src="./js/scripts.js"></script>
 
 <!-- Navigation -->
 
@@ -58,7 +47,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="./dps.html">DPS Class Leaders</a>
                 </li>
-                <li class="nav-item ">
+                <li class="nav-item">
                     <a class="nav-link" href="./hps.html">HPS Leaders</a>
                 </li>
                 <li class="nav-item">
@@ -73,29 +62,24 @@
                 <li class="nav-item">
                     <a class="nav-link" href="./thps.html">Tank HPS</a>
                 </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="./mostplayed.html">Most Played Specs</a> <span
-                        class="sr-only">(current)</span>
-                </li>
+		        <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                     Resources
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="./videos.html">Videos</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="./mostplayed.html">Most Played Specs</a>
+                        <a class="dropdown-item" href="#">Raid Setup Calculator</a>
+       			    </div>
+     		    </li>
                 <li class="nav-item">
                     <a class="nav-link" href="./latestuploads.html">Latest Uploads</a>
                 </li>
             </ul>
         </div>
     </div>
-    <script>
-$(window).scroll(function() {
-    if ($(this).scrollTop() > 90) {
-        $(".navbar").css("visibility", "hidden");
-
-    }else{
-        $(".navbar").css("visibility", "visible");
-    }
-});
-
-    </script>
-</nav>
-<!-- Normal Content Zone -->
+</nav><!-- Normal Content Zone -->
 <div class="content">
     <div class="left-align">
         <p>DPS/HPS totals are approximations of actual play. For <a href="http://forums.riftgame.com/technical-discussions/addons-macros-ui/506815-addon-debuffwatcher.html"
