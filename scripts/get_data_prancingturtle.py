@@ -437,15 +437,15 @@ def main():
     session_id = []
     old_session_id = []
     playerclass = {}
-    if os.path.isfile("help_files/name_class.txt"):
-        file = codecs.open("help_files/name_class.txt", 'r', "utf-8")
+    if os.path.isfile("../help_files/name_class.txt"):
+        file = codecs.open("../help_files/name_class.txt", 'r', "utf-8")
         for name_class in file:
             name_class = name_class.strip()
             name_class = name_class.split("; ")
             playerclass.update({name_class[0]: name_class[1]})
         file.close()
-    if os.path.isfile("help_files/sessions.txt"):
-        file = codecs.open("help_files/sessions.txt", 'r', "utf-8")
+    if os.path.isfile("../help_files/sessions.txt"):
+        file = codecs.open("../help_files/sessions.txt", 'r', "utf-8")
         for oid in file:
             oid = oid.rstrip()
             old_session_id = oid.split(" ")
@@ -468,11 +468,11 @@ def main():
         encounter_id = get_encounter_id(session_id, bossfight, website, parse_date)
         # encounter_id = [["201724", "2018-05-17"]]
         player_class_dps = get_player_class_dps(encounter_id, playerclass, website)
-        file = codecs.open("help_files/dps.tsv", 'w', "utf-8")
+        file = codecs.open("../help_files/dps.tsv", 'w', "utf-8")
         for line in player_class_dps:
             file.write(line + '\r\n')
         file.close()
-        file = codecs.open("help_files/sessions.txt", 'w', "utf-8")
+        file = codecs.open("../help_files/sessions.txt", 'w', "utf-8")
         session_id += old_session_id
         for line in session_id:
             file.write(line + ' ')

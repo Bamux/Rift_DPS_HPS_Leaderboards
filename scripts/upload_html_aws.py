@@ -28,7 +28,7 @@ def upload_file(file_name, bucket, object_name=None):
 
 
 def main():
-    path = "public"
+    path = "../public"
     files = os.listdir(path)
     for file in files:
         if ".html" in file:

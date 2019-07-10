@@ -1,15 +1,6 @@
 import codecs
 import locale
-import mysql.connector
-
-
-def database_connect():
-    mydb = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        passwd="",  # enter your password to your mysql database here
-        database="rift_leaderboards")
-    return mydb
+import mysql_connect_config
 
 
 def mysql_leaders_html_comps(mycursor, bossid, number_of_players):
@@ -143,8 +134,11 @@ def create_url_overview(encounterid, text):
 
 def exchange(mycursor, template, file, mysql_data):  # exchanges placeholders in the template file with the mysql data
     i = 0
+    boss_counter = 0
     tbody = False
     for line in template:
+        if "<h2>" in line:
+            boss_counter += 1
         if "<tbody>" in line:
             tbody = True
         elif "</tbody>" in line:
@@ -240,6 +234,11 @@ def exchange(mycursor, template, file, mysql_data):  # exchanges placeholders in
             elif "#avg" in line:
                 if mysql_data[i] != 0:
                     line = line.replace("#avg", format_number(mysql_data[i]))
+                    if "#percent" in line:
+                        x = (11*5*boss_counter)-1
+                        percent = mysql_data[i]/mysql_data[x]*100
+                        percent = round(percent)
+                        line = line.replace("#percent", str(percent) + "%")
                 else:
                     line = line.replace("#avg", "")
             if "</tr>" in line:
@@ -281,8 +280,8 @@ def content(mycursor):
 def leaders_html(mycursor, bossid, html_file):
     mysql_data = []
     roles = ["support", "tank", "heal"]
-    template = codecs.open("template/" + html_file, 'r', "utf-8")
-    file = codecs.open("public/" + html_file, 'w', "utf-8")
+    template = codecs.open("../template/" + html_file, 'r', "utf-8")
+    file = codecs.open("../public/" + html_file, 'w', "utf-8")
     number_of_players = 10
     for boss_id in bossid:
         data = mysql_leaders_html_fastest_kills(mycursor, str(boss_id), str(number_of_players))
@@ -302,13 +301,13 @@ def leaders_html(mycursor, bossid, html_file):
     exchange(mycursor, template, file, mysql_data)
     file.close()
     template.close()
-    print("public/" + html_file + " created")
+    print("../public/" + html_file + " created")
 
 
 def dps_html(mycursor, bossid, classid, html_file):
     mysql_data = []
-    template = codecs.open("template/" + html_file, 'r', "utf-8")
-    file = codecs.open("public/" + html_file, 'w', "utf-8")
+    template = codecs.open("../template/" + html_file, 'r', "utf-8")
+    file = codecs.open("../public/" + html_file, 'w', "utf-8")
     number_of_players = 10
     role = ""
     for boss_id in bossid:
@@ -318,13 +317,13 @@ def dps_html(mycursor, bossid, classid, html_file):
     exchange(mycursor, template, file, mysql_data)
     file.close()
     template.close()
-    print("public/" + html_file + " created")
+    print("../public/" + html_file + " created")
 
 
 def tank_sup_dps_hps_html(mycursor, bossid, classid, role, sort_order, html_file):
     mysql_data = []
-    template = codecs.open("template/" + html_file, 'r', "utf-8")
-    file = codecs.open("public/" + html_file, 'w', "utf-8")
+    template = codecs.open("../template/" + html_file, 'r', "utf-8")
+    file = codecs.open("../public/" + html_file, 'w', "utf-8")
     number_of_players = 10
     for boss_id in bossid:
         for class_id in classid:
@@ -340,13 +339,13 @@ def tank_sup_dps_hps_html(mycursor, bossid, classid, role, sort_order, html_file
     exchange(mycursor, template, file, mysql_data)
     file.close()
     template.close()
-    print("public/" + html_file + " created")
+    print("../public/" + html_file + " created")
 
 
 def hps_html(mycursor, bossid, classid, html_file):
     mysql_data = []
-    template = codecs.open("template/" + html_file, 'r', "utf-8")
-    file = codecs.open("public/" + html_file, 'w', "utf-8")
+    template = codecs.open("../template/" + html_file, 'r', "utf-8")
+    file = codecs.open("../public/" + html_file, 'w', "utf-8")
     number_of_players = 15
     for boss_id in bossid:
         if boss_id != 2:
@@ -361,26 +360,26 @@ def hps_html(mycursor, bossid, classid, html_file):
     exchange(mycursor, template, file, mysql_data)
     file.close()
     template.close()
-    print("public/" + html_file + " created")
+    print("../public/" + html_file + " created")
 
 
 def most_played_specs_html(mycursor, html_file):
-    template = codecs.open("template/" + html_file, 'r', "utf-8")
-    file = codecs.open("public/" + html_file, 'w', "utf-8")
+    template = codecs.open("../template/" + html_file, 'r', "utf-8")
+    file = codecs.open("../public/" + html_file, 'w', "utf-8")
     for line in template:
         if "#content" in line:
             line = line.replace("#content", content(mycursor))
         file.write(line)
     file.close()
     template.close()
-    print("public/" + html_file + " created")
+    print("../public/" + html_file + " created")
 
 
 def las_uploads_html(mycursor, html_file):
     html = []
     table = False
-    template = codecs.open("template/" + html_file, 'r', "utf-8")
-    file = codecs.open("public/" + html_file, 'w', "utf-8")
+    template = codecs.open("../template/" + html_file, 'r', "utf-8")
+    file = codecs.open("../public/" + html_file, 'w', "utf-8")
     mysql_data = mysql_last_uploads(mycursor)
     for line in template:
         if "<!-- row template here -->" in line:
@@ -416,7 +415,7 @@ def las_uploads_html(mycursor, html_file):
         file.write(line)
     file.close()
     template.close()
-    print("public/" + html_file + " created")
+    print("../public/" + html_file + " created")
 
 
 def class_classid(class_id):
@@ -436,9 +435,8 @@ def class_classid(class_id):
 
 def main():
     bossid = [1, 2, 3, 4]  # 1 Azranel, 2 Vindicator MK1, 3 Commander Isiel, 4 Titan X
-    mydb = database_connect()
+    mydb = mysql_connect_config.database_connect()
     mycursor = mydb.cursor()
-    database_connect()
     leaders_html(mycursor, bossid, "index.html")
     classid = [4, 3, 5, 2, 1]  # 1 Cleric, 2 Mage, 3 Primalist, 4 Rogue, 5 Warrior
     dps_html(mycursor, bossid, classid, "dps.html")
@@ -446,7 +444,7 @@ def main():
     hps_html(mycursor, bossid, classid, 'hps.html')
     classid = [3, 2, 1, 4, 5]
     tank_sup_dps_hps_html(mycursor, bossid, classid, "support", "DPS", "supdps.html")
-    classid = [4, 1, 2, 3, 5]
+    classid = [1, 4, 2, 3, 5]
     tank_sup_dps_hps_html(mycursor, bossid, classid, "support", "HPSAPS", "suphps.html")
     classid = [1, 4, 3, 2, 5]
     tank_sup_dps_hps_html(mycursor, bossid, classid, "tank", "DPS", "tdps.html")
