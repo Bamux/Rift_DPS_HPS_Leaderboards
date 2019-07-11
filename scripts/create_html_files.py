@@ -1,6 +1,21 @@
 import codecs
 import locale
 import mysql_connect_config
+from operator import itemgetter, attrgetter
+
+
+def get_bossid(mycursor):
+    sql = "SELECT * FROM boss WHERE instanceid = 1"
+    mycursor.execute(sql)
+    myresult = mycursor.fetchall()
+    return myresult
+
+
+def get_classid(mycursor):
+    sql = "SELECT * FROM classes"
+    mycursor.execute(sql)
+    myresult = mycursor.fetchall()
+    return myresult
 
 
 def mysql_leaders_html_comps(mycursor, bossid, number_of_players):
@@ -135,9 +150,14 @@ def create_url_overview(encounterid, text):
 def head_html(title, nav_link):
     html = []
     head = "head.html"
+    hide = False
     template = codecs.open("../template/" + head, 'r', "utf-8")
     for line in template:
-        if '<title>' in line:
+        if "<!-- Hide Navbar -->" in line:
+            hide = True
+        elif "<!-- Hide Navbar End -->" in line:
+            hide = False
+        elif '<title>' in line:
             html += ["    <title>" + title + "</title>\n"]
         elif nav_link in line:
             html.pop()
@@ -145,7 +165,12 @@ def head_html(title, nav_link):
             line = line.split("</a>")[0]
             html += [line + '</a><span class="sr-only">(current)</span>\n']
         else:
-            html += [line]
+            if "magelocdn" in line:
+                if title == "Most Played Specs":
+                    html += [line]
+            else:
+                if not hide or title == "Latest Uploads on Prancing Turtle" or title == "Most Played Specs":
+                    html += [line]
     template.close()
     return html
 
@@ -178,6 +203,7 @@ def exchange(mycursor, template, file, mysql_data, nav_link):
                 line = line.replace("#guild", guild)
             elif "#class" in line:
                 if mysql_data[i][0] != 0:
+                    # print(mysql_data[0][1][1][6])
                     line = line.replace("#class", mysql_data[i][6])
                 else:
                     line = line.replace("#class", mysql_data[i][1])
@@ -278,7 +304,6 @@ def exchange(mycursor, template, file, mysql_data, nav_link):
 
 def average(data, number_of_players, dps_hps):
     dps_sum = 0
-    # print(number_of_players)
     if number_of_players > 0:
         place = 1
         if dps_hps == "HPSAPS":
@@ -302,8 +327,10 @@ def content(mycursor):
         else:
             class_html += ", " + str(item[1]) + " " + item[0] + "s"
         i += 1
-    html = "The Database contains " + str(players) + " Players, " + class_html + " who killed " + str(encounters) \
-           + " bosses."
+    html = "The database contains " + str(players) + " Players, " + class_html + " who killed " + str(encounters) \
+           + ' bosses. The database only contains data after 2018-07-11 the last ' \
+             '<a href="http://forums.riftgame.com/general-discussions/patch-notes/' \
+             '505586-rift-4-5-update-7-11-2018-a.html" target="new">balance patch</a>.'
     return html
 
 
@@ -314,35 +341,19 @@ def leaders_html(mycursor, bossid, html_file, nav_link):
     file = codecs.open("../public/" + html_file, 'w', "utf-8")
     number_of_players = 10
     for boss_id in bossid:
-        data = mysql_leaders_html_fastest_kills(mycursor, str(boss_id), str(number_of_players))
+        data = mysql_leaders_html_fastest_kills(mycursor, str(boss_id[0]), str(number_of_players))
         mysql_data += data + [average(data, number_of_players, "DPS")]
     for boss_id in bossid:
-        data = mysql_leaders_html_comps(mycursor, str(boss_id), str(number_of_players))
+        data = mysql_leaders_html_comps(mycursor, str(boss_id[0]), str(number_of_players))
         mysql_data += data + [average(data, number_of_players, "DPS")]
     number_of_players = 15
     for boss_id in bossid:
-        data = mysql_top_dps_hps(mycursor, str(boss_id), "", str(number_of_players), "", "DPS")
+        data = mysql_top_dps_hps(mycursor, str(boss_id[0]), "", str(number_of_players), "", "DPS")
         mysql_data += data + [average(data, number_of_players, "DPS")]
     number_of_players = 10
     for role in roles:
         for boss_id in bossid:
-            data = mysql_top_dps_hps(mycursor, str(boss_id), "", str(number_of_players), role, "DPS")
-            mysql_data += data + [average(data, number_of_players, "DPS")]
-    exchange(mycursor, template, file, mysql_data, nav_link)
-    file.close()
-    template.close()
-    print("../public/" + html_file + " created")
-
-
-def dps_html(mycursor, bossid, classid, html_file, nav_link):
-    mysql_data = []
-    template = codecs.open("../template/" + html_file, 'r', "utf-8")
-    file = codecs.open("../public/" + html_file, 'w', "utf-8")
-    number_of_players = 10
-    role = ""
-    for boss_id in bossid:
-        for class_id in classid:
-            data = mysql_top_dps_hps(mycursor, str(boss_id), str(class_id), str(number_of_players), role, "DPS")
+            data = mysql_top_dps_hps(mycursor, str(boss_id[0]), "", str(number_of_players), role, "DPS")
             mysql_data += data + [average(data, number_of_players, "DPS")]
     exchange(mycursor, template, file, mysql_data, nav_link)
     file.close()
@@ -352,20 +363,27 @@ def dps_html(mycursor, bossid, classid, html_file, nav_link):
 
 def tank_sup_dps_hps_html(mycursor, bossid, classid, role, sort_order, html_file, nav_link):
     mysql_data = []
+    sorted_data = []
     template = codecs.open("../template/" + html_file, 'r', "utf-8")
     file = codecs.open("../public/" + html_file, 'w', "utf-8")
     number_of_players = 10
     for boss_id in bossid:
+        unsorted_data = []
         for class_id in classid:
-            data = mysql_top_dps_hps(mycursor, str(boss_id), str(class_id), str(number_of_players), role, sort_order)
-            # print(len(data))
+            data = mysql_top_dps_hps(mycursor, str(boss_id[0]), str(class_id[0]), str(number_of_players), role,
+                                     sort_order)
             if len(data) < number_of_players:
                 players = len(data)
                 for i in range(number_of_players - players):
-                    data += [(0, class_classid(class_id))]
-                mysql_data += data + [average(data, players, sort_order)]
+                    data += [(0, class_id[1])]
+                unsorted_data += [[average(data, players, sort_order), data]]
+                # mysql_data += data + [average(data, players, sort_order)]
             else:
-                mysql_data += data + [average(data, number_of_players, sort_order)]
+                unsorted_data += [[average(data, number_of_players, sort_order), data]]
+        unsorted_data.sort(reverse=True)
+        sorted_data += unsorted_data
+    for item in sorted_data:
+        mysql_data += item[1] + [item[0]]
     exchange(mycursor, template, file, mysql_data, nav_link)
     file.close()
     template.close()
@@ -378,14 +396,15 @@ def hps_html(mycursor, bossid, classid, html_file, nav_link):
     file = codecs.open("../public/" + html_file, 'w', "utf-8")
     number_of_players = 15
     for boss_id in bossid:
-        if boss_id != 2:
-            data = mysql_top_dps_hps(mycursor, str(boss_id), "", str(number_of_players), "", "HPSAPS")
+        if boss_id[0] != 2:
+            data = mysql_top_dps_hps(mycursor, str(boss_id[0]), "", str(number_of_players), "", "HPSAPS")
             mysql_data += data + [average(data, number_of_players, "HPSAPS")]
     number_of_players = 10
     for class_id in classid:
         for boss_id in bossid:
-            if boss_id != 2:
-                data = mysql_top_dps_hps(mycursor, str(boss_id), str(class_id), str(number_of_players), "", "HPSAPS")
+            if boss_id[0] != 2:
+                data = mysql_top_dps_hps(mycursor, str(boss_id[0]), str(class_id[0]), str(number_of_players), "",
+                                         "HPSAPS")
                 mysql_data += data + [average(data, number_of_players, "HPSAPS")]
     exchange(mycursor, template, file, mysql_data, nav_link)
     file.close()
@@ -464,37 +483,18 @@ def last_uploads_html(mycursor, html_file, nav_link):
     print("../public/" + html_file + " created")
 
 
-def class_classid(class_id):
-    classname = ""
-    if class_id == 1:
-        classname = "Cleric"
-    elif class_id == 2:
-        classname = "Mage"
-    elif class_id == 3:
-        classname = "Primalist"
-    elif class_id == 4:
-        classname = "Rogue"
-    elif class_id == 5:
-        classname = "Warrior"
-    return classname
-
-
 def main():
-    bossid = [1, 2, 3, 4]  # 1 Azranel, 2 Vindicator MK1, 3 Commander Isiel, 4 Titan X
+    # bossid = [1, 2, 3, 4]  # 1 Azranel, 2 Vindicator MK1, 3 Commander Isiel, 4 Titan X
     mydb = mysql_connect_config.database_connect()
     mycursor = mydb.cursor()
+    bossid = get_bossid(mycursor)
+    classid = get_classid(mycursor)
     leaders_html(mycursor, bossid, "index.html", "Overall DPS")
-    classid = [4, 3, 5, 2, 1]  # 1 Cleric, 2 Mage, 3 Primalist, 4 Rogue, 5 Warrior
-    dps_html(mycursor, bossid, classid, "dps.html", "DPS Class Leaders")
-    classid = [2, 5, 3, 4, 1]
+    tank_sup_dps_hps_html(mycursor, bossid, classid, "dps", "DPS", "dps.html", "DPS Class Leaders")
     hps_html(mycursor, bossid, classid, 'hps.html', "HPS Leaders")
-    classid = [3, 2, 1, 4, 5]
     tank_sup_dps_hps_html(mycursor, bossid, classid, "support", "DPS", "supdps.html", "Support DPS")
-    classid = [1, 4, 2, 3, 5]
     tank_sup_dps_hps_html(mycursor, bossid, classid, "support", "HPSAPS", "suphps.html", "Support HPS")
-    classid = [1, 4, 3, 2, 5]
     tank_sup_dps_hps_html(mycursor, bossid, classid, "tank", "DPS", "tdps.html", "Tank DPS Leaders")
-    classid = [2, 4, 1, 3, 5]
     tank_sup_dps_hps_html(mycursor, bossid, classid, "tank", "HPSAPS", "thps.html", "Tank HPS")
     resources(mycursor, "mostplayed.html")
     resources(mycursor, "videos.html")
