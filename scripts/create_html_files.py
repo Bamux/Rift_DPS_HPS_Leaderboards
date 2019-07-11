@@ -484,7 +484,6 @@ def last_uploads_html(mycursor, html_file, nav_link):
 
 
 def main():
-    # bossid = [1, 2, 3, 4]  # 1 Azranel, 2 Vindicator MK1, 3 Commander Isiel, 4 Titan X
     mydb = mysql_connect_config.database_connect()
     mycursor = mydb.cursor()
     bossid = get_bossid(mycursor)
