@@ -63,13 +63,14 @@ def mysql_top_dps_hps(mycursor, bossid, classid, number_of_players, role, dps_hp
     if role:
         condition += " and Roles.role like '%" + role + "%'"
     sql = "SELECT playername, dps AS DPS, time, totaltime, date, HPSAPS, class, role, " \
-          "encounterid, ptid, aps, thps FROM ( " \
+          "encounterid, ptid, aps, thps, bossname FROM ( " \
           "SELECT DISTINCT playername, dps, a.encounterid, playerid AS id, dps AS max_dps_hps ," \
-          " TIME, totaltime, date, hps + aps as HPSAPS, class, role, ptid, aps, thps FROM Encounterinfo a " \
+          " TIME, totaltime, date, hps + aps as HPSAPS, class, role, ptid, aps, thps, bossname FROM Encounterinfo a " \
           "INNER JOIN Encounter ON a.id = Encounter.encounterid " \
           "INNER JOIN Player ON Encounter.playerid = Player.id " \
           "INNER JOIN Classes on Player.classid = Classes.id " \
           "INNER JOIN Roles on Encounter.roleid = Roles.id " \
+          "INNER JOIN Boss on a.bossid = Boss.id " \
           "WHERE bossid = " + bossid + condition + " " \
           "ORDER BY " + dps_hps + " DESC) AS top_dps_hps " \
           "GROUP BY playername " \
@@ -151,6 +152,8 @@ def head_html(title, nav_link):
     html = []
     head = "head.html"
     hide = False
+    if not title:
+        title = nav_link
     template = codecs.open("../template/" + head, 'r', "utf-8")
     for line in template:
         if "<!-- Hide Navbar -->" in line:
@@ -192,7 +195,16 @@ def exchange(mycursor, template, file, mysql_data, nav_link):
         if normal_content_zone:
             if "<h2>" in line:
                 boss_counter += 1
-            if "<tbody>" in line:
+                if "#boss" in line:
+                    line = line.replace("#boss", mysql_data[i][12] + " - " + nav_link)
+                elif "#class" in line:
+                    line = line.replace("#class", mysql_data[i][6] + " - " + nav_link)
+            elif "#typehead" in line:
+                if "DPS" in nav_link:
+                    line = line.replace("#typehead", "ST DPS")
+                else:
+                    line = line.replace("#typehead", "HPS+APS")
+            elif "<tbody>" in line:
                 tbody = True
             elif "</tbody>" in line:
                 tbody = False
@@ -215,38 +227,38 @@ def exchange(mycursor, template, file, mysql_data, nav_link):
                         line = line.replace("#name", name)
                     else:
                         line = line.replace("#name", "")
-                elif "#link" in line or "#url" in line:
+                elif "#date" in line:
                     if mysql_data[i][0] != 0:
-                        if "#link" in line:
-                            if "#linkhps" in line:
-                                name = create_url_hps(str(mysql_data[i][8]), str(mysql_data[i][9]),
-                                                      str(mysql_data[i][0]))
-                                line = line.replace("#linkhps", name)
-                            else:
-                                name = create_url_dps(str(mysql_data[i][8]), str(mysql_data[i][9]),
-                                                      str(mysql_data[i][0]))
-                                line = line.replace("#link", name)
+                        if "DPS" in nav_link:
+                            name = create_url_dps(str(mysql_data[i][8]), str(mysql_data[i][9]), str(mysql_data[i][4]))
+                            line = line.replace("#date", name)
                         else:
-                            name = create_url_overview(str(mysql_data[i][4]), str(mysql_data[i][0]))
-                            line = line.replace("#url", name)
+                            name = create_url_hps(str(mysql_data[i][8]), str(mysql_data[i][9]), str(mysql_data[i][4]))
+                            line = line.replace("#date", name)
                     else:
-                        if "linkhps" in line:
-                            line = line.replace("#linkhps", "")
-                        else:
-                            line = line.replace("#link", "")
+                            line = line.replace("#date", "-")
+                elif "#url" in line:
+                    if mysql_data[i][0] != 0:
+                        name = create_url_overview(str(mysql_data[i][4]), str(mysql_data[i][0]))
+                        line = line.replace("#url", name)
+                    else:
+                        line = line.replace("#url", "")
                 elif "#dps" in line:
                     if mysql_data[i][0] != 0:
                         dps = format_number(mysql_data[i][1])
                         line = line.replace("#dps", dps)
                     else:
                         line = line.replace("#dps", "")
-                elif "#date" in line:
-                    if "#datehps" in line:
-                        url = create_url_hps(str(mysql_data[i][8]), str(mysql_data[i][9]), str(mysql_data[i][4]))
-                        line = line.replace("#datehps", url)
+                elif "#type" in line:
+                    if mysql_data[i][0] != 0:
+                        if "DPS" in nav_link:
+                            dps = format_number(mysql_data[i][1])
+                            line = line.replace("#type", dps)
+                        else:
+                            hps = format_number(mysql_data[i][5])
+                            line = line.replace("#type", hps)
                     else:
-                        url = create_url_dps(str(mysql_data[i][8]), str(mysql_data[i][9]), str(mysql_data[i][4]))
-                        line = line.replace("#date", url)
+                        line = line.replace("#type", "")
                 elif "#hps" in line:
                     if mysql_data[i][0] != 0:
                         line = line.replace("#hps", format_number(mysql_data[i][5]))
@@ -289,12 +301,14 @@ def exchange(mycursor, template, file, mysql_data, nav_link):
                     line = line.replace("#fastest_time", time)
                 elif "#avg" in line:
                     if mysql_data[i] != 0:
-                        line = line.replace("#avg", format_number(mysql_data[i]))
-                        if "#percent" in line:
+                        if nav_link == "DPS Class Leaders" and "#percent" in line:
                             x = (11*5*boss_counter)-1
                             percent = mysql_data[i]/mysql_data[x]*100
                             percent = round(percent)
                             line = line.replace("#percent", str(percent) + "%")
+                        else:
+                            line = line.split(" (")[0]
+                        line = line.replace("#avg", format_number(mysql_data[i]))
                     else:
                         line = line.replace("#avg", "")
                 if "</tr>" in line:
@@ -362,9 +376,10 @@ def leaders_html(mycursor, bossid, html_file, nav_link):
 
 
 def tank_sup_dps_hps_html(mycursor, bossid, classid, role, sort_order, html_file, nav_link):
+    template_file = "dps_hps_all_roles.html"
     mysql_data = []
     sorted_data = []
-    template = codecs.open("../template/" + html_file, 'r', "utf-8")
+    template = codecs.open("../template/" + template_file, 'r', "utf-8")
     file = codecs.open("../public/" + html_file, 'w', "utf-8")
     number_of_players = 10
     for boss_id in bossid:
@@ -493,10 +508,11 @@ def main():
     hps_html(mycursor, bossid, classid, 'hps.html', "HPS Leaders")
     tank_sup_dps_hps_html(mycursor, bossid, classid, "support", "DPS", "supdps.html", "Support DPS")
     tank_sup_dps_hps_html(mycursor, bossid, classid, "support", "HPSAPS", "suphps.html", "Support HPS")
-    tank_sup_dps_hps_html(mycursor, bossid, classid, "tank", "DPS", "tdps.html", "Tank DPS Leaders")
+    tank_sup_dps_hps_html(mycursor, bossid, classid, "tank", "DPS", "tdps.html", "Tank DPS")
     tank_sup_dps_hps_html(mycursor, bossid, classid, "tank", "HPSAPS", "thps.html", "Tank HPS")
     resources(mycursor, "mostplayed.html")
     resources(mycursor, "videos.html")
+    resources(mycursor, "raidsetup.html")
     last_uploads_html(mycursor, "latestuploads.html", "Latest Uploads")
 
 
