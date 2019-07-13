@@ -3,17 +3,24 @@ import os
 import mysql_connect_config
 
 
-def database_session(mydb, mycursor, session, sessionid):
-    if sessionid not in session:
-        sql = "SELECT * FROM Session where sessionid ='" + sessionid + "'"
+def get_database_session(mycursor, sessionid):
+    session_exist = False
+    sql = "SELECT * FROM Session where sessionid ='" + sessionid + "'"
+    mycursor.execute(sql)
+    myresult = mycursor.fetchall()
+    if myresult:
+        session_exist = True
+    return session_exist
+
+
+def add_database_session(mydb, mycursor, sessionid):
+    sql = "SELECT * FROM Session where sessionid ='" + sessionid + "'"
+    mycursor.execute(sql)
+    myresult = mycursor.fetchall()
+    if not myresult:
+        sql = "INSERT INTO Session (sessionid) VALUES (" + sessionid + ")"
         mycursor.execute(sql)
-        myresult = mycursor.fetchall()
-        if not myresult:
-            sql = "INSERT INTO Session (sessionid) VALUES (" + sessionid + ")"
-            mycursor.execute(sql)
-            mydb.commit()
-        session += [sessionid]
-    return session
+        mydb.commit()
 
 
 def database_guild(mydb, mycursor, guild, guildname):
@@ -72,7 +79,6 @@ def database_player(mydb, mycursor, guildid, player, playerid, playername, playe
     mycursor.execute(sql)
     myresult = mycursor.fetchall()
     if not myresult:
-        # print(playername + " - " + dps)
         sql = "INSERT INTO Player (ptid, guildid, playername, classid) VALUES (%s, %s, %s, %s)"
         val = (playerid, guildid, playername, playerclass)
         mycursor.execute(sql, val)
@@ -114,8 +120,10 @@ def database_encounter(mydb, mycursor, encounterid, bossid, player, roleid, dps,
     mycursor.execute(sql)
     myresult = mycursor.fetchall()
     if myresult:
+        print("Encounterid: " + encounterid + ", Boss: " + bossname + ", Player: " + playername + " already exists")
         for item in myresult:
             new_encounterid = item[0]
+
     else:
         print(date)
         sql = "INSERT INTO Encounterinfo (guildid, encounterid, bossid, time, totaltime, date) " \

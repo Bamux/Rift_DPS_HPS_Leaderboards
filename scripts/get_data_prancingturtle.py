@@ -3,9 +3,11 @@ import requests
 from datetime import datetime
 import math
 import os
+import mysql_connect_config
+import mysql_add_data
 
 
-def get_session_id(delta, month, idold, sid, url):
+def get_session_id(mydb, mycursor, delta, month, sid, url):
     session_key = []
     print(url)
     html = requests.get(url).text
@@ -28,8 +30,10 @@ def get_session_id(delta, month, idold, sid, url):
                 if "Detail/" in item:
                     item = item.split("Detail/")[1]
                     item = item.split('">')[0]
-                    if item not in sid and item not in idold:
-                        session_key += [str(item)]
+                    if item not in sid:
+                        session_exist = mysql_add_data.get_database_session(mycursor, item)
+                        if not session_exist:
+                            session_key += [str(item)]
     return session_key
 
 
@@ -432,24 +436,13 @@ def get_player_class_dps(eid, player_class, website):
 
 def main():
     website = "https://prancingturtle.com/"
-    parse_date = "2019-07-10"  # the date from which you want to collect the data
+    parse_date = "2019-06-10"  # the date from which you want to collect the data
     bossfight = (163, 164, 165)  # Azranel, Commander Isiel, Titan X
     session_id = []
     old_session_id = []
     playerclass = {}
-    if os.path.isfile("../help_files/name_class.txt"):
-        file = codecs.open("../help_files/name_class.txt", 'r', "utf-8")
-        for name_class in file:
-            name_class = name_class.strip()
-            name_class = name_class.split("; ")
-            playerclass.update({name_class[0]: name_class[1]})
-        file.close()
-    if os.path.isfile("../help_files/sessions.txt"):
-        file = codecs.open("../help_files/sessions.txt", 'r', "utf-8")
-        for oid in file:
-            oid = oid.rstrip()
-            old_session_id = oid.split(" ")
-        file.close()
+    mydb = mysql_connect_config.database_connect()
+    mycursor = mydb.cursor()
     print("Start searching for Session ID's:")
     now = datetime.now()
     date = datetime.strptime(parse_date, '%Y-%m-%d')
@@ -459,7 +452,7 @@ def main():
     delta = int(delta) + 1
     month = round(delta / 30)
     for Boss in bossfight:
-        session_id += get_session_id(delta, month, old_session_id, session_id, website + "/Session/BossFight/" +
+        session_id += get_session_id(mydb, mycursor, delta, month, session_id, website + "/Session/BossFight/" +
                                      str(Boss) + '?o=1&d=4')
     if session_id:
         session_id.sort()
@@ -471,12 +464,9 @@ def main():
         for line in player_class_dps:
             file.write(line + '\r\n')
         file.close()
-        file = codecs.open("../help_files/sessions.txt", 'w', "utf-8")
-        session_id += old_session_id
-        for line in session_id:
-            file.write(line + ' ')
-        file.close()
         print("The file dps.tsv with all new encounters has been created.")
+        for sessionid in session_id:
+            mysql_add_data.add_database_session(mydb, mycursor, sessionid)
         new_sessions = True
     else:
         print("No new sessions found")
