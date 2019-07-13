@@ -30,6 +30,24 @@
 	width:100%;
 }
 
+.wrapper{
+    position:relative;
+    z-index: 1;
+    display: inline-block;
+}
+
+.embed{
+    position: absolute;
+    width: 150px;
+    height: 40px;
+    background: #222;
+    right: 0px;
+    bottom: 6px;
+    z-index:999;
+    display: block;
+    color: #fff;
+}
+
 .video_win{
 	width:25%;
 	border:1px solid #000;
@@ -40,6 +58,7 @@
   	overflow: hidden;
   	text-overflow: ellipsis;
 	margin:.5rem;
+	min-width: 23em;
 }
 
 .video_win ul{
@@ -84,11 +103,13 @@ h2{
 	position: sticky;
         top: 0px;
 	z-index:1;
+	white-space: nowrap; 
+  	text-overflow: ellipsis;
 }
 
 .nav-link{
 	padding:.1rem;
-	font-size:.8rem;
+	font-size:1rem;
 }
 
 /* dps template */
@@ -270,19 +291,10 @@ h2{
 	display:none;
 }
 
-@media only screen and (max-width: 1000px) {
+@media only screen and (max-width: 1600px) {
   .content {
 	display: inline-block;
 	width:90%;
   }
 }
-/*
-@media only screen and (max-width: 1000px) {
-.pt_table_fastest_kill{
-	width:auto; !important;
-	min-width:360px;
-	display:table;
-	padding: .3rem .4rem .3rem .8rem;
-	
-}}/*
 
