@@ -2,7 +2,7 @@
 
 Python scripts, MySQL Database and templates with which the leaderboards are created.
 
-Example Website: http://rift-stats.s3-website.eu-central-1.amazonaws.com
+Example Website: https://rift-stats.s3.eu-central-1.amazonaws.com/index.html
 
 ## Installation Instructions:
 1. Import the database.sql from the database folder into your database.
