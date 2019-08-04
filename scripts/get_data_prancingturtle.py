@@ -230,7 +230,7 @@ def get_player_class_dps(eid, player_class, website):
                 role = player.split('raid_icon_role_')[1]
                 role = role.split(".png")[0]
                 if role == "support":
-                    role = ""
+                    role = "unknown"
             if "-mage" in player:
                 name = player.split('-mage">')[1]
                 p_class = "Mage"
