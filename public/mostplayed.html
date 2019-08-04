@@ -4,6 +4,14 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-143516769-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-143516769-1');
+    </script>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -12,27 +20,27 @@
 </head>
 <body>
 
-
 <!-- Optional JavaScript -->
 
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
         integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
         crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://www.magelocdn.com/pack/rift/en/magelo-bar.js#1"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
 <script type="text/javascript" src="./js/scripts.js"></script>
+
 
 <!-- Navigation -->
 
 <nav class="navbar navbar-expand-lg navbar-dark static-top">
     <div class="container">
         <a class="navbar-brand" href="https://www.prancingturtle.com/">
-            <img src="https://prancingturtle.com/Content/turtle/turtle12.png" alt="PT logo">
+            <img src="./turtle.png" alt="PT logo">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
                 aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -57,22 +65,35 @@
                     <a class="nav-link" href="./suphps.html">Support HPS</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="./tdps.html">Tank DPS Leaders</a>
+                    <a class="nav-link" href="./tdps.html">Tank DPS</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="./thps.html">Tank HPS</a>
                 </li>
-		        <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                     Resources
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Top 100
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown2">
+                        <a class="dropdown-item" href="./top100_1.html">Azranel - DPS</a>
+                        <a class="dropdown-item" href="./top100_2.html">Vindicator - DPS</a>
+                        <a class="dropdown-item" href="./top100_3.html">Commander - DPS</a>
+                        <a class="dropdown-item" href="./top100_4.html">Titan X - DPS</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Resources
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="./videos.html">Videos</a>
-                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="./lookup.html">Lookup</a>
                         <a class="dropdown-item" href="./mostplayed.html">Most Played Specs</a>
-                        <a class="dropdown-item" href="#">Raid Setup Calculator</a>
-       			    </div>
-     		    </li>
+                        <a class="dropdown-item" href="./raidsetup.html">Raid Setup Calculator</a>
+                    </div>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="./latestuploads.html">Latest Uploads</a>
                 </li>
@@ -82,16 +103,18 @@
 </nav><!-- Normal Content Zone -->
 <div class="content">
     <div class="left-align">
-        <p>DPS/HPS totals are approximations of actual play. For <a href="http://forums.riftgame.com/technical-discussions/addons-macros-ui/506815-addon-debuffwatcher.html"
-                       target="new">maximum dps</a> your raid setup should contain all buffs and debuffs from Magic1 - Crit2 and 5 % cost reduce. Buffs/Debuffs in the same group do not stack with each other except <a href="https://rift.magelo.com/en/ability/1617495427" target="new">Primal Savagery</a>.</p>
+        <p>DPS/HPS totals are approximations of actual play. For <a
+                href="http://forums.riftgame.com/technical-discussions/addons-macros-ui/506815-addon-debuffwatcher.html"
+                target="new">maximum dps</a> your raid setup should contain all buffs and debuffs from Magic1 - Crit2
+            and 5
+            % cost reduce. Buffs/Debuffs in the same group do not stack with each other except <a
+                    href="https://rift.magelo.com/en/ability/1617495427" target="new">Primal Savagery</a>.</p>
     </div>
-
     <div class="subheading">
         <h2>Most Played Specs</h2>
         <hr>
     </div>
-    <div class="content">
-
+    <div class="content_scroll">
         <table class="table table-striped pt_table_blank_mostplayed table-dark table-hover">
             <thead>
             <tr class="ttkguild">
@@ -150,7 +173,7 @@
                 <td>
                     <a href="http://forums.riftgame.com/game-discussions/rift-guides-strategies/class-guides/cleric-guides/499771-4-3-easy-shaman-raid-spec-2-buttons.html"
                        target="new">Shaman</a></td>
-                <td>1.300.000</td>
+                <td>1.350.000</td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -243,7 +266,8 @@
             </tr>
             <tr>
                 <td class="Cleric">Cleric</td>
-                <td><a href="https://rift.magelo.com/en/soultree#Yk4F8G8Gk/UkaAMpg/rmA|PtP0" target="new">Defihealer(Tank)</a>
+                <td><a href="https://rift.magelo.com/en/soultree#Yk4F8G8Gk/UkaAMpg/rmA|PtP0"
+                       target="new">Defihealer(Tank)</a>
                 </td>
                 <td>450.000</td>
                 <td>1.000.000</td>
@@ -346,7 +370,7 @@
                 <td>
                     <a href="http://forums.riftgame.com/game-discussions/rift-guides-strategies/class-guides/mage-guides/494839-61-pyromancer-4-5-a.html"
                        target="new">61 Pyro</a></td>
-                <td>1.400.000</td>
+                <td>1.450.000</td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -369,7 +393,7 @@
             <tr>
                 <td class="Mage">Mage</td>
                 <td>
-                    <a href="http://forums.riftgame.com/game-discussions/rift-guides-strategies/class-guides/mage-guides/494839-61-pyromancer-4-5-a.html"
+                    <a href="http://forums.riftgame.com/game-discussions/rift-guides-strategies/class-guides/mage-guides/505050-metachon-61-chon-11-lock-4-ele.html"
                        target="new">Metachon</a></td>
                 <td>1.000.000</td>
                 <td></td>
@@ -570,7 +594,7 @@
                 <td>
                     <a href="http://forums.riftgame.com/game-discussions/rift-guides-strategies/class-guides/primalist-guides/508821-4-5-hot-pot.html#post5377777"
                        target="new">HotPot</a></td>
-                <td>1.780.000</td>
+                <td>1.800.000</td>
                 <td></td>
                 <td>23%</td>
                 <td></td>
@@ -595,7 +619,7 @@
                 <td>
                     <a href="http://forums.riftgame.com/game-discussions/rift-guides-strategies/class-guides/primalist-guides/501153-4-3-quackquack-fb-blast-exploiting-spec.html"
                        target="new">QuackQuack</a></td>
-                <td>1.780.000</td>
+                <td>1.800.000</td>
                 <td></td>
                 <td>23%</td>
                 <td></td>
@@ -1039,8 +1063,10 @@
 
             <tr>
                 <td class="Warrior">Warrior</td>
-                <td><a href="https://rift.magelo.com/en/soultree#98hw/3kllayGGGli/2u%7CPu_0" target="new">Paragon
-                    Tank</a></td>
+                <td>
+                    <a href="http://forums.riftgame.com/game-discussions/rift-guides-strategies/class-guides/warrior-guides/508707-paragon-tank.html"
+                       target="new">Paragon
+                        Tank</a></td>
                 <td>1.500.000</td>
                 <td></td>
                 <td>71%</td>
@@ -1138,9 +1164,7 @@
 
             </tbody>
         </table>
-
     </div>
-
 </div>
 </body>
 </html>
