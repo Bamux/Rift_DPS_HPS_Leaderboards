@@ -1,6 +1,8 @@
 import codecs
 import locale
 import mysql_connect_config
+import gzip
+import shutil
 from operator import itemgetter, attrgetter
 
 
@@ -13,6 +15,13 @@ def get_bossid(mycursor):
 
 def get_classid(mycursor):
     sql = "SELECT * FROM classes"
+    mycursor.execute(sql)
+    myresult = mycursor.fetchall()
+    return myresult
+
+
+def get_roleid(mycursor):
+    sql = "SELECT * FROM roles"
     mycursor.execute(sql)
     myresult = mycursor.fetchall()
     return myresult
@@ -81,6 +90,31 @@ def mysql_top_dps_hps(mycursor, bossid, classid, number_of_players, role, dps_hp
     return myresult
 
 
+def mysql_top100(mycursor, bossid, classid, number_of_players, role, dps_hps):
+    condition = ""
+    if classid:
+        condition += " and Player.classid = " + classid + ""
+    if role:
+        condition += " and Roles.role = 'dps'"
+    sql = "SELECT playername, dps AS DPS, time, totaltime, date, HPSAPS, class, role, " \
+          "encounterid, ptid, aps, thps, bossname FROM ( " \
+          "SELECT DISTINCT playername, dps, a.encounterid, playerid AS id, dps AS max_dps_hps ," \
+          " TIME, totaltime, date, hps + aps as HPSAPS, class, role, ptid, aps, thps, bossname FROM Encounterinfo a " \
+          "INNER JOIN Encounter ON a.id = Encounter.encounterid " \
+          "INNER JOIN Player ON Encounter.playerid = Player.id " \
+          "INNER JOIN Classes on Player.classid = Classes.id " \
+          "INNER JOIN Roles on Encounter.roleid = Roles.id " \
+          "INNER JOIN Boss on a.bossid = Boss.id " \
+          "WHERE bossid = " + bossid + condition + " " \
+          "ORDER BY " + dps_hps + " DESC) AS top_dps_hps " \
+          "GROUP BY playername " \
+          "ORDER BY " + dps_hps + " DESC LIMIT " + number_of_players + ""
+    # print(sql)
+    mycursor.execute(sql)
+    myresult = mycursor.fetchall()
+    return myresult
+
+
 def mysql_last_uploads(mycursor):
     sql = "SELECT date, bossname, guildname, playername, class, role, dps, hps, thps, aps, TIME, totaltime, " \
           "Encounterinfo.encounterid, ptid " \
@@ -93,6 +127,29 @@ def mysql_last_uploads(mycursor):
           "INNER JOIN Roles on Encounter.roleid = Roles.id " \
           "ORDER BY encounterinfo.encounterid desc, Boss.id desc, dps desc " \
           "LIMIT 300"
+    mycursor.execute(sql)
+    myresult = mycursor.fetchall()
+    return myresult
+
+
+def mysql_json(mycursor, bossid, roleid, order):
+    number_of_players = "500"
+    sql = "SELECT date, guildname, bossname, playername, class, role, dps AS DPS, hps, thps, aps, time, totaltime, " \
+          "encounterid, ptid FROM ( " \
+          "SELECT DISTINCT playername, dps, a.encounterid, playerid, dps AS max_dps_hps ," \
+          " time, totaltime, date, hps + aps as HPSAPS, class, role, ptid, aps, hps, thps, bossname, guildname " \
+          "FROM Encounterinfo a " \
+          "INNER JOIN Encounter ON a.id = Encounter.encounterid " \
+          "INNER JOIN Player ON Encounter.playerid = Player.id " \
+          "INNER JOIN Classes on Player.classid = Classes.id " \
+          "INNER JOIN Roles on Encounter.roleid = Roles.id " \
+          "INNER JOIN Boss on a.bossid = Boss.id " \
+          "INNER JOIN Guild on a.guildid = Guild.id " \
+          "WHERE bossid = " + bossid + " AND roleid = " + roleid + " " \
+          "ORDER BY " + order + " DESC) AS top_dps_hps " \
+          "GROUP BY playername " \
+          "ORDER BY " + order + " DESC LIMIT " + number_of_players + ""
+    # print(sql)
     mycursor.execute(sql)
     myresult = mycursor.fetchall()
     return myresult
@@ -152,6 +209,8 @@ def head_html(title, nav_link):
     html = []
     head = "head.html"
     hide = False
+    lookup = False
+    default = True
     if not title:
         title = nav_link
     template = codecs.open("../template/" + head, 'r', "utf-8")
@@ -167,23 +226,36 @@ def head_html(title, nav_link):
             html += ['                <li class="nav-item active">\n']
             line = line.split("</a>")[0]
             html += [line + '</a><span class="sr-only">(current)</span>\n']
+        elif "<!-- Lookup -->" in line:
+            lookup = True
+        elif "<!-- Lookup End -->" in line:
+            lookup = False
+        elif "<!-- jQuery first, then Popper.js, then Bootstrap JS -->" in line:
+            default = False
+        elif "<!-- Default -->" in line:
+            default = True
         else:
             if "magelocdn" in line:
                 if title == "Most Played Specs":
                     html += [line]
             else:
-                if not hide or title == "Latest Uploads on Prancing Turtle" or title == "Most Played Specs":
-                    html += [line]
+                if "Lookup" in title:
+                    if default:
+                        html += [line]
+                elif not hide or title == "Latest Uploads on Prancing Turtle" or title == "Most Played Specs":
+                    if not lookup:
+                        html += [line]
     template.close()
     return html
 
 
 # exchanges placeholders in the template file with the mysql data
-def exchange(mycursor, template, file, mysql_data, nav_link):
+def exchange(mycursor, template, file, mysql_data, nav_link, number_of_players):
     i = 0
     boss_counter = 0
     tbody = False
     normal_content_zone = False
+    player_class = ""
     for line in template:
         if "<title>" in line:
             title = line.split("<title>")[1].split("</title>")[0]
@@ -196,7 +268,10 @@ def exchange(mycursor, template, file, mysql_data, nav_link):
             if "<h2>" in line:
                 boss_counter += 1
                 if "#boss" in line:
-                    line = line.replace("#boss", mysql_data[i][12] + " - " + nav_link)
+                    if mysql_data[i][12] not in nav_link:
+                        line = line.replace("#boss", mysql_data[i][12] + " - " + nav_link)
+                    else:
+                        line = line.replace("#boss", mysql_data[i][12] + " - Top 100 DPS")
                 elif "#class" in line:
                     line = line.replace("#class", mysql_data[i][6] + " - " + nav_link)
             elif "#typehead" in line:
@@ -214,11 +289,14 @@ def exchange(mycursor, template, file, mysql_data, nav_link):
                 guild = mysql_data[i][10]
                 line = line.replace("#guild", guild)
             elif "#class" in line:
-                if mysql_data[i][0] != 0:
-                    # print(mysql_data[0][1][1][6])
-                    line = line.replace("#class", mysql_data[i][6])
-                else:
-                    line = line.replace("#class", mysql_data[i][1])
+                try:
+                    if mysql_data[i][0] != 0:
+                            player_class = mysql_data[i][6]
+                            line = line.replace("#class", player_class)
+                    else:
+                        line = line.replace("#class", mysql_data[i][1])
+                except:
+                    line = line.replace("#class", player_class)
             if tbody:
                 if "#name" in line:
                     if mysql_data[i][0] != 0:
@@ -301,8 +379,8 @@ def exchange(mycursor, template, file, mysql_data, nav_link):
                     line = line.replace("#fastest_time", time)
                 elif "#avg" in line:
                     if mysql_data[i] != 0:
-                        if nav_link == "DPS Class Leaders" and "#percent" in line:
-                            x = (11*5*boss_counter)-1
+                        if (nav_link == "DPS Class Leaders" or "Top 100" in nav_link) and "#percent" in line:
+                            x = (number_of_players + 1)*5*boss_counter-1
                             percent = mysql_data[i]/mysql_data[x]*100
                             percent = round(percent)
                             line = line.replace("#percent", str(percent) + "%")
@@ -342,9 +420,8 @@ def content(mycursor):
             class_html += ", " + str(item[1]) + " " + item[0] + "s"
         i += 1
     html = "The database contains " + str(players) + " Players, " + class_html + " who killed " + str(encounters) \
-           + ' bosses. The database only contains data after 2018-07-11 the last ' \
-             '<a href="http://forums.riftgame.com/general-discussions/patch-notes/' \
-             '505586-rift-4-5-update-7-11-2018-a.html" target="new">balance patch</a>.'
+           + ' bosses. The database only contains data after <a href="http://forums.riftgame.com/general-discussions/' \
+             'patch-notes/505586-rift-4-5-update-7-11-2018-a.html" target="new">2018-07-11</a> the last balance patch.'
     return html
 
 
@@ -369,7 +446,7 @@ def leaders_html(mycursor, bossid, html_file, nav_link):
         for boss_id in bossid:
             data = mysql_top_dps_hps(mycursor, str(boss_id[0]), "", str(number_of_players), role, "DPS")
             mysql_data += data + [average(data, number_of_players, "DPS")]
-    exchange(mycursor, template, file, mysql_data, nav_link)
+    exchange(mycursor, template, file, mysql_data, nav_link, number_of_players)
     file.close()
     template.close()
     print("../public/" + html_file + " created")
@@ -399,7 +476,35 @@ def tank_sup_dps_hps_html(mycursor, bossid, classid, role, sort_order, html_file
         sorted_data += unsorted_data
     for item in sorted_data:
         mysql_data += item[1] + [item[0]]
-    exchange(mycursor, template, file, mysql_data, nav_link)
+    exchange(mycursor, template, file, mysql_data, nav_link, number_of_players)
+    file.close()
+    template.close()
+    print("../public/" + html_file + " created")
+
+
+def top100(mycursor, bossid, classid, role, sort_order, html_file, nav_link):
+    template_file = "top100.html"
+    mysql_data = []
+    sorted_data = []
+    template = codecs.open("../template/" + template_file, 'r', "utf-8")
+    file = codecs.open("../public/" + html_file, 'w', "utf-8")
+    number_of_players = 100
+    unsorted_data = []
+    for class_id in classid:
+        data = mysql_top100(mycursor, str(bossid), str(class_id[0]), str(number_of_players), role, sort_order)
+        if len(data) < number_of_players:
+            players = len(data)
+            for i in range(number_of_players - players):
+                data += [(0, class_id[1])]
+            unsorted_data += [[average(data, players, sort_order), data]]
+            # mysql_data += data + [average(data, players, sort_order)]
+        else:
+            unsorted_data += [[average(data, number_of_players, sort_order), data]]
+    unsorted_data.sort(reverse=True)
+    sorted_data += unsorted_data
+    for item in sorted_data:
+        mysql_data += item[1] + [item[0]]
+    exchange(mycursor, template, file, mysql_data, nav_link, number_of_players)
     file.close()
     template.close()
     print("../public/" + html_file + " created")
@@ -421,7 +526,7 @@ def hps_html(mycursor, bossid, classid, html_file, nav_link):
                 data = mysql_top_dps_hps(mycursor, str(boss_id[0]), str(class_id[0]), str(number_of_players), "",
                                          "HPSAPS")
                 mysql_data += data + [average(data, number_of_players, "HPSAPS")]
-    exchange(mycursor, template, file, mysql_data, nav_link)
+    exchange(mycursor, template, file, mysql_data, nav_link, number_of_players)
     file.close()
     template.close()
     print("../public/" + html_file + " created")
@@ -498,11 +603,52 @@ def last_uploads_html(mycursor, html_file, nav_link):
     print("../public/" + html_file + " created")
 
 
+def create_json(mycursor, bossid, roleid):
+    mysql_data = []
+    for boss_id in bossid:
+        for role_id in roleid:
+            mysql_data += mysql_json(mycursor, str(boss_id[0]), str(role_id[0]), "DPS")
+        # for role_id in roleid:
+        #     mysql_data += mysql_json(mycursor, str(boss_id[0]), str(role_id[0]), "HPS")
+    file = codecs.open("../public/json/data_json.txt", 'w', "utf-8")
+    file.write("[\n")
+    lastitem = len(mysql_data)
+    i = 0
+    for item in mysql_data:
+        i += 1
+        json = "  {\n"
+        json += ('    "Date": "' + str(item[0]) + '", \n')
+        json += ('    "Guild": "' + str(item[1]) + '", \n')
+        json += ('    "Boss": "' + str(item[2]) + '", \n')
+        json += ('    "Player": "' + str(item[3]) + '", \n')
+        json += ('    "Class": "' + str(item[4]) + '", \n')
+        json += ('    "Role": "' + str(item[5]) + '", \n')
+        json += ('    "ST DPS": "' + format_number(item[6]) + '", \n')
+        json += ('    "HPS": "' + format_number(item[7]) + '", \n')
+        json += ('    "THPS": "' + format_number(item[8]) + '", \n')
+        json += ('    "APS": "' + format_number(item[9]) + '", \n')
+        json += ('    "Time for Boss": "' + str(item[10]).split("0:")[1] + '", \n')
+        json += ('    "Total Time": "' + str(item[11]).split("0:")[1] + '", \n')
+        json += ('    "Eid": "' + str(item[12]) + '", \n')
+        json += ('    "Pid": "' + str(item[13]) + '"\n')
+        if i < lastitem:
+            json += "  },\n"
+        else:
+            json += "  }\n"
+        file.write(json)
+    file.write("]")
+    file.close()
+    with open('../public/json/data_json.txt', 'rb') as f_in:
+        with gzip.open('../public/json/data.json', 'wb') as f_out:
+            shutil.copyfileobj(f_in, f_out)
+
+
 def main():
     mydb = mysql_connect_config.database_connect()
     mycursor = mydb.cursor()
     bossid = get_bossid(mycursor)
     classid = get_classid(mycursor)
+    roleid = get_roleid(mycursor)
     leaders_html(mycursor, bossid, "index.html", "Overall DPS")
     tank_sup_dps_hps_html(mycursor, bossid, classid, "dps", "DPS", "dps.html", "DPS Class Leaders")
     hps_html(mycursor, bossid, classid, 'hps.html', "HPS Leaders")
@@ -510,10 +656,16 @@ def main():
     tank_sup_dps_hps_html(mycursor, bossid, classid, "support", "HPSAPS", "suphps.html", "Support HPS")
     tank_sup_dps_hps_html(mycursor, bossid, classid, "tank", "DPS", "tdps.html", "Tank DPS")
     tank_sup_dps_hps_html(mycursor, bossid, classid, "tank", "HPSAPS", "thps.html", "Tank HPS")
+    top100(mycursor, 1, classid, "dps", "DPS", "top100_1.html", "Azranel - Top 100 DPS")
+    top100(mycursor, 2, classid, "dps", "DPS", "top100_2.html", "Vindicator MK1 - Top 100 DPS")
+    top100(mycursor, 3, classid, "dps", "DPS", "top100_3.html", "Commander Isiel - Top 100 DPS")
+    top100(mycursor, 4, classid, "dps", "DPS", "top100_4.html", "Titan X - Top 100 DPS")
     resources(mycursor, "mostplayed.html")
     resources(mycursor, "videos.html")
     resources(mycursor, "raidsetup.html")
+    resources(mycursor, "lookup.html")
     last_uploads_html(mycursor, "latestuploads.html", "Latest Uploads")
+    create_json(mycursor, bossid, roleid)
 
 
 if __name__ == "__main__":

@@ -4,11 +4,13 @@ from botocore.exceptions import ClientError
 import os
 
 
-def upload_file(file_name, bucket, object_name=None):
+def upload_file(file_name, bucket, content,content_type, object_name=None):
     """Upload a file to an S3 bucket
 
     :param file_name: File to upload
     :param bucket: Bucket to upload to
+    :param content: ContentType/ContentEncoding
+    :param content_type: html,gzip
     :param object_name: S3 object name. If not specified then file_name is used
     :return: True if file was uploaded, else False
     """
@@ -20,7 +22,7 @@ def upload_file(file_name, bucket, object_name=None):
     # Upload the file
     s3_client = boto3.client('s3')
     try:
-        response = s3_client.upload_file(file_name, bucket, object_name, ExtraArgs={'ContentType': 'text/html'})
+        response = s3_client.upload_file(file_name, bucket, object_name, ExtraArgs={content: content_type})
     except ClientError as e:
         logging.error(e)
         return False
@@ -32,8 +34,10 @@ def main():
     files = os.listdir(path)
     for file in files:
         if ".html" in file:
-            upload_file(path + "/" + file, "rift-stats", file)
+            upload_file(path + "/" + file, "rift-stats", 'ContentType', 'text/html', file)
             print(file + " uploaded")
+    upload_file("../public/json/data.json", "rift-stats", 'ContentEncoding', 'gzip', "json/data.json")
+    print("data.json" + " uploaded")
 
 
 if __name__ == "__main__":
