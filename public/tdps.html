@@ -11,6 +11,8 @@
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', 'UA-143516769-1');
+
+
     </script>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
@@ -51,30 +53,37 @@
                 <li class="nav-item">
                     <a class="nav-link" href="./index.html">Overall DPS</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="./dps.html">DPS Class Leaders</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="./hps.html">HPS Leaders</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="./supdps.html">Support DPS</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="./suphps.html">Support HPS</a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="./tdps.html">Tank DPS</a><span class="sr-only">(current)</span>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="./thps.html">Tank HPS</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Damage</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="./dps.html">Order by DPS</a>
+                        <a class="dropdown-item" href="./ddhps.html">Order by DPS+HPS</a>
+                    </div>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button"
-                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Top 100
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown2">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Heal</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="./dpshps.html">Order by DPS</a>
+                        <a class="dropdown-item" href="./hps.html">Order by HPS</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Support</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="./supdps.html">Order by DPS</a>
+                        <a class="dropdown-item" href="./suphps.html">Order by HPS</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown active">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown4" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Tank</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item active" href="./tdps.html">Order by DPS</a>
+                        <a class="dropdown-item" href="./thps.html">Order by HPS</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown5" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Top 100</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="./top100_1.html">Azranel - DPS</a>
                         <a class="dropdown-item" href="./top100_2.html">Vindicator - DPS</a>
                         <a class="dropdown-item" href="./top100_3.html">Commander - DPS</a>
@@ -82,15 +91,12 @@
                     </div>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Resources
-                    </a>
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown6" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Resources</a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="./videos.html">Videos</a>
                         <a class="dropdown-item" href="./lookup.html">Lookup</a>
                         <a class="dropdown-item" href="./mostplayed.html">Most Played Specs</a>
                         <a class="dropdown-item" href="./raidsetup.html">Raid Setup Calculator</a>
+                        <a class="dropdown-item" href="./videos.html">Videos</a>
                     </div>
                 </li>
                 <li class="nav-item">
@@ -102,19 +108,21 @@
 </nav><!-- Normal Content Zone -->
 <div class="content">
     <div class="left-align">
-        <p>The database contains 1014 Players, 254 Rogues, 238 Mages, 185 Warriors, 175 Clerics, 162 Primalists who killed 1997 bosses. The database only contains data after <a href="http://forums.riftgame.com/general-discussions/patch-notes/505586-rift-4-5-update-7-11-2018-a.html" target="new">2018-07-11</a> the last balance patch.</p>
+        <p>The database contains 1019 Players, 256 Rogues, 240 Mages, 186 Warriors, 175 Clerics, 162 Primalists who killed 2031 bosses. The database only contains data after <a href="http://forums.riftgame.com/general-discussions/patch-notes/505586-rift-4-5-update-7-11-2018-a.html" target="new">2018-07-11</a> the last balance patch.</p>
     </div>
-    <div class="subheading">
-        <h2>Azranel - Tank DPS</h2>
-        <hr>
-    </div>
-
+</div>
+<div class="subheading">
+    <h2>Azranel - Tank DPS</h2>
+    <hr>
+</div>
+<div class="content">
     <table class="table table-striped pt_table_blank table-dark table-hover">
         <thead>
         <tr class="Rogue">
             <th scope="col">Date</th>
             <th scope="col">Rogue</th>
             <th scope="col">ST DPS</th>
+            <th scope="col">HPAPS</th>
             <th scope="col">Time</th>
         </tr>
         </thead>
@@ -123,65 +131,75 @@
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=206582&p=148454&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-04-01</a></td>
             <td>Azuren</td>
             <td>1.367.968</td>
+            <td>0</td>
             <td>2:55</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=207174&p=147184&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-05-08</a></td>
             <td>Liebegutefee</td>
             <td>1.109.844</td>
+            <td>0</td>
             <td>3:54</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=206490&p=145313&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-03-27</a></td>
             <td>Visitor</td>
             <td>1.099.207</td>
+            <td>0</td>
             <td>3:16</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=205927&p=146713&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-02-15</a></td>
             <td>Venaya</td>
             <td>1.044.263</td>
+            <td>0</td>
             <td>5:15</td>
+        </tr>
+        <tr>
+            <td><a href="https://prancingturtle.com/Encounter/Interaction?id=208231&p=148772&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-08-04</a></td>
+            <td>Kutiie</td>
+            <td>1.018.469</td>
+            <td>1.987</td>
+            <td>4:51</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=207435&p=148639&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-05-23</a></td>
             <td>Kothiues</td>
             <td>963.848</td>
+            <td>5.955</td>
             <td>5:01</td>
-        </tr>
-        <tr>
-            <td><a href="https://prancingturtle.com/Encounter/Interaction?id=208145&p=148772&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-07-21</a></td>
-            <td>Kutiie</td>
-            <td>939.964</td>
-            <td>5:02</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=206467&p=140803&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-03-26</a></td>
             <td>Kavar</td>
             <td>887.929</td>
+            <td>317</td>
             <td>3:07</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=207325&p=119112&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-05-16</a></td>
             <td>Draknazar</td>
             <td>793.231</td>
+            <td>5.543</td>
             <td>5:27</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=205007&p=63193&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-10-30</a></td>
             <td>Zondron</td>
             <td>417.850</td>
+            <td>60.187</td>
             <td>5:26</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=204240&p=147230&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-09-12</a></td>
             <td>Kaskia</td>
             <td>194.041</td>
+            <td>29.813</td>
             <td>5:45</td>
         </tr>
         <tr class="ctotal">
             <td colspan="2">Average:</td>
-            <td colspan="2">881.814        </tr>
+            <td colspan="3">889.665        </tr>
         </tbody>
     </table>
 
@@ -191,6 +209,7 @@
             <th scope="col">Date</th>
             <th scope="col">Warrior</th>
             <th scope="col">ST DPS</th>
+            <th scope="col">HPAPS</th>
             <th scope="col">Time</th>
         </tr>
         </thead>
@@ -199,65 +218,75 @@
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=207277&p=148200&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-05-13</a></td>
             <td>Ezrabby</td>
             <td>1.501.660</td>
+            <td>0</td>
             <td>3:02</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=207799&p=148747&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-06-11</a></td>
             <td>Dreamzx</td>
             <td>870.716</td>
+            <td>2.816</td>
             <td>7:37</td>
+        </tr>
+        <tr>
+            <td><a href="https://prancingturtle.com/Encounter/Interaction?id=208210&p=148589&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-08-03</a></td>
+            <td>Stumbler</td>
+            <td>746.503</td>
+            <td>10.926</td>
+            <td>3:32</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=208008&p=149089&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-07-06</a></td>
             <td>Andysodandy</td>
             <td>661.100</td>
+            <td>8.621</td>
             <td>5:45</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=206634&p=148254&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-04-04</a></td>
             <td>Isoroth</td>
             <td>649.385</td>
+            <td>26.807</td>
             <td>4:56</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=207399&p=147825&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-05-22</a></td>
             <td>Gunsho</td>
             <td>542.445</td>
+            <td>10.498</td>
             <td>6:16</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=206903&p=148633&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-04-16</a></td>
-            <td>Fivedollarhotnrea</td>
+            <td>Fivedollarhotn</td>
             <td>394.503</td>
+            <td>30.310</td>
             <td>5:52</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=207790&p=148809&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-06-12</a></td>
             <td>Daxeos</td>
             <td>373.722</td>
+            <td>3.391</td>
             <td>6:14</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=205301&p=148245&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-12-13</a></td>
             <td>Hierosolyma</td>
             <td>224.982</td>
+            <td>18.084</td>
             <td>5:33</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=208005&p=149086&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-07-03</a></td>
             <td>Blackdeath</td>
             <td>202.843</td>
+            <td>27.365</td>
             <td>4:18</td>
-        </tr>
-        <tr>
-            <td><a href="https://prancingturtle.com/Encounter/Interaction?id=203224&p=140716&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-07-26</a></td>
-            <td>Mechared</td>
-            <td>199.816</td>
-            <td>5:49</td>
         </tr>
         <tr class="ctotal">
             <td colspan="2">Average:</td>
-            <td colspan="2">562.117        </tr>
+            <td colspan="3">616.786        </tr>
         </tbody>
     </table>
 
@@ -267,6 +296,7 @@
             <th scope="col">Date</th>
             <th scope="col">Cleric</th>
             <th scope="col">ST DPS</th>
+            <th scope="col">HPAPS</th>
             <th scope="col">Time</th>
         </tr>
         </thead>
@@ -275,65 +305,75 @@
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=207347&p=147738&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-05-21</a></td>
             <td>Sepelio</td>
             <td>911.140</td>
+            <td>72.567</td>
             <td>4:42</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=206564&p=148657&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-03-31</a></td>
             <td>Blur</td>
             <td>463.109</td>
+            <td>32.099</td>
             <td>4:52</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=207367&p=63196&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-05-21</a></td>
             <td>Mastifff</td>
             <td>458.960</td>
+            <td>298.520</td>
             <td>2:58</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=206111&p=141513&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-02-27</a></td>
             <td>Fyel</td>
             <td>409.304</td>
+            <td>38.038</td>
             <td>4:17</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=203884&p=128022&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-08-29</a></td>
             <td>Jood</td>
             <td>316.969</td>
+            <td>24.368</td>
             <td>5:24</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=205986&p=147830&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-02-19</a></td>
             <td>Barabbasx</td>
             <td>305.949</td>
+            <td>47.055</td>
             <td>6:59</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=205790&p=117215&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-02-01</a></td>
             <td>Mechese</td>
             <td>273.597</td>
+            <td>48.958</td>
             <td>4:47</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=205285&p=147444&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-12-09</a></td>
             <td>Tornette</td>
             <td>264.864</td>
+            <td>42.165</td>
             <td>5:36</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=204677&p=15864&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-10-12</a></td>
             <td>Torn</td>
             <td>263.353</td>
+            <td>39.165</td>
             <td>5:34</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=204548&p=147229&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-10-05</a></td>
             <td>Sixia</td>
             <td>255.971</td>
+            <td>20.726</td>
             <td>5:25</td>
         </tr>
         <tr class="ctotal">
             <td colspan="2">Average:</td>
-            <td colspan="2">392.322        </tr>
+            <td colspan="3">392.322        </tr>
         </tbody>
     </table>
 
@@ -343,6 +383,7 @@
             <th scope="col">Date</th>
             <th scope="col">Mage</th>
             <th scope="col">ST DPS</th>
+            <th scope="col">HPAPS</th>
             <th scope="col">Time</th>
         </tr>
         </thead>
@@ -351,65 +392,75 @@
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=207163&p=148851&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-05-08</a></td>
             <td>Starlord</td>
             <td>680.292</td>
+            <td>8.216</td>
             <td>6:45</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=206833&p=114&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-04-14</a></td>
             <td>Archymage</td>
             <td>412.593</td>
+            <td>6.180</td>
             <td>5:23</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=208194&p=148572&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-07-30</a></td>
             <td>Peachpanther</td>
             <td>315.098</td>
+            <td>2.813</td>
             <td>5:36</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=207284&p=147742&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-05-14</a></td>
             <td>Acardia</td>
             <td>228.858</td>
+            <td>388</td>
             <td>7:40</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=208148&p=147764&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-07-19</a></td>
             <td>Incidius</td>
             <td>174.248</td>
+            <td>487.715</td>
             <td>3:48</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=208172&p=148395&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-07-27</a></td>
             <td>Tarfa</td>
             <td>173.046</td>
+            <td>643.552</td>
             <td>3:47</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=206629&p=8477&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-04-03</a></td>
             <td>Xlython</td>
             <td>172.557</td>
+            <td>701.191</td>
             <td>3:11</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=206467&p=123099&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-03-26</a></td>
             <td>Hmmm</td>
             <td>158.512</td>
+            <td>631.231</td>
             <td>3:07</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=207422&p=148240&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-05-22</a></td>
             <td>Bbygirl</td>
             <td>150.084</td>
+            <td>485.856</td>
             <td>3:47</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=208097&p=148676&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-07-13</a></td>
             <td>Kennaa</td>
             <td>144.560</td>
+            <td>451.986</td>
             <td>4:14</td>
         </tr>
         <tr class="ctotal">
             <td colspan="2">Average:</td>
-            <td colspan="2">260.985        </tr>
+            <td colspan="3">260.985        </tr>
         </tbody>
     </table>
 
@@ -419,6 +470,7 @@
             <th scope="col">Date</th>
             <th scope="col">Primalist</th>
             <th scope="col">ST DPS</th>
+            <th scope="col">HPAPS</th>
             <th scope="col">Time</th>
         </tr>
         </thead>
@@ -427,65 +479,75 @@
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=206595&p=148390&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-04-02</a></td>
             <td>Banjomanf</td>
             <td>884.003</td>
+            <td>40.945</td>
             <td>5:01</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=208047&p=140039&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-07-08</a></td>
             <td>Yarrelloo</td>
             <td>585.577</td>
+            <td>35.821</td>
             <td>5:52</td>
         </tr>
         <tr>
-            <td><a href="https://prancingturtle.com/Encounter/Interaction?id=207910&p=144684&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-06-19</a></td>
+            <td><a href="https://prancingturtle.com/Encounter/Interaction?id=208264&p=144684&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-08-07</a></td>
             <td>Xlymal</td>
-            <td>201.470</td>
-            <td>4:31</td>
+            <td>213.768</td>
+            <td>59.113</td>
+            <td>3:57</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=204177&p=135571&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-09-06</a></td>
             <td>Tharla</td>
             <td>140.615</td>
+            <td>47.864</td>
             <td>6:17</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=206878&p=148013&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-04-16</a></td>
             <td>Illvana</td>
             <td>127.305</td>
+            <td>36.914</td>
             <td>3:13</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=203523&p=143575&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-08-13</a></td>
             <td>Hoedchen</td>
             <td>121.844</td>
+            <td>0</td>
             <td>5:41</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=204411&p=143314&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-09-24</a></td>
             <td>Rhicuu</td>
             <td>118.725</td>
+            <td>41.082</td>
             <td>4:53</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=206678&p=148671&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-04-06</a></td>
             <td>Fayvor</td>
             <td>111.412</td>
+            <td>40.735</td>
             <td>6:13</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=204266&p=147885&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-09-14</a></td>
             <td>Tekknoviking</td>
             <td>108.381</td>
+            <td>43.029</td>
             <td>7:46</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=204541&p=145891&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-10-04</a></td>
             <td>Orsius</td>
             <td>108.228</td>
+            <td>24.790</td>
             <td>6:14</td>
         </tr>
         <tr class="ctotal">
             <td colspan="2">Average:</td>
-            <td colspan="2">250.756        </tr>
+            <td colspan="3">251.986        </tr>
         </tbody>
     </table>
 
@@ -499,13 +561,13 @@
     <hr>
 </div>
 <div class="content">
-
     <table class="table table-striped pt_table_blank table-dark table-hover">
         <thead>
         <tr class="Cleric">
             <th scope="col">Date</th>
             <th scope="col">Cleric</th>
             <th scope="col">ST DPS</th>
+            <th scope="col">HPAPS</th>
             <th scope="col">Time</th>
         </tr>
         </thead>
@@ -514,65 +576,75 @@
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=205902&p=141513&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-02-13</a></td>
             <td>Fyel</td>
             <td>338.542</td>
+            <td>264.165</td>
             <td>1:17</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=206309&p=128022&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-03-13</a></td>
             <td>Jood</td>
             <td>333.466</td>
+            <td>139.629</td>
             <td>1:18</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=202886&p=117215&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-07-13</a></td>
             <td>Mechese</td>
             <td>323.277</td>
+            <td>118.899</td>
             <td>1:51</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=204255&p=147444&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-09-14</a></td>
             <td>Tornette</td>
             <td>318.541</td>
+            <td>76.797</td>
             <td>1:39</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=206191&p=74132&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-03-08</a></td>
             <td>Xly</td>
             <td>314.773</td>
+            <td>65.430</td>
             <td>1:24</td>
+        </tr>
+        <tr>
+            <td><a href="https://prancingturtle.com/Encounter/Interaction?id=208242&p=148453&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-08-07</a></td>
+            <td>Barabbas</td>
+            <td>304.998</td>
+            <td>60.792</td>
+            <td>1:37</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=204832&p=146624&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-10-24</a></td>
             <td>Mandil</td>
             <td>304.267</td>
+            <td>57.537</td>
             <td>1:45</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=205166&p=147229&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-11-25</a></td>
             <td>Sixia</td>
             <td>302.674</td>
+            <td>114.192</td>
             <td>1:35</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=204356&p=147523&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-09-19</a></td>
             <td>Safirina</td>
             <td>294.872</td>
+            <td>51.055</td>
             <td>1:41</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=203926&p=147503&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-08-30</a></td>
             <td>Renoira</td>
             <td>289.919</td>
+            <td>75.556</td>
             <td>2:00</td>
-        </tr>
-        <tr>
-            <td><a href="https://prancingturtle.com/Encounter/Interaction?id=204513&p=15864&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-09-30</a></td>
-            <td>Torn</td>
-            <td>288.858</td>
-            <td>2:11</td>
         </tr>
         <tr class="ctotal">
             <td colspan="2">Average:</td>
-            <td colspan="2">310.919        </tr>
+            <td colspan="3">312.533        </tr>
         </tbody>
     </table>
 
@@ -582,6 +654,7 @@
             <th scope="col">Date</th>
             <th scope="col">Rogue</th>
             <th scope="col">ST DPS</th>
+            <th scope="col">HPAPS</th>
             <th scope="col">Time</th>
         </tr>
         </thead>
@@ -590,65 +663,75 @@
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=205837&p=146713&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-02-06</a></td>
             <td>Venaya</td>
             <td>276.524</td>
+            <td>66.037</td>
             <td>1:16</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=204098&p=147230&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-09-07</a></td>
             <td>Kaskia</td>
             <td>218.966</td>
+            <td>56.450</td>
             <td>1:48</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=205020&p=147184&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-11-14</a></td>
             <td>Liebegutefee</td>
             <td>211.701</td>
+            <td>136.280</td>
             <td>1:40</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=207331&p=148639&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-05-16</a></td>
             <td>Kothiues</td>
             <td>201.536</td>
+            <td>57.009</td>
             <td>1:48</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=205016&p=63193&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-10-30</a></td>
             <td>Zondron</td>
             <td>192.497</td>
+            <td>33.630</td>
             <td>2:04</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=203131&p=66163&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-07-22</a></td>
             <td>Fastapoke</td>
             <td>180.987</td>
+            <td>88.835</td>
             <td>2:04</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=206033&p=145313&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-02-20</a></td>
             <td>Visitor</td>
             <td>171.904</td>
+            <td>189.604</td>
             <td>1:16</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=207171&p=140924&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-05-08</a></td>
             <td>Megaunicorn</td>
             <td>170.379</td>
+            <td>79.571</td>
             <td>2:02</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=205730&p=148324&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-01-26</a></td>
             <td>Missfortunka</td>
             <td>152.641</td>
+            <td>41.068</td>
             <td>1:47</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=203998&p=145737&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-09-04</a></td>
             <td>Feardonkey</td>
             <td>147.605</td>
+            <td>124.542</td>
             <td>1:55</td>
         </tr>
         <tr class="ctotal">
             <td colspan="2">Average:</td>
-            <td colspan="2">192.474        </tr>
+            <td colspan="3">192.474        </tr>
         </tbody>
     </table>
 
@@ -658,6 +741,7 @@
             <th scope="col">Date</th>
             <th scope="col">Warrior</th>
             <th scope="col">ST DPS</th>
+            <th scope="col">HPAPS</th>
             <th scope="col">Time</th>
         </tr>
         </thead>
@@ -666,65 +750,75 @@
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=208038&p=149094&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-07-07</a></td>
             <td>Aador</td>
             <td>226.814</td>
+            <td>109.155</td>
             <td>1:58</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=208130&p=66164&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-07-18</a></td>
             <td>Tatar</td>
             <td>177.176</td>
+            <td>173.915</td>
             <td>1:56</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=204712&p=146422&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-10-14</a></td>
             <td>Mantus</td>
             <td>152.468</td>
+            <td>6.541</td>
             <td>1:54</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=206374&p=148194&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-03-22</a></td>
             <td>Holyroller</td>
             <td>146.202</td>
+            <td>5.749</td>
             <td>1:51</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=208091&p=149086&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-07-10</a></td>
             <td>Blackdeath</td>
             <td>142.494</td>
+            <td>8.295</td>
             <td>1:38</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=203875&p=147761&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-08-28</a></td>
             <td>Kottor</td>
             <td>135.007</td>
+            <td>6.195</td>
             <td>2:19</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=207657&p=148571&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-06-04</a></td>
-            <td>Insaneclownpolly</td>
+            <td>Insaneclownpol</td>
             <td>128.309</td>
+            <td>58.980</td>
             <td>1:25</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=204222&p=147506&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-09-12</a></td>
             <td>Harryblue</td>
             <td>121.015</td>
+            <td>5.296</td>
             <td>1:47</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=206637&p=148254&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-04-04</a></td>
             <td>Isoroth</td>
             <td>116.738</td>
+            <td>4.636</td>
             <td>1:38</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=203953&p=147508&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-09-02</a></td>
             <td>Darkmystere</td>
             <td>114.409</td>
+            <td>18.549</td>
             <td>1:56</td>
         </tr>
         <tr class="ctotal">
             <td colspan="2">Average:</td>
-            <td colspan="2">146.063        </tr>
+            <td colspan="3">146.063        </tr>
         </tbody>
     </table>
 
@@ -734,6 +828,7 @@
             <th scope="col">Date</th>
             <th scope="col">Primalist</th>
             <th scope="col">ST DPS</th>
+            <th scope="col">HPAPS</th>
             <th scope="col">Time</th>
         </tr>
         </thead>
@@ -742,65 +837,75 @@
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=206119&p=147195&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-03-01</a></td>
             <td>Hokhmah</td>
             <td>213.408</td>
+            <td>66.769</td>
             <td>1:28</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=207382&p=148902&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-05-21</a></td>
             <td>Illvana</td>
             <td>207.104</td>
+            <td>72.405</td>
             <td>1:04</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=203835&p=147752&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-08-26</a></td>
             <td>Arloanay</td>
             <td>148.391</td>
+            <td>74.892</td>
             <td>2:08</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=206728&p=137942&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-04-08</a></td>
             <td>Primaelfear</td>
             <td>132.510</td>
+            <td>79.217</td>
             <td>1:19</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=203529&p=143575&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-08-13</a></td>
             <td>Hoedchen</td>
             <td>129.014</td>
+            <td>0</td>
             <td>2:02</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=205792&p=144684&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-02-01</a></td>
             <td>Xlymal</td>
             <td>128.965</td>
+            <td>64.840</td>
             <td>1:30</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=207082&p=148467&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-05-05</a></td>
             <td>Lucyith</td>
             <td>128.254</td>
+            <td>50.213</td>
             <td>1:33</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=204214&p=135571&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-09-12</a></td>
             <td>Tharla</td>
             <td>123.948</td>
+            <td>51.451</td>
             <td>2:05</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=204413&p=143314&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-09-24</a></td>
             <td>Rhicuu</td>
             <td>121.739</td>
+            <td>46.250</td>
             <td>1:41</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=206181&p=140039&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-03-08</a></td>
             <td>Yarrelloo</td>
             <td>120.922</td>
+            <td>66.592</td>
             <td>2:10</td>
         </tr>
         <tr class="ctotal">
             <td colspan="2">Average:</td>
-            <td colspan="2">145.426        </tr>
+            <td colspan="3">145.426        </tr>
         </tbody>
     </table>
 
@@ -810,6 +915,7 @@
             <th scope="col">Date</th>
             <th scope="col">Mage</th>
             <th scope="col">ST DPS</th>
+            <th scope="col">HPAPS</th>
             <th scope="col">Time</th>
         </tr>
         </thead>
@@ -818,67 +924,78 @@
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=208091&p=148229&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-07-10</a></td>
             <td>Amelly</td>
             <td>185.443</td>
+            <td>11.206</td>
             <td>1:38</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=206631&p=8477&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-04-03</a></td>
             <td>Xlython</td>
             <td>148.145</td>
+            <td>21.665</td>
             <td>1:16</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=203939&p=114&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-09-02</a></td>
             <td>Archymage</td>
             <td>126.488</td>
+            <td>13.895</td>
             <td>1:46</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=206791&p=84674&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-04-10</a></td>
             <td>Tarfa</td>
             <td>117.667</td>
+            <td>43.891</td>
             <td>1:02</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=206959&p=148197&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-04-20</a></td>
             <td>Xlythen</td>
             <td>117.093</td>
+            <td>15.286</td>
             <td>1:16</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=207846&p=148338&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-06-15</a></td>
             <td>Lucith</td>
             <td>106.693</td>
+            <td>54.328</td>
             <td>1:19</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=206135&p=147387&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-03-05</a></td>
             <td>Motacilla</td>
             <td>102.384</td>
+            <td>29.641</td>
             <td>2:06</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=203765&p=118656&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-08-20</a></td>
             <td>Sirsmokelord</td>
             <td>101.338</td>
+            <td>21.627</td>
             <td>1:41</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=206107&p=123099&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-02-24</a></td>
             <td>Hmmm</td>
             <td>100.726</td>
+            <td>77.558</td>
             <td>1:30</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=204632&p=112034&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-10-08</a></td>
             <td>Savtilod</td>
             <td>94.983</td>
+            <td>16.342</td>
             <td>2:04</td>
         </tr>
         <tr class="ctotal">
             <td colspan="2">Average:</td>
-            <td colspan="2">120.096        </tr>
+            <td colspan="3">120.096        </tr>
         </tbody>
     </table>
+
     <div class="clearlfoat"></div>
 </div>
 
@@ -889,13 +1006,13 @@
     <hr>
 </div>
 <div class="content">
-
     <table class="table table-striped pt_table_blank table-dark table-hover">
         <thead>
         <tr class="Cleric">
             <th scope="col">Date</th>
             <th scope="col">Cleric</th>
             <th scope="col">ST DPS</th>
+            <th scope="col">HPAPS</th>
             <th scope="col">Time</th>
         </tr>
         </thead>
@@ -904,65 +1021,75 @@
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=203291&p=141513&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-08-01</a></td>
             <td>Fyel</td>
             <td>224.930</td>
+            <td>114.129</td>
             <td>4:46</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=205677&p=147229&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-01-20</a></td>
             <td>Sixia</td>
             <td>211.456</td>
+            <td>105.138</td>
             <td>4:32</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=203252&p=15864&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-07-27</a></td>
             <td>Torn</td>
             <td>209.238</td>
+            <td>127.676</td>
             <td>4:49</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=206112&p=128022&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-02-27</a></td>
             <td>Jood</td>
             <td>195.733</td>
+            <td>140.709</td>
             <td>3:25</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=205410&p=117215&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-12-28</a></td>
             <td>Mechese</td>
             <td>195.672</td>
+            <td>143.887</td>
             <td>4:10</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=205291&p=147444&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-12-09</a></td>
             <td>Tornette</td>
             <td>188.613</td>
+            <td>183.176</td>
             <td>4:47</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=203243&p=147527&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-07-27</a></td>
             <td>Deswin</td>
             <td>187.057</td>
+            <td>98.271</td>
             <td>4:46</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=207684&p=148984&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-06-06</a></td>
             <td>Blur</td>
             <td>178.523</td>
+            <td>98.680</td>
             <td>3:20</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=207439&p=148638&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-05-23</a></td>
             <td>Isobrand</td>
             <td>175.434</td>
+            <td>135.636</td>
             <td>3:34</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=204624&p=74132&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-10-08</a></td>
             <td>Xly</td>
             <td>174.548</td>
+            <td>131.921</td>
             <td>4:13</td>
         </tr>
         <tr class="ctotal">
             <td colspan="2">Average:</td>
-            <td colspan="2">194.120        </tr>
+            <td colspan="3">194.120        </tr>
         </tbody>
     </table>
 
@@ -972,6 +1099,7 @@
             <th scope="col">Date</th>
             <th scope="col">Rogue</th>
             <th scope="col">ST DPS</th>
+            <th scope="col">HPAPS</th>
             <th scope="col">Time</th>
         </tr>
         </thead>
@@ -980,65 +1108,75 @@
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=206941&p=146713&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-04-19</a></td>
             <td>Venaya</td>
             <td>186.641</td>
+            <td>91.440</td>
             <td>4:23</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=204946&p=145313&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-11-04</a></td>
             <td>Visitor</td>
             <td>158.225</td>
+            <td>210.213</td>
             <td>3:49</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=207331&p=148639&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-05-16</a></td>
             <td>Kothiues</td>
             <td>135.752</td>
+            <td>57.009</td>
             <td>4:43</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=203131&p=66163&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-07-22</a></td>
             <td>Fastapoke</td>
             <td>134.440</td>
+            <td>88.835</td>
             <td>5:51</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=206135&p=144852&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-03-05</a></td>
             <td>Nixia</td>
             <td>125.311</td>
+            <td>231.012</td>
             <td>3:59</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=203888&p=147184&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-08-29</a></td>
             <td>Liebegutefee</td>
             <td>121.304</td>
+            <td>258.117</td>
             <td>4:39</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=205016&p=63193&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-10-30</a></td>
             <td>Zondron</td>
             <td>121.069</td>
+            <td>33.630</td>
             <td>5:20</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=207676&p=148810&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-06-05</a></td>
             <td>Kyela</td>
             <td>98.697</td>
+            <td>142.858</td>
             <td>4:33</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=204244&p=147230&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-09-12</a></td>
             <td>Kaskia</td>
             <td>95.206</td>
+            <td>59.285</td>
             <td>4:34</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=204192&p=145989&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-09-10</a></td>
             <td>Gaarrena</td>
             <td>91.351</td>
+            <td>175.526</td>
             <td>5:05</td>
         </tr>
         <tr class="ctotal">
             <td colspan="2">Average:</td>
-            <td colspan="2">126.800        </tr>
+            <td colspan="3">126.800        </tr>
         </tbody>
     </table>
 
@@ -1048,6 +1186,7 @@
             <th scope="col">Date</th>
             <th scope="col">Primalist</th>
             <th scope="col">ST DPS</th>
+            <th scope="col">HPAPS</th>
             <th scope="col">Time</th>
         </tr>
         </thead>
@@ -1056,65 +1195,75 @@
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=206119&p=147195&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-03-01</a></td>
             <td>Hokhmah</td>
             <td>125.753</td>
+            <td>66.769</td>
             <td>4:11</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=203835&p=147752&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-08-26</a></td>
             <td>Arloanay</td>
             <td>113.812</td>
+            <td>74.892</td>
             <td>5:40</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=207681&p=144684&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-06-06</a></td>
             <td>Xlymal</td>
             <td>103.519</td>
+            <td>87.680</td>
             <td>3:18</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=204413&p=143314&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-09-24</a></td>
             <td>Rhicuu</td>
             <td>99.060</td>
+            <td>46.250</td>
             <td>4:17</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=204214&p=135571&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-09-12</a></td>
             <td>Tharla</td>
             <td>96.555</td>
+            <td>51.451</td>
             <td>4:45</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=206340&p=148569&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-03-17</a></td>
             <td>Garyxx</td>
             <td>96.140</td>
+            <td>56.355</td>
             <td>4:37</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=206808&p=148614&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-04-11</a></td>
             <td>Phutbucker</td>
             <td>95.307</td>
+            <td>74.877</td>
             <td>4:34</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=204971&p=137942&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-11-09</a></td>
             <td>Primaelfear</td>
             <td>93.541</td>
+            <td>65.630</td>
             <td>4:18</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=206478&p=148013&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-03-26</a></td>
             <td>Illvana</td>
             <td>93.436</td>
+            <td>73.143</td>
             <td>3:23</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=206417&p=148467&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-03-23</a></td>
             <td>Lucyith</td>
             <td>89.585</td>
+            <td>75.020</td>
             <td>3:49</td>
         </tr>
         <tr class="ctotal">
             <td colspan="2">Average:</td>
-            <td colspan="2">100.671        </tr>
+            <td colspan="3">100.671        </tr>
         </tbody>
     </table>
 
@@ -1124,6 +1273,7 @@
             <th scope="col">Date</th>
             <th scope="col">Mage</th>
             <th scope="col">ST DPS</th>
+            <th scope="col">HPAPS</th>
             <th scope="col">Time</th>
         </tr>
         </thead>
@@ -1132,65 +1282,75 @@
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=207858&p=114&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-06-16</a></td>
             <td>Archymage</td>
             <td>157.402</td>
+            <td>8.229</td>
             <td>3:56</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=208091&p=148229&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-07-10</a></td>
             <td>Amelly</td>
             <td>139.337</td>
+            <td>11.206</td>
             <td>4:17</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=205639&p=8477&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-01-16</a></td>
             <td>Xlython</td>
             <td>111.369</td>
+            <td>8.813</td>
             <td>4:24</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=204675&p=112031&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-10-10</a></td>
             <td>Cobain</td>
             <td>98.797</td>
+            <td>15.945</td>
             <td>4:49</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=207971&p=148197&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-06-29</a></td>
             <td>Xlythen</td>
             <td>93.364</td>
+            <td>10.870</td>
             <td>4:07</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=204632&p=112034&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-10-08</a></td>
             <td>Savtilod</td>
             <td>87.521</td>
+            <td>16.342</td>
             <td>5:15</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=207525&p=147920&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-05-29</a></td>
             <td>Lichtenstein</td>
             <td>81.003</td>
+            <td>34.224</td>
             <td>3:51</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=206588&p=84674&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-04-01</a></td>
             <td>Tarfa</td>
             <td>79.033</td>
+            <td>60.229</td>
             <td>2:56</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=205513&p=148338&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-01-07</a></td>
             <td>Lucith</td>
             <td>74.541</td>
+            <td>18.702</td>
             <td>5:28</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=207563&p=148958&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-06-01</a></td>
             <td>Donkeypants</td>
             <td>67.994</td>
+            <td>27.094</td>
             <td>4:17</td>
         </tr>
         <tr class="ctotal">
             <td colspan="2">Average:</td>
-            <td colspan="2">99.036        </tr>
+            <td colspan="3">99.036        </tr>
         </tbody>
     </table>
 
@@ -1200,6 +1360,7 @@
             <th scope="col">Date</th>
             <th scope="col">Warrior</th>
             <th scope="col">ST DPS</th>
+            <th scope="col">HPAPS</th>
             <th scope="col">Time</th>
         </tr>
         </thead>
@@ -1208,67 +1369,78 @@
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=208130&p=66164&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-07-18</a></td>
             <td>Tatar</td>
             <td>140.397</td>
+            <td>173.915</td>
             <td>4:30</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=206930&p=148254&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-04-17</a></td>
             <td>Isoroth</td>
             <td>125.265</td>
+            <td>7.766</td>
             <td>4:02</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=208038&p=149094&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-07-07</a></td>
             <td>Aador</td>
             <td>105.658</td>
+            <td>109.155</td>
             <td>5:18</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=203875&p=147761&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-08-28</a></td>
             <td>Kottor</td>
             <td>97.118</td>
+            <td>6.195</td>
             <td>5:30</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=204222&p=147506&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-09-12</a></td>
             <td>Harryblue</td>
             <td>86.782</td>
+            <td>5.296</td>
             <td>4:35</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=203953&p=147508&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-09-02</a></td>
             <td>Darkmystere</td>
             <td>81.079</td>
+            <td>18.549</td>
             <td>5:32</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=203926&p=147772&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-08-30</a></td>
             <td>Totalerror</td>
             <td>77.184</td>
+            <td>17.746</td>
             <td>5:19</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=205171&p=70127&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-11-25</a></td>
             <td>Xlythen</td>
             <td>76.902</td>
+            <td>41.415</td>
             <td>4:59</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=207247&p=10121&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-05-10</a></td>
             <td>Hellmark</td>
             <td>54.808</td>
+            <td>6.440</td>
             <td>5:03</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=205149&p=148194&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-11-22</a></td>
             <td>Holyroller</td>
             <td>49.074</td>
+            <td>9.895</td>
             <td>5:19</td>
         </tr>
         <tr class="ctotal">
             <td colspan="2">Average:</td>
-            <td colspan="2">89.427        </tr>
+            <td colspan="3">89.427        </tr>
         </tbody>
     </table>
+
     <div class="clearlfoat"></div>
 </div>
 
@@ -1279,13 +1451,13 @@
     <hr>
 </div>
 <div class="content">
-
     <table class="table table-striped pt_table_blank table-dark table-hover">
         <thead>
         <tr class="Cleric">
             <th scope="col">Date</th>
             <th scope="col">Cleric</th>
             <th scope="col">ST DPS</th>
+            <th scope="col">HPAPS</th>
             <th scope="col">Time</th>
         </tr>
         </thead>
@@ -1294,65 +1466,75 @@
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=206035&p=141513&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-02-20</a></td>
             <td>Fyel</td>
             <td>396.583</td>
+            <td>25.548</td>
             <td>2:11</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=204371&p=119151&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-09-20</a></td>
-            <td>Fallingfromgrace</td>
+            <td>Fallingfromgra</td>
             <td>331.331</td>
+            <td>16.954</td>
             <td>3:19</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=204988&p=147229&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-11-09</a></td>
             <td>Sixia</td>
             <td>298.270</td>
+            <td>23.334</td>
             <td>2:53</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=206742&p=147514&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-04-09</a></td>
             <td>Meamir</td>
             <td>289.557</td>
+            <td>18.692</td>
             <td>3:02</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=204713&p=147444&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-10-14</a></td>
             <td>Tornette</td>
             <td>285.259</td>
+            <td>18.455</td>
             <td>2:53</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=205353&p=128022&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-12-21</a></td>
             <td>Jood</td>
             <td>284.764</td>
+            <td>22.251</td>
             <td>2:36</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=205411&p=117215&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-12-28</a></td>
             <td>Mechese</td>
             <td>282.470</td>
+            <td>27.613</td>
             <td>2:44</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=205068&p=113009&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-11-15</a></td>
             <td>Stirron</td>
             <td>277.257</td>
+            <td>12.352</td>
             <td>2:40</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=204879&p=15864&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-10-26</a></td>
             <td>Torn</td>
             <td>277.231</td>
+            <td>21.447</td>
             <td>2:59</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=207507&p=147738&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-05-28</a></td>
             <td>Sepelio</td>
             <td>275.729</td>
+            <td>18.055</td>
             <td>2:58</td>
         </tr>
         <tr class="ctotal">
             <td colspan="2">Average:</td>
-            <td colspan="2">299.845        </tr>
+            <td colspan="3">299.845        </tr>
         </tbody>
     </table>
 
@@ -1362,6 +1544,7 @@
             <th scope="col">Date</th>
             <th scope="col">Warrior</th>
             <th scope="col">ST DPS</th>
+            <th scope="col">HPAPS</th>
             <th scope="col">Time</th>
         </tr>
         </thead>
@@ -1370,24 +1553,35 @@
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=208040&p=148747&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-07-07</a></td>
             <td>Dreamzx</td>
             <td>271.229</td>
+            <td>24.963</td>
             <td>3:39</td>
+        </tr>
+        <tr>
+            <td><a href="https://prancingturtle.com/Encounter/Interaction?id=208257&p=148505&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-08-07</a></td>
+            <td>Fatbatman</td>
+            <td>220.964</td>
+            <td>68.347</td>
+            <td>2:33</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=207623&p=148200&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-06-02</a></td>
             <td>Ezrabby</td>
             <td>205.686</td>
+            <td>59.537</td>
             <td>1:52</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=208132&p=66164&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-07-18</a></td>
             <td>Tatar</td>
             <td>149.517</td>
+            <td>43.504</td>
             <td>3:12</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=205151&p=148194&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-11-22</a></td>
             <td>Holyroller</td>
             <td>137.442</td>
+            <td>3.989</td>
             <td>3:04</td>
         </tr>
         <tr>
@@ -1395,21 +1589,11 @@
             <td></td>
             <td></td>
             <td></td>
-        </tr>
-        <tr>
-            <td>-</td>
-            <td></td>
-            <td></td>
             <td></td>
         </tr>
         <tr>
             <td>-</td>
             <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>-</td>
             <td></td>
             <td></td>
             <td></td>
@@ -1419,16 +1603,25 @@
             <td></td>
             <td></td>
             <td></td>
+            <td></td>
         </tr>
         <tr>
             <td>-</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>-</td>
+            <td></td>
             <td></td>
             <td></td>
             <td></td>
         </tr>
         <tr class="ctotal">
             <td colspan="2">Average:</td>
-            <td colspan="2">190.968        </tr>
+            <td colspan="3">196.968        </tr>
         </tbody>
     </table>
 
@@ -1438,6 +1631,7 @@
             <th scope="col">Date</th>
             <th scope="col">Rogue</th>
             <th scope="col">ST DPS</th>
+            <th scope="col">HPAPS</th>
             <th scope="col">Time</th>
         </tr>
         </thead>
@@ -1446,65 +1640,75 @@
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=203858&p=146713&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-08-26</a></td>
             <td>Venaya</td>
             <td>291.483</td>
+            <td>28.719</td>
             <td>3:14</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=204238&p=147184&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-09-12</a></td>
             <td>Liebegutefee</td>
             <td>203.644</td>
+            <td>36.674</td>
             <td>2:42</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=207441&p=148639&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-05-23</a></td>
             <td>Kothiues</td>
             <td>194.659</td>
+            <td>3.765</td>
             <td>2:27</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=206175&p=145313&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-03-06</a></td>
             <td>Visitor</td>
             <td>179.218</td>
+            <td>41.369</td>
             <td>2:26</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=203132&p=66163&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-07-22</a></td>
             <td>Fastapoke</td>
             <td>178.027</td>
+            <td>27.465</td>
             <td>3:38</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=207544&p=148953&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-05-31</a></td>
             <td>Sly</td>
             <td>125.092</td>
+            <td>21.534</td>
             <td>3:25</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=203531&p=145989&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-08-13</a></td>
             <td>Gaarrena</td>
             <td>120.024</td>
+            <td>54.865</td>
             <td>3:30</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=203876&p=147763&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-08-28</a></td>
             <td>Isodani</td>
             <td>118.724</td>
+            <td>11.556</td>
             <td>3:28</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=205663&p=148226&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-01-19</a></td>
             <td>Alleja</td>
             <td>116.550</td>
+            <td>25.315</td>
             <td>3:36</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=204073&p=44673&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-09-06</a></td>
             <td>Dolf</td>
             <td>108.241</td>
+            <td>11.605</td>
             <td>3:06</td>
         </tr>
         <tr class="ctotal">
             <td colspan="2">Average:</td>
-            <td colspan="2">163.566        </tr>
+            <td colspan="3">163.566        </tr>
         </tbody>
     </table>
 
@@ -1514,6 +1718,7 @@
             <th scope="col">Date</th>
             <th scope="col">Primalist</th>
             <th scope="col">ST DPS</th>
+            <th scope="col">HPAPS</th>
             <th scope="col">Time</th>
         </tr>
         </thead>
@@ -1522,65 +1727,75 @@
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=206109&p=147195&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-02-24</a></td>
             <td>Hokhmah</td>
             <td>156.444</td>
+            <td>25.573</td>
             <td>3:27</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=205852&p=144684&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-02-10</a></td>
             <td>Xlymal</td>
             <td>132.990</td>
+            <td>37.532</td>
             <td>2:45</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=203767&p=143314&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-08-20</a></td>
             <td>Rhicuu</td>
             <td>131.784</td>
+            <td>23.799</td>
             <td>3:04</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=203896&p=140719&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-08-30</a></td>
             <td>Archyprime</td>
             <td>118.354</td>
+            <td>19.170</td>
             <td>3:18</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=203627&p=147617&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-08-16</a></td>
             <td>Ansacia</td>
             <td>110.787</td>
+            <td>21.996</td>
             <td>3:56</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=204732&p=143252&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-08-30</a></td>
             <td>Millonario</td>
             <td>108.589</td>
+            <td>16.915</td>
             <td>3:15</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=206792&p=148013&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-04-10</a></td>
             <td>Illvana</td>
             <td>107.838</td>
+            <td>17.573</td>
             <td>2:38</td>
+        </tr>
+        <tr>
+            <td><a href="https://prancingturtle.com/Encounter/Interaction?id=208213&p=149090&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-08-03</a></td>
+            <td>Erzascarlet</td>
+            <td>107.603</td>
+            <td>25.001</td>
+            <td>2:31</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=204727&p=148058&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-10-14</a></td>
             <td>Krashmonsters</td>
             <td>100.863</td>
+            <td>23.739</td>
             <td>3:39</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=206184&p=140039&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-03-08</a></td>
             <td>Yarrelloo</td>
             <td>92.951</td>
+            <td>26.178</td>
             <td>3:01</td>
-        </tr>
-        <tr>
-            <td><a href="https://prancingturtle.com/Encounter/Interaction?id=208190&p=149090&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-07-27</a></td>
-            <td>Erzascarlet</td>
-            <td>92.357</td>
-            <td>2:39</td>
         </tr>
         <tr class="ctotal">
             <td colspan="2">Average:</td>
-            <td colspan="2">115.296        </tr>
+            <td colspan="3">116.820        </tr>
         </tbody>
     </table>
 
@@ -1590,6 +1805,7 @@
             <th scope="col">Date</th>
             <th scope="col">Mage</th>
             <th scope="col">ST DPS</th>
+            <th scope="col">HPAPS</th>
             <th scope="col">Time</th>
         </tr>
         </thead>
@@ -1598,68 +1814,179 @@
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=206632&p=8477&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-04-03</a></td>
             <td>Xlython</td>
             <td>145.157</td>
+            <td>11.737</td>
             <td>2:24</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=203940&p=114&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-09-02</a></td>
             <td>Archymage</td>
             <td>121.346</td>
+            <td>22.948</td>
             <td>3:06</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=206995&p=148197&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-04-27</a></td>
             <td>Xlythen</td>
             <td>118.412</td>
+            <td>7.769</td>
             <td>3:31</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=206136&p=147387&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-03-05</a></td>
             <td>Motacilla</td>
             <td>105.475</td>
+            <td>14.844</td>
             <td>3:03</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=206960&p=148395&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-04-20</a></td>
             <td>Tarfa</td>
             <td>105.079</td>
+            <td>21.834</td>
             <td>2:45</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=208185&p=148676&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-07-27</a></td>
             <td>Kennaa</td>
             <td>86.316</td>
+            <td>20.069</td>
             <td>2:51</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=207564&p=148958&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-06-01</a></td>
             <td>Donkeypants</td>
             <td>85.755</td>
+            <td>20.234</td>
             <td>2:46</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=202987&p=14180&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-07-18</a></td>
             <td>Dbozmen</td>
             <td>84.617</td>
+            <td>13.014</td>
             <td>3:37</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=203400&p=145815&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-08-05</a></td>
             <td>Frozengeek</td>
             <td>82.537</td>
+            <td>20.830</td>
             <td>3:29</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=207237&p=105200&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-05-10</a></td>
             <td>Jazenna</td>
             <td>81.429</td>
+            <td>14.536</td>
             <td>2:59</td>
         </tr>
         <tr class="ctotal">
             <td colspan="2">Average:</td>
-            <td colspan="2">101.612        </tr>
+            <td colspan="3">101.612        </tr>
         </tbody>
     </table>
+
+    <div class="clearlfoat"></div>
 </div>
-<div class="clearfloat"></div>
+<!-- Footer -->
+<footer class="page-footer font-small blue pt-4">
+
+    <!-- Footer Links -->
+    <div class="container-fluid text-center text-md-left">
+
+        <!-- Grid row -->
+        <div class="row">
+
+            <!-- Grid column -->
+            <div class="col-md-6 mt-md-0 mt-3">
+
+                <!-- Content -->
+                <h5 class="text-uppercase">About this project.</h5>
+                <p>The site was created to get a quick overview of the current meta and to collect ideas for new
+                    raidsetups. Also because stats are fun and we like turtles. The algorithm calculates the time and
+                    the single target damage from the first hit on a NPC until he is dead or doesn't take any more
+                    damage, so you get more realistic st dps values and more precise kill times. If you have suggestions
+                    for improvements you can post them in the <a
+                            href="http://forums.riftgame.com/general-discussions/general-discussion/505825-comparison-st-damage-hps-thps-aps-all-classes-after-4-5-patch-7-11-2018-a.html"
+                            target="new">Forum</a>.
+                    Keep feeding the <a href="https://www.prancingturtle.com/" target="new">turtle</a>!</p>
+
+            </div>
+            <!-- Grid column -->
+
+            <hr class="clearfix w-100 d-md-none pb-3">
+
+            <!-- Grid column -->
+            <div class="col-md-3 mb-md-0 mb-3">
+
+                <!-- Links -->
+                <h5 class="text-uppercase">Useful Rift Websites</h5>
+
+                <ul class="list-unstyled">
+                    <li>
+                        <a href="https://www.cadrift.net/" target="new">Cadrift Puzzles and Achievemnts Guides</a>
+                    </li>
+                    <li>
+                        <a href="https://rift.events/na/en_US.html" target="new">YARET (Yet Another Rift Event
+                            Tacker)</a>
+                    </li>
+                    <li>
+                        <a href="https://rift.magelo.com/en/soultree" target="new">Magelo Rift Soul Tree Calculator</a>
+                    </li>
+                    <li>
+                        <a href="http://forums.riftgame.com/game-discussions/rift-guides-strategies/class-guides/"
+                           target="new">Rift
+                            Class Guides Forums</a>
+                    </li>
+                </ul>
+
+            </div>
+            <!-- Grid column -->
+
+            <!-- Grid column -->
+            <div class="col-md-3 mb-md-0 mb-3">
+
+                <!-- Links -->
+                <h5 class="text-uppercase">Useful Raid Add-Ons</h5>
+
+                <ul class="list-unstyled">
+                    <li>
+                        <a href="https://github.com/kinnou02/king-molinator" target="new">King Boss Mods</a>
+                    </li>
+                    <li>
+                        <a href="http://forums.riftgame.com/technical-discussions/addons-macros-ui/315634-addon-gadgets-67.html#post5353056"
+                           target="new">Gadgets</a>
+                    </li>
+                    <li>
+                        <a href="http://forums.riftgame.com/technical-discussions/addons-macros-ui/500525-addon-updated-riftmeter-4-3-a.html#post5331308"
+                           target="new">Rift
+                            Meter</a>
+                    </li>
+                    <li>
+                        <a href="http://forums.riftgame.com/technical-discussions/addons-macros-ui/506815-addon-debuffwatcher.html"
+                           target="new">Debuff
+                            Watcher</a>
+                    </li>
+                </ul>
+
+            </div>
+            <!-- Grid column -->
+
+        </div>
+        <!-- Grid row -->
+
+    </div>
+    <!-- Footer Links -->
+
+    <!-- Copyright -->
+    <div class="footer-copyright text-center py-3">© created by Bamu@Brutwacht and Sepelio@Wolfsbane using the data from
+        Prancingturtle | RIFT and their respective
+        logos are trademarks or registered trademarks of gamigo US/Trion Worlds. This site
+        is not affiliated with gamigo/Trion Worlds or any of its affiliates.
+    </div>
+    <!-- Copyright -->
+
+</footer>
+<!-- Footer --><!-- Footer -->
 </body>
 </html>
