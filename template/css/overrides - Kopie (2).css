@@ -6,18 +6,15 @@ body{
 
 }
 
+
 /*Nav overrides */
 
 .dropdown-menu.show {
 	background-color:black;
+	color:white;
 }
 
-.dropdown-item.active, .dropdown-item a{
-	color:#fff !important;
-	background-color:#000;
-}
-.dropdown-menu.show a:hover{color:#fff}
-.dropdown-menu.show a{color:#7f7f7f;}
+.dropdown-menu.show a{color:white;}
 
 .dropdown-item:focus, .dropdown-item:hover{background-color:#555758;}
 
@@ -109,7 +106,8 @@ h2{
 .content_scroll{
     display: flex;
     overflow-x: hidden;
-    flex-wrap: wrap;
+	display:flex;
+  	flex-wrap: wrap;
 }
 
 .video_win{
@@ -146,21 +144,30 @@ h2{
 
 .pt_table_blank{
 	width:360px;
-	margin:3px 3px 3px 5px;
+	margin:5px 5px 5px 5px;
 	
 	font-size:.80rem;
 }
 
-.pt_table_blank th:nth-child(1){
+.pt_table_blank td:nth-child(1){
+ 	width:40px;
+}
+
+.pt_table_blank td:nth-child(2){
+ 	width:185px;
+}
+
+.pt_table_blank td:nth-child(3){
  	width:90px;
 }
 
-.pt_table_blank th:nth-child(2){
- 	width:100%;
+.pt_table_blank td:nth-child(4){
+ 	width:70px;
 }
 
-
-
+.pt_table_blank th:nth-child(4){
+	padding-right:10px;
+}
 
 /* end dps template */
 
@@ -168,13 +175,13 @@ h2{
 
 .pt_table_fastest_kill{
 	width:360px;
-	margin:3px 3px 3px 5px;
+	margin:5px 5px 5px 5px;
 	font-size:.80rem;
 }
 
 .pt_table_blank_leader{
 	width:360px;
-	margin:3px 3px 3px 5px;
+	margin:5px 5px 5px 5px;
 	font-size:.80rem;
 }
 
@@ -183,21 +190,7 @@ h2{
 }
 
 .pt_table_blank_leader th:nth-child(2){
- 	width:110px;
-}
-
-.pt_table_blank_leader_killcomps{
-	width:360px;
-	margin:3px 3px 3px 4px;
-	font-size:.80rem;
-}
-
-.pt_table_blank_leader_killcomps th:nth-child(2){
- 	width:90px;
-}
-
-.pt_table_blank_leader_killcomps th:nth-child(1){
- 	width:110px;
+ 	width:130px;
 }
 
 /* end leaders template */
@@ -206,7 +199,7 @@ h2{
 
 .pt_table_blank_leader_dps{
 	width:360px;
-	margin:3px 3px 3px 4px;
+	margin:5px 5px 5px 5px;
 	font-size:.80rem;
 }
 
@@ -217,16 +210,15 @@ h2{
 }
 
 .pt_table_blank_leader_dps th:nth-child(2){
- 	width:120px;
+ 	width:140px;
 	padding:3px;
 }
-
 
 /* end leader dps template */
 
 .pt_table_blank_hps{
 	width:550px;
-	margin:3px 3px 3px 5px;
+	margin:5px 5px 5px 5px;
 	display:block;
 	font-size:.80rem;
         overflow-x: auto;
@@ -235,12 +227,12 @@ h2{
 }
 
 .pt_table_blank_hps th:nth-child(2){
- 	width:100%;
+ 	width:132px;
 }
 
 .pt_table_blank_large{
 	width:100%;
-	margin:3px 3px 3px 5px;
+	margin:5px 5px 5px 5px;
 	font-size:.70rem;
 	overflow-x: auto;
 
@@ -248,7 +240,7 @@ h2{
 
 .pt_table_blank_mostplayed{
 	width:100%;
-	margin:3px 3px 3px 5px;
+	margin:5px 5px 5px 5px;
 	font-size:.80rem;
 	overflow-x: auto;
 	display:block;
@@ -258,39 +250,13 @@ h2{
  	width:90px;
 }
 
-.pt_table_blank_lookup{
-	width:100%;
-	margin:3px 3px 3px 5px;
-	font-size:.80rem;
-	overflow-x: auto;
-	display:block;
-}
-
 .pt_table_blank_latestuploads{
-	width:710px;
-	margin:3px 3px 3px 5px;
+	width:100%;
+	margin:5px 5px 5px 5px;
 	font-size:.80rem;
 	overflow-x: auto;
 	display:block;
 }
-
-.pt_table_blank_latestuploads th:nth-child(1){
- 	width:120px;
-}
-
-.pt_table_blank_latestuploads th:nth-child(2){
- 	width:130px;
-}
-.pt_table_blank_latestuploads th:nth-child(3){
- 	width:150px;
-}
-.pt_table_blank_latestuploads th:nth-child(4){
- 	width:100px;
-}
-.pt_table_blank_latestuploads th:nth-child(5){
- 	width:120px;
-}
-
 
 /* mostplayed and latestuploads sticky tabletop*/
 .pt_table_blank_latestuploads thead th{
@@ -311,15 +277,8 @@ h2{
 
 }
 
-.footer-copyright{
-	font-size:.80rem;
-}
-
-footer{
-    background-color:#000;
-}
-
 #output{
-    flex:.95;
+    min-height: 55vh;
+    flex:.9;
     overflow-x:auto;
 }

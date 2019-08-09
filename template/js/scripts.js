@@ -12,11 +12,6 @@ $(document).ready(function() {
 		$( "span:contains('Warrior')" ).parent().css("background-color", "#CC0000");
 		$( "span:contains('Mage')" ).parent().css("background-color", "purple");
 		$( "span:contains('Cleric')" ).parent().css("background-color", "green");
-
-		$( "tr:contains('Azranel')" ).css("background-color", "#031729");
-		$( "tr:contains('Vindicator MK1')" ).css("background-color", "#031b31");
-		$( "tr:contains('Commander Isiel')" ).css("background-color", "#04223d");
-		$( "tr:contains('Titan X')" ).css("background-color", "#052847");
 	}
 	
 });
