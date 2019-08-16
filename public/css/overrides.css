@@ -166,11 +166,21 @@ h2{
 
 /* leaders template */
 
-.pt_table_fastest_kill{
+
+.pt_table_blank_leader_fastest{
 	width:360px;
 	margin:3px 3px 3px 5px;
 	font-size:.80rem;
 }
+
+.pt_table_blank_leader_fastest th:nth-child(1){
+ 	width:195px;
+}
+
+.pt_table_blank_leader_fastest th:nth-child(3){
+ 	width:70px;
+}
+
 
 .pt_table_blank_leader{
 	width:360px;
@@ -183,22 +193,9 @@ h2{
 }
 
 .pt_table_blank_leader th:nth-child(2){
- 	width:110px;
+ 	width:105px;
 }
 
-.pt_table_blank_leader_killcomps{
-	width:360px;
-	margin:3px 3px 3px 4px;
-	font-size:.80rem;
-}
-
-.pt_table_blank_leader_killcomps th:nth-child(2){
- 	width:90px;
-}
-
-.pt_table_blank_leader_killcomps th:nth-child(1){
- 	width:110px;
-}
 
 /* end leaders template */
 
@@ -313,10 +310,11 @@ h2{
 
 .footer-copyright{
 	font-size:.80rem;
+	background-color:#000;
 }
 
 footer{
-    background-color:#000;
+    background-color:#020e22;
 }
 
 #output{
