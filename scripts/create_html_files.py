@@ -27,7 +27,7 @@ def get_roleid(mycursor):
     return myresult
 
 
-def mysql_leaders_html_comps(mycursor, bossid, number_of_players):
+def mysql_leaders_html_comps(mycursor, bossid, number_of_players, guild):
     time = "totaltime"
     if bossid == "2":
         time = "time"
@@ -38,7 +38,7 @@ def mysql_leaders_html_comps(mycursor, bossid, number_of_players):
           "INNER JOIN Classes on Player.classid = Classes.id " \
           "INNER JOIN Roles on Encounter.roleid = Roles.id " \
           "INNER JOIN Guild on Guild.id = a.guildid " \
-          "where bossid = " + bossid + " " \
+          "where bossid = " + bossid + " and guildname <> '" + guild + "' "\
           "ORDER BY " + time + ", date, Encounter.dps desc limit " + number_of_players + ""
     mycursor.execute(sql)
     myresult = mycursor.fetchall()
@@ -286,6 +286,9 @@ def exchange(mycursor, template, file, mysql_data, nav_link, number_of_players, 
             footer = footer_html()
             for item in footer:
                 file.write(item)
+        if "#fastest_time" in line:
+            time = str(mysql_data[i][2]).split("0:0")[1]
+            line = line.replace("#fastest_time", time)
         if normal_content_zone:
             if "<h2>" in line:
                 boss_counter += 1
@@ -299,6 +302,11 @@ def exchange(mycursor, template, file, mysql_data, nav_link, number_of_players, 
                         line = line.replace("#boss", mysql_data[i][12] + " - Top 100 DPS")
                 elif "#class" in line:
                     line = line.replace("#class", mysql_data[i][6] + " - " + nav_link)
+                elif "#dps/hps" in line:
+                    if "DPS" in nav_link:
+                        line = line.replace("#dps/hps", "DPS")
+                    else:
+                        line = line.replace("#dps/hps", "HPS")
             elif "#typehead" in line:
                 if "DPS" in nav_link:
                     line = line.replace("#typehead", "ST DPS")
@@ -316,7 +324,7 @@ def exchange(mycursor, template, file, mysql_data, nav_link, number_of_players, 
             elif "#content" in line:
                 line = line.replace("#content", content(mycursor))
             elif "#guild" in line:
-                guild = mysql_data[i][10]
+                guild = mysql_data[i-1][10]
                 line = line.replace("#guild", guild)
             elif "#class" in line:
                 try:
@@ -423,9 +431,6 @@ def exchange(mycursor, template, file, mysql_data, nav_link, number_of_players, 
                     url = create_url_dps(str(mysql_data[i][8]), str(mysql_data[i][9]), role)
                     # line = line.replace("#date", url)
                     line = line.replace("#role", url)
-                elif "#fastest_time" in line:
-                    time = str(mysql_data[i-1][2]).split("0:0")[1]
-                    line = line.replace("#fastest_time", time)
                 elif "#avg" in line:
                     if mysql_data[i] != 0:
                         if (nav_link == "Damage DPS" or "Top 100" in nav_link) and "#percent" in line:
@@ -476,6 +481,7 @@ def content(mycursor):
 
 def leaders_html(mycursor, bossid, html_file, nav_link):
     mysql_data = []
+    guild = []
     roles = ["support", "tank", "heal"]
     template = codecs.open("../template/" + html_file, 'r', "utf-8")
     file = codecs.open("../public/" + html_file, 'w', "utf-8")
@@ -484,8 +490,14 @@ def leaders_html(mycursor, bossid, html_file, nav_link):
         data = mysql_leaders_html_fastest_kills(mycursor, str(boss_id[0]), str(number_of_players))
         mysql_data += data + [average(data, number_of_players, "DPS")]
     for boss_id in bossid:
-        data = mysql_leaders_html_comps(mycursor, str(boss_id[0]), str(number_of_players))
+        data = mysql_leaders_html_comps(mycursor, str(boss_id[0]), str(number_of_players), "")
         mysql_data += data + [average(data, number_of_players, "DPS")]
+        guild += [(data[1][10])]
+    i = 0
+    for boss_id in bossid:
+        data = mysql_leaders_html_comps(mycursor, str(boss_id[0]), str(number_of_players), guild[i])
+        mysql_data += data + [average(data, number_of_players, "DPS")]
+        i += 1
     number_of_players = 15
     for boss_id in bossid:
         data = mysql_top_dps_hps(mycursor, str(boss_id[0]), "", str(number_of_players), "", "DPS")
@@ -539,7 +551,7 @@ def hps_html(mycursor, bossid, classid, role, sort_order, html_file, nav_link):
     for boss_id in bossid:
         if boss_id[0] != 2:
             data = mysql_top_dps_hps(mycursor, str(boss_id[0]), "", str(number_of_players), role, sort_order)
-            mysql_data += data + [average(data, number_of_players, role)]
+            mysql_data += data + [average(data, number_of_players, "HPSAPS")]
     number_of_players = 10
     for class_id in classid:
         for boss_id in bossid:
@@ -550,7 +562,7 @@ def hps_html(mycursor, bossid, classid, role, sort_order, html_file, nav_link):
                     players = len(data)
                     for i in range(number_of_players - players):
                         data += [(0, class_id[1])]
-                mysql_data += data + [average(data, number_of_players, role)]
+                mysql_data += data + [average(data, number_of_players, "HPSAPS")]
     exchange(mycursor, template, file, mysql_data, nav_link, number_of_players, html_file)
     file.close()
     template.close()
@@ -624,6 +636,20 @@ def avg_raid_dps(dps_sum):
     return html
 
 
+def empty_row():
+    html = []
+    html += ['            <tr>']
+    html += ['                <td scope="row">-</td>']
+    html += ['                <td scope="row"></td>']
+    html += ['                <td scope="row"></td>']
+    html += ['                <td scope="row"></td>']
+    html += ['                <td scope="row"></td>']
+    html += ['                <td scope="row"></td>']
+    html += ['                <td scope="row"></td>']
+    html += ['                <td scope="row"></td>']
+    return html
+
+
 def last_uploads_html(mycursor, html_file, nav_link):
     html = []
     tablehead_html = ""
@@ -660,11 +686,15 @@ def last_uploads_html(mycursor, html_file, nav_link):
                 table = True
                 tablehead = False
                 dps_sum = 0
+                y = 0
                 for item in mysql_data:
                     encounter = item[1]
                     encounterid = item[12]
                     if (encounter_previous and encounter != encounter_previous) \
                             or (encounterid_previous and encounterid != encounterid_previous):
+                        while y < 10:
+                            html += empty_row()
+                            y += 1
                         dps_sum = format_number(dps_sum)
                         html += avg_raid_dps(dps_sum)
                         html += ['            </tbody>\n']
@@ -679,6 +709,7 @@ def last_uploads_html(mycursor, html_file, nav_link):
                     encounter_previous = encounter
                     encounterid_previous = item[12]
                     x += 1
+                    y += 1
                     dps_sum += item[6]
                     html += ['            <tr>\n']
                     i = 0
@@ -692,8 +723,8 @@ def last_uploads_html(mycursor, html_file, nav_link):
                             html += ['                <td scope="row">'
                                      + create_url_dps(str(encounterid), str(playerid), item[3][0:14]) + '</td>\n']
                         elif i == 11:
-                                html += ['                <td scope="col">' + str(item[10]).split("0:")[1] + " | "
-                                         + str(item[11]).split("0:")[1] + '</td>\n']
+                                html += ['                <td scope="col">' + str(item[11]).split("0:")[1] + " | "
+                                         + str(item[10]).split("0:")[1] + '</td>\n']
                         # elif i == 6:
                         #     print(data)
                         #     if 'heal/support' in data:

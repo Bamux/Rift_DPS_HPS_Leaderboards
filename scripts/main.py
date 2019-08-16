@@ -2,17 +2,21 @@ import get_data_prancingturtle
 import mysql_add_data
 import create_html_files
 import upload_html_aws
+import traceback
 
 
 def main():
-    new_sessions = get_data_prancingturtle.main()
-    if new_sessions:
-        mysql_add_data.main()
-        create_html_files.main()
-        try:
+    try:
+        new_sessions = get_data_prancingturtle.main()
+        if new_sessions:
+            mysql_add_data.main()
+            create_html_files.main()
             upload_html_aws.main()
-        except:
-            pass
+    except Exception:
+        print("An error has occurred check the error_log.txt")
+        log = open("../log/error_log.txt", "w")
+        traceback.print_exc(file=log)
+        log.close()
 
 
 if __name__ == "__main__":
