@@ -475,7 +475,7 @@ def content(mycursor):
         i += 1
     html = "The database contains " + str(players) + " Players, " + class_html + " who killed " + str(encounters) \
            + ' bosses. The database only contains data after <a href="http://forums.riftgame.com/general-discussions/' \
-             'patch-notes/505586-rift-4-5-update-7-11-2018-a.html" target="new">2018-07-11</a> the last balance patch.'
+             'patch-notes/505586-rift-4-5-update-7-11-2018-a.html" target="new">2018-07-11</a> the last major class balance patch.'
     return html
 
 
