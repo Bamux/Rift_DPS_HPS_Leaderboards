@@ -77,7 +77,7 @@ def get_encounter_id(sid, boss, website, parse_date):
 
 def cf_decode_email(encodedstring):
     r = int(encodedstring[:2], 16)
-    name = ''.join([chr(int(encodedstring[i:i+2], 16) ^ r) for i in range(2, len(encodedstring), 2)])
+    name = ''.join([chr(int(encodedstring[i:i + 2], 16) ^ r) for i in range(2, len(encodedstring), 2)])
     name = name.split("@")[0]
     return name
 
@@ -86,12 +86,13 @@ def ability_role():
     abilities = []
 
     role = "support"
-    abilities += [["Wild Storms", role, "Primalist"]]
+    abilities += [["Wild Storms", role, "Primalist"]]  # Mystic
     abilities += [["Glacial Insignia", role, "Cleric"]]  # Oracle
     abilities += [["Wasting Insignia", role, "Cleric"]]  # Oracle
     abilities += [["Burning Purpose", role, "Mage"]]  # Archon
     abilities += [["Coda of Wrath", role, "Rogue"]]  # Bard
     abilities += [["Power Chord", role, "Rogue"]]  # Bard
+    abilities += [["Flesh Rip", role, "Warrior"]]  # Beastmaster
 
     role = "dps"
     abilities += [["Condemn", role, "Mage"]]  # Mage Necro
@@ -105,14 +106,18 @@ def ability_role():
     # abilities += [["Miserly Affliction", role, "Cleric"]]  # Defiler
 
     role = "tank"
-    abilities += [["Unstable Reaction", role, "Warrior"]]  # Warrior Void Knight
-    abilities += [["Counter Shock", role, "Mage"]]  # Mage Arbiter
-    abilities += [["Icy Fury", role, "Mage"]]  # Mage Arbiter
+    abilities += [["Unstable Reaction", role, "Warrior"]]  # Void Knight
+    abilities += [["Counter Shock", role, "Mage"]]  # Arbiter
+    abilities += [["Icy Fury", role, "Mage"]]  # Arbiter
     abilities += [["Hammer of Faith", role, "Cleric"]]
-    # abilities += [["Glacial Spike", role, "Mage"]]  # Mage Arbiter
-    abilities += [["Guarded Steel", role, "Rogue"]]  # Rogue Riftstalker
-    abilities += [["Light's Balm", role, "Warrior"]]  # Warrior Paladin
-    abilities += [["Protector's Fury", role, "Warrior"]]  # Warrior Paladin
+    abilities += [["Shattered Reflection", role, "Mage"]]  # Arbiter
+    abilities += [["Guarded Steel", role, "Rogue"]]  # Riftstalker
+    abilities += [["Planar Splash", role, "Rogue"]]  # Riftstalker
+    abilities += [["Tempest", role, "Warrior"]]  # Void Knight
+    # abilities += [["Retaliation", role, "Warrior"]]  # Paladin
+    abilities += [["Light's Balm", role, "Warrior"]]  # Paladin
+    abilities += [["Protector's Fury", role, "Warrior"]]  # Paladin
+    abilities += [["Crystalline Smash", role, "Primalist"]]  # Titan
 
     role = "heal"
     abilities += [["Ruin", role, "Mage"]]  # Mage Chloromancer
@@ -145,8 +150,8 @@ def get_role(url, boss):
 
 def get_player_hps_ohps(website, eid, playerid):
     heal = []
-    url = website + '/Encounter/Interaction?id=' \
-        + eid + '&p=' + playerid + '&outgoing=True&type=HPS&mode=ability&filter=all'
+    url = website + '/Encounter/Interaction?id=' + eid + '&p=' + playerid + '&outgoing=True&type=HPS&mode=ability&' \
+                                                                            'filter=all'
     html = requests.get(url).text
     if '<td class="text-center text-warning"><b>' in html:
         thps = html.split('<td class="text-center text-warning"><b>')[1]
@@ -160,8 +165,8 @@ def get_player_hps_ohps(website, eid, playerid):
 
 def get_player_aps(website, eid, playerid):
     aps = 0
-    url = website + '/Encounter/Interaction?id=' \
-        + eid + '&p=' + playerid + '&outgoing=True&type=APS&mode=ability&filter=all'
+    url = website + '/Encounter/Interaction?id=' + eid + '&p=' + playerid + '&outgoing=True&type=APS&mode=ability&' \
+                                                                            'filter=all'
     # print(url)
     html = requests.get(url).text
     if 'All Abilities' in html:
@@ -229,7 +234,7 @@ def get_player_class_dps(eid, player_class, website):
             if "raid_icon_role" in player:
                 role = player.split('raid_icon_role_')[1]
                 role = role.split(".png")[0]
-                if role == "support":
+                if role == "support" or role == "tank":
                     role = "unknown"
             if "-mage" in player:
                 name = player.split('-mage">')[1]
@@ -372,13 +377,13 @@ def get_player_class_dps(eid, player_class, website):
                                         if x <= seconds_with_encounter:
                                             player_total_dmg += int(playerdamage)
                                             x += 1
-                                    dps = str((round(player_total_dmg/seconds_with_encounter)))
+                                    dps = str((round(player_total_dmg / seconds_with_encounter)))
                                     break
                         else:
                             if 'text-center">' in player:
                                 player_total_dmg = player.split('text-center">')[1]
                                 player_total_dmg = player_total_dmg.split('</td>')[0]
-                                dps = str((round(int(player_total_dmg)/seconds_with_encounter)))
+                                dps = str((round(int(player_total_dmg) / seconds_with_encounter)))
                                 # print(player_total_dmg)
                         p_class = player_class.get(name, "unknown")
                         minute = math.floor((seconds_with_encounter % 3600) / 60)
@@ -428,8 +433,9 @@ def get_player_class_dps(eid, player_class, website):
                         p_class = player_class.get(healer[0], "unknown")
                         info = (item[1] + "\t" + item[0] + "\t" + encounter_name + "\t" + healer[0] + "\t" +
                                 p_class + "\t" + "0" + "\t" + (str(minute) + ":" + str(second) + "\t" + healer[1]
-                                + "\t" + item[2] + "\t" + encounter_time + "\t" + str(healer[2]) + "\t" + str(healer[3])
-                                + "\t" + str(healer[4]) + "\t" + str(healer[5])))
+                                                               + "\t" + item[2] + "\t" + encounter_time + "\t" + str(
+                                            healer[2]) + "\t" + str(healer[3])
+                                                               + "\t" + str(healer[4]) + "\t" + str(healer[5])))
                         print(info)
                         infos += [info]
 

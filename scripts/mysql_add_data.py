@@ -163,6 +163,8 @@ def change_rolename(rolename):
         rolename = "heal/support"
     elif rolename == "support/dps":
         rolename = "dps/support"
+    elif rolename == "support/tank":
+        rolename = "tank/support"
     elif rolename == "heal/tank":
         rolename = "tank/heal"
     elif rolename == "dps/tank":
@@ -208,6 +210,7 @@ def main():
             playerid = line[10]
             hps = line[11]
             thps = line[12]
+            print(line[13])
             aps = line[13]
             # session = database_session(mydb, mycursor, session, sessionid)
             guild = database_guild(mydb, mycursor, guild, guildname)
