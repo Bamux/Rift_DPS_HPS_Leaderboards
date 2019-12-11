@@ -4,6 +4,7 @@ import mysql_connect_config
 import gzip
 import shutil
 from operator import itemgetter, attrgetter
+from statistics import median
 
 
 def get_bossid(mycursor):
@@ -191,6 +192,9 @@ def create_url_dps(encounterid, playerid, text):
     elif encounterid == "17626" and playerid == "141559":
         url = '<a href="https://cdn.discordapp.com/attachments/281193813773516803/498550194191859712/' \
               '2018-10-07_191938.jpg" target="_blank">' + text + "</a>"
+    elif encounterid == "91115" and playerid == "148454":
+        url = '<a href="https://cdn.discordapp.com/attachments/560240994453553152/644976197494636544/' \
+              '2019-11-15_200348.jpg" target="_blank">' + text + "</a>"
     else:
         url = "https://prancingturtle.com"
         url = '<a href="' + url + '/Encounter/Interaction?id=' + encounterid + "&p=" + playerid + \
@@ -450,15 +454,18 @@ def exchange(mycursor, template, file, mysql_data, nav_link, number_of_players, 
 
 def average(data, number_of_players, dps_hps):
     dps_sum = 0
+    dps_median = []
     if number_of_players > 0:
         place = 1
         if dps_hps == "HPSAPS":
             place = 5
         for dps in data:
             if dps[0] != 0:
-                dps_sum += (dps[place])
-        dps_sum = round(dps_sum/number_of_players)
-    return dps_sum
+                # dps_sum += (dps[place])
+                dps_median += [(dps[place])]
+        # dps_sum = round(dps_sum/number_of_players)
+    # return dps_sum
+    return round(median(dps_median))
 
 
 def content(mycursor):

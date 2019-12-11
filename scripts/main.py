@@ -18,7 +18,7 @@ def main():
         log = open("../log/error_log.txt", "w")
         traceback.print_exc(file=log)
         log.close()
-        x = input("Exit program: Y")
+        x = input("Programmm Beebden: Y/N")
 
 
 if __name__ == "__main__":
