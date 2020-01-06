@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import codecs
 import requests
 from datetime import datetime
@@ -261,6 +263,8 @@ def get_player_class_dps(eid, player_class, website):
             else:
                 name = name.split('</span>')[0]
             if name:
+                name = name.encode('ascii', 'xmlcharrefreplace')
+                name = name.decode('utf-8')
                 if role != "tank" and playerid:
                     if get_tank_role(website, item[0], playerid):
                         role = "tank"
@@ -358,9 +362,11 @@ def get_player_class_dps(eid, player_class, website):
                     if "data-cfemail" in name:
                         name = name.split('data-cfemail="')[1]
                         name = name.split('">')[0]
-                        name = cf_decode_email(name)
+                        name = cf_decode_email(name).encode('ascii', 'xmlcharrefreplace')
+                        name = name.decode('utf-8')
                     else:
-                        name = name.split('</b></td>')[0]
+                        name = name.split('</b></td>')[0].encode('ascii', 'xmlcharrefreplace')
+                        name = name.decode('utf-8')
                     if "All Sources" not in name:
                         dps_names += [name]
                         if encounter_name == "Vindicator MK1":
