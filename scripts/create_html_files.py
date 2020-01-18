@@ -343,7 +343,7 @@ def exchange(mycursor, template, file, mysql_data, nav_link, number_of_players, 
                 if "#name" in line:
                     if mysql_data[i][0] != 0:
                         name = str(mysql_data[i][0])
-                        name = name[0:14]
+                        name = name[0:13]
                         line = line.replace("#name", name)
                     else:
                         line = line.replace("#name", "")

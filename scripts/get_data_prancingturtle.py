@@ -115,9 +115,10 @@ def ability_role():
     abilities += [["Shattered Reflection", role, "Mage"]]  # Arbiter
     abilities += [["Guarded Steel", role, "Rogue"]]  # Riftstalker
     abilities += [["Planar Splash", role, "Rogue"]]  # Riftstalker
+    abilities += [["Phantom Blow", role, "Rogue"]]  # Riftstalker
     abilities += [["Tempest", role, "Warrior"]]  # Void Knight
     # abilities += [["Retaliation", role, "Warrior"]]  # Paladin
-    abilities += [["Light's Balm", role, "Warrior"]]  # Paladin
+    abilities += [["Balance of Power", role, "Warrior"]]  # Paladin
     abilities += [["Protector's Fury", role, "Warrior"]]  # Paladin
     abilities += [["Crystalline Smash", role, "Primalist"]]  # Titan
 
@@ -140,6 +141,8 @@ def get_role(url, boss):
             player = player.split("<td><b>")[1]
             name = player.split(" (")[1]
             abilityname = player.split(" (")[0]
+            abilityname = abilityname.encode('ascii', 'xmlcharrefreplace')
+            abilityname = abilityname.decode('utf-8')
             if "data-cfemail" in name:
                 name = name.split('data-cfemail="')[1]
                 name = name.split('">')[0]
