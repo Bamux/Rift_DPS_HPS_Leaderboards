@@ -101,8 +101,8 @@ def mysql_top100(mycursor, bossid, classid, number_of_players, role, dps_hps):
             condition += " and Player.classid = 1 and (date >= '2019-12-12' and DPS > " + min_dps + " or DPS > 1400000)"
         else:
             condition += " and Player.classid = " + classid + " and DPS > " + min_dps + ""
-    if role:
-        condition += " and Roles.role = 'dps'"
+    # if role:
+    #     condition += " and Roles.role = 'dps'"
     sql = "SELECT playername, dps AS DPS, time, totaltime, date, HPSAPS, class, role, " \
           "encounterid, ptid, aps, thps, bossname FROM ( " \
           "SELECT DISTINCT playername, dps, a.encounterid, playerid AS id, dps AS max_dps_hps ," \
