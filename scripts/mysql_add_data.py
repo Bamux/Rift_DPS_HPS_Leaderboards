@@ -173,14 +173,16 @@ def change_rolename(rolename):
         rolename = "tank/dps"
     elif rolename == "tank/support/heal":
         rolename = "tank/heal/support"
-    elif rolename == "tank/heal/dps" or rolename == "dps/heal/tank":
+    elif "tank" in rolename and "dps" in rolename and "heal" in rolename:
         rolename = "tank/dps/heal"
     elif rolename == "support/heal/dps" or rolename == "heal/dps/support":
         rolename = "dps/heal/support"
     elif rolename == "heal/support/tank" or rolename == "heal/dps/support":
         rolename = "tank/heal/support"
     elif rolename == "dps/tank/support" or rolename == "heal/dps/support":
-        rolename = "tank/dps/support"		
+        rolename = "tank/dps/support"
+    elif rolename == "heal/tank/support" or rolename == "heal/dps/support":
+        rolename = "tank/heal/support"
     return rolename
 
 

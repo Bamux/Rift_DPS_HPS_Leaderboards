@@ -92,6 +92,7 @@ def ability_role():
     abilities += [["Glacial Insignia", role, "Cleric"]]  # Oracle
     abilities += [["Wasting Insignia", role, "Cleric"]]  # Oracle
     abilities += [["Burning Purpose", role, "Mage"]]  # Archon
+    abilities += [["Granite Salvo", role, "Mage"]]  # Archon
     abilities += [["Coda of Wrath", role, "Rogue"]]  # Bard
     abilities += [["Power Chord", role, "Rogue"]]  # Bard
     abilities += [["Flesh Rip", role, "Warrior"]]  # Beastmaster
@@ -104,7 +105,7 @@ def ability_role():
     abilities += [["Bound Fate", role, "Cleric"]]  # Cabalist
     abilities += [["Lebensanstieg", role, "Cleric"]]  # Druid
     abilities += [["Rapid Fire Shot", role, "Rogue"]]  # Marksman
-    abilities += [["Hellfire Blades", role, "Rogue"]]  # Nightblade
+    # abilities += [["Hellfire Blades", role, "Rogue"]]  # Nightblade
     # abilities += [["Miserly Affliction", role, "Cleric"]]  # Defiler
 
     role = "tank"
@@ -345,7 +346,7 @@ def get_player_class_dps(eid, player_class, website):
                         fight_length_counter += 1
                         if first_hit:
                             counter += 1
-                        if counter == 4:
+                        if counter == 8:
                             break
             seconds_with_encounter = i
             if seconds_with_encounter == fight_length and int(total_dps) > 0:

@@ -66,8 +66,12 @@ def mysql_leaders_html_fastest_kills(mycursor, bossid, number_of_players):
     return myresult
 
 
-def mysql_top_dps_hps(mycursor, bossid, classid, number_of_players, role, dps_hps):
+def mysql_top_dps_hps(mycursor, bossid, classid, number_of_players, role, dps_hps, html_file):
     condition = ""
+    if "wildwest" in html_file:
+        condition2 = "INNER JOIN Player ON ABS(Encounter.playerid) = Player.id "
+    else:
+        condition2 = "INNER JOIN Player ON Encounter.playerid = Player.id "
     if classid:
         condition += " and Player.classid = " + classid + ""
     if role:
@@ -77,7 +81,7 @@ def mysql_top_dps_hps(mycursor, bossid, classid, number_of_players, role, dps_hp
           "SELECT DISTINCT playername, dps, a.encounterid, playerid AS id, dps AS max_dps_hps ," \
           " TIME, totaltime, date, hps + aps as HPSAPS, class, role, ptid, aps, thps, bossname FROM Encounterinfo a " \
           "INNER JOIN Encounter ON a.id = Encounter.encounterid " \
-          "INNER JOIN Player ON Encounter.playerid = Player.id " \
+          "" + condition2 + "" \
           "INNER JOIN Classes on Player.classid = Classes.id " \
           "INNER JOIN Roles on Encounter.roleid = Roles.id " \
           "INNER JOIN Boss on a.bossid = Boss.id " \
@@ -92,13 +96,15 @@ def mysql_top_dps_hps(mycursor, bossid, classid, number_of_players, role, dps_hp
 
 def mysql_top100(mycursor, bossid, classid, number_of_players, role, dps_hps):
     condition = ""
+    min_dps = "900000"
+    max_dps = "1400000"
     if bossid == "3":
         min_dps = "800000"
-    else:
-        min_dps = "900000"
+        max_dps = "1030000"
     if classid:
         if classid == "1":
-            condition += " and Player.classid = 1 and (date >= '2019-12-12' and DPS > " + min_dps + " or DPS > 1400000)"
+            condition += " and Player.classid = 1 and (date >= '2019-12-12' and DPS > " + min_dps + " or DPS > " \
+                         + max_dps + ")"
         else:
             condition += " and Player.classid = " + classid + " and DPS > " + min_dps + ""
     # if role:
@@ -187,8 +193,9 @@ def mysql_count_classes(mycursor):
 
 
 def format_number(number):
+    number = abs(number)
     locale.setlocale(locale.LC_NUMERIC, "german")
-    number = locale.format("%.0f", number, grouping=True)
+    number = locale.format_string("%.0f", number, grouping=True)
     return number
 
 
@@ -268,7 +275,7 @@ def head_html(title, nav_link, html_file):
                 if title == "Most Played Raid Specs":
                     html += [line]
             else:
-                if "Lookup" in title:
+                if "Lookup" in title or "Rules" in title:
                     if default:
                         html += [line]
                 elif not hide or title == "Latest Uploads on Prancing Turtle" or title == "Most Played Specs":
@@ -515,12 +522,12 @@ def leaders_html(mycursor, bossid, html_file, nav_link):
         i += 1
     number_of_players = 15
     for boss_id in bossid:
-        data = mysql_top_dps_hps(mycursor, str(boss_id[0]), "", str(number_of_players), "", "DPS")
+        data = mysql_top_dps_hps(mycursor, str(boss_id[0]), "", str(number_of_players), "", "DPS", html_file)
         mysql_data += data + [average(data, number_of_players, "DPS")]
     number_of_players = 10
     for role in roles:
         for boss_id in bossid:
-            data = mysql_top_dps_hps(mycursor, str(boss_id[0]), "", str(number_of_players), role, "DPS")
+            data = mysql_top_dps_hps(mycursor, str(boss_id[0]), "", str(number_of_players), role, "DPS", html_file)
             mysql_data += data + [average(data, number_of_players, "DPS")]
     exchange(mycursor, template, file, mysql_data, nav_link, number_of_players, html_file)
     file.close()
@@ -539,7 +546,7 @@ def tank_sup_dps_hps_html(mycursor, bossid, classid, role, sort_order, html_file
         unsorted_data = []
         for class_id in classid:
             data = mysql_top_dps_hps(mycursor, str(boss_id[0]), str(class_id[0]), str(number_of_players), role,
-                                     sort_order)
+                                     sort_order, html_file)
             if len(data) < number_of_players:
                 players = len(data)
                 for i in range(number_of_players - players):
@@ -565,14 +572,14 @@ def hps_html(mycursor, bossid, classid, role, sort_order, html_file, nav_link):
     number_of_players = 15
     for boss_id in bossid:
         if boss_id[0] != 2:
-            data = mysql_top_dps_hps(mycursor, str(boss_id[0]), "", str(number_of_players), role, sort_order)
+            data = mysql_top_dps_hps(mycursor, str(boss_id[0]), "", str(number_of_players), role, sort_order, html_file)
             mysql_data += data + [average(data, number_of_players, "HPSAPS")]
     number_of_players = 10
     for class_id in classid:
         for boss_id in bossid:
             if boss_id[0] != 2:
                 data = mysql_top_dps_hps(mycursor, str(boss_id[0]), str(class_id[0]), str(number_of_players),
-                                         role, sort_order)
+                                         role, sort_order, html_file)
                 if len(data) < number_of_players:
                     players = len(data)
                     for i in range(number_of_players - players):
@@ -619,7 +626,10 @@ def resources(mycursor, html_file):
     for line in template:
         if "<title>" in line:
             title = line.split("<title>")[1].split("</title>")[0]
-            html = head_html(title, "Resources", html_file)
+            if "rules" in html_file:
+                html = head_html(title, "Rules", html_file)
+            else:
+                html = head_html(title, "Resources", html_file)
             for item in html:
                 file.write(item)
         elif "<!-- Footer -->" in line:
@@ -725,7 +735,7 @@ def last_uploads_html(mycursor, html_file, nav_link):
                     encounterid_previous = item[12]
                     x += 1
                     y += 1
-                    dps_sum += item[6]
+                    dps_sum += abs(item[6])
                     html += ['            <tr>\n']
                     i = 0
                     for data in item:
@@ -824,12 +834,15 @@ def main():
     roleid = get_roleid(mycursor)
     leaders_html(mycursor, bossid, "index.html", "Overall DPS")
     tank_sup_dps_hps_html(mycursor, bossid, classid, "dps", "DPS", "dps.html", "Damage DPS")
+    tank_sup_dps_hps_html(mycursor, bossid, classid, "dps", "DPS", "wildwestdps.html", "Damage DPS no Rules")
     tank_sup_dps_hps_html(mycursor, bossid, classid, "heal", "DPS", "ddhps.html", "Damage DPS + HPS")
     hps_html(mycursor, bossid, classid, "heal", "DPS", 'dpshps.html', "Heal order by DPS")
     hps_html(mycursor, bossid, classid, "", "HPSAPS", 'hps.html', "Heal order by HPS")
     tank_sup_dps_hps_html(mycursor, bossid, classid, "support", "DPS", "supdps.html", "Support DPS")
+    tank_sup_dps_hps_html(mycursor, bossid, classid, "support", "DPS", "wildwestsupdps.html", "Support DPS no Rules")
     tank_sup_dps_hps_html(mycursor, bossid, classid, "support", "HPSAPS", "suphps.html", "Support HPS")
     tank_sup_dps_hps_html(mycursor, bossid, classid, "tank", "DPS", "tdps.html", "Tank DPS")
+    tank_sup_dps_hps_html(mycursor, bossid, classid, "tank", "DPS", "wildwesttdps.html", "Tank DPS no Rules")
     tank_sup_dps_hps_html(mycursor, bossid, classid, "tank", "HPSAPS", "thps.html", "Tank HPS")
     top100(mycursor, 1, classid, "dps", "DPS", "top100_1.html", "Top 100 DPS - Azranel")
     top100(mycursor, 2, classid, "dps", "DPS", "top100_2.html", "Top 100 DPS - Vindicator MK1")
@@ -839,6 +852,7 @@ def main():
     resources(mycursor, "videos.html")
     resources(mycursor, "raidsetup.html")
     resources(mycursor, "lookup.html")
+    resources(mycursor, "rules.html")
     last_uploads_html(mycursor, "latestuploads.html", "Latest Uploads")
     create_json(mycursor, bossid, roleid)
 
