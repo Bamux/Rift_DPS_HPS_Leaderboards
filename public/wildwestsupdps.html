@@ -18,18 +18,123 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="./css/overrides.css">
-    <title>Support DPS</title>
+    <title>Support DPS no Rules</title>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            crossorigin="anonymous"></script>
+    <script>
+$(document).ready(function(){
+  $("#dosearch").click(function(){
+
+	$('#toutput').html('<td colspan="11"><center><img src="./css/Ajax_loader_metal_512.gif"/></td>');
+
+	var sval = $("#txt-search").val();  // search value from field
+	var stype = $("#searchtype").val();    // value from dropdown menu
+
+	$.ajax({
+    		url: "./json/data.json",
+       		dataType: "text",
+        	success: function(data) {
+
+        	var json = $.parseJSON(data);
+		var stype = $('#searchtype').val();
+
+		// Clear out the table contents for new search so that content doesn't overlap when a search is executed
+		if( $('#toutput').is(':empty') == false ) {$('#toutput').html(''); }
+
+        	for (var i = 0;i < json.length; i++){
+			if (json[i][stype].toLowerCase().includes(sval.toLowerCase())){
+	        	    $('#toutput').append(
+				'<tr><td><a href="https://prancingturtle.com/Encounter/Interaction?id='+ json[i]["Eid"] + '&p=' + json[i]["Pid"] +'&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">' + json[i]["Date"] + "</a>" +
+				'</td><td>' + json[i].Player +
+				'</td><td>' + json[i].Boss +
+				'</td><td>' + json[i].Class +
+				'</td><td>' + json[i].Role +
+				'</td><td>' + json[i].Guild +
+				'</td><td>' + json[i]["ST DPS"] +
+				'</td><td>' + json[i].HPS +
+				'</td><td>' + json[i].THPS +
+				'</td><td>' + json[i].APS +
+				'</td><td>' + json[i]["Time for Boss"] + ' | ' + json[i]["Total Time"] +
+				'</td></tr>');
+			}
+		}
+
+	if( $('#toutput').is(':empty')) {$('#toutput').html('<td colspan="11"><center>No results found...</center></td>'); }}});
+
+  });
+// This clears the table of data when the user clicks the search field
+ $('form').click(function(){
+	$('#toutput').html(' ');
+ });
+//this executes the click event on the search button when the user presses the enter key on their keyboard
+ $('#txt-search').keypress(function(e){
+      	if(e.keyCode==13){
+      		$('#dosearch').click();
+	}
+ });
+//This makes the headers execute a sort/reverse sort when clicking on a column.
+	$('th').click(function(){
+    		var table = $(this).parents('table').eq(0);
+    		var rows = table.find('tr:gt(0)').toArray().sort(comparer($(this).index()));
+    		this.asc = !this.asc;
+    		if (!this.asc){rows = rows.reverse();}
+    			for (var i = 0; i < rows.length; i++){table.append(rows[i]);}
+	})
+	function comparer(index) {
+   	 	return function(a, b) {
+        	var valA = getCellValue(a, index), valB = getCellValue(b, index)
+        	return $.isNumeric(valA) && $.isNumeric(valB) ? valA - valB : valA.toString().localeCompare(valB)
+   	 }
+}
+	function getCellValue(row, index){ return $(row).children('td').eq(index).text(); }
+
+// This sets the placeholder text on the search field for when the dropdown value changes
+$('#searchtype').change(
+    function() {
+        if ($('#searchtype').val() == "Player"){
+		$('#txt-search').attr("placeholder", "Search for player name");
+    	}else if($('#searchtype').val() == "Guild"){
+		$('#txt-search').attr("placeholder", "Search for guild or group name");
+	}else if($('#searchtype').val() == "Boss"){
+		$('#txt-search').attr("placeholder", "Search for results for a particular boss. Ex: Azranel");
+	}else if($('#searchtype').val() == "Class"){
+		$('#txt-search').attr("placeholder", "Search for results for a class. Ex: Warrior");
+	}else{
+	}
+    }
+);
+
+// Reset button code to reset all fields
+$('#reset').click(
+    function() {
+       $('#toutput').html('<td colspan="11"><center>Use the drop-downs and search field above to perform your search.</center></td>');
+       $('#txt-search').val('');
+       $('#searchtype').change();
+    }
+);
+});
+    </script>
+    <style>
+th{
+	cursor: grab;
+}
+
+.pt_table_blank_lookup thead th {
+   	width: 13em;
+	background-color:black;
+}
+
+#wrapper{
+	min-height:69vh;
+}
+    </style>
 </head>
 <body>
 
 <!-- Optional JavaScript -->
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-        crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
@@ -71,9 +176,9 @@
                 <li class="nav-item dropdown active">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Support</a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item active" href="./supdps.html">Order by DPS</a>
+                        <a class="dropdown-item" href="./supdps.html">Order by DPS</a>
                         <a class="dropdown-item" href="./suphps.html">Order by HPS</a>
-                        <a class="dropdown-item" href="./wildwestsupdps.html">Order by DPS no Rules</a>
+                        <a class="dropdown-item active" href="./wildwestsupdps.html">Order by DPS no Rules</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
@@ -118,7 +223,7 @@
     </div>
 </div>
 <div class="subheading">
-    <h2>Azranel - Support DPS</h2>
+    <h2>Azranel - Support DPS no Rules</h2>
     <hr>
 </div>
 <div class="content">
@@ -134,11 +239,11 @@
         </thead>
         <tbody>
         <tr>
-            <td><a href="https://prancingturtle.com/Encounter/Interaction?id=204499&p=147195&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2018-09-30</a></td>
+            <td><a href="https://prancingturtle.com/Encounter/Interaction?id=206582&p=147195&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2019-04-01</a></td>
             <td>Hokhmah</td>
-            <td>1.455.191</td>
+            <td>1.570.046</td>
             <td>0</td>
-            <td>3:51</td>
+            <td>2:55</td>
         </tr>
         <tr>
             <td><a href="https://prancingturtle.com/Encounter/Interaction?id=213123&p=148170&outgoing=True&type=DPS&mode=ability&filter=all" target="_blank">2020-07-12</a></td>
@@ -563,7 +668,7 @@
 <!-- Vindicator -->
 
 <div class="subheading">
-    <h2>Vindicator MK1 - Support DPS</h2>
+    <h2>Vindicator MK1 - Support DPS no Rules</h2>
     <hr>
 </div>
 <div class="content">
@@ -1008,7 +1113,7 @@
 <!-- Commander Isiel -->
 
 <div class="subheading">
-    <h2>Commander Isiel - Support DPS</h2>
+    <h2>Commander Isiel - Support DPS no Rules</h2>
     <hr>
 </div>
 <div class="content">
@@ -1453,7 +1558,7 @@
 <!-- Titan-X -->
 
 <div class="subheading">
-    <h2>Titan X - Support DPS</h2>
+    <h2>Titan X - Support DPS no Rules</h2>
     <hr>
 </div>
 <div class="content">
