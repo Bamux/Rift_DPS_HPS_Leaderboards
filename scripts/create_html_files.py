@@ -209,6 +209,9 @@ def create_url_dps(encounterid, playerid, text):
     elif encounterid == "91115" and playerid == "148454":
         url = '<a href="https://cdn.discordapp.com/attachments/560240994453553152/644976197494636544/' \
               '2019-11-15_200348.jpg" target="_blank">' + text + "</a>"
+    elif encounterid == "1" and playerid == "149618":
+        url = '<a href="https://media.discordapp.net/attachments/560240994453553152/745016680551546961/' \
+              '2020-08-17_222835.jpg?width=1355&height=762" target="_blank">' + text + "</a>"
     else:
         url = "https://prancingturtle.com"
         url = '<a href="' + url + '/Encounter/Interaction?id=' + encounterid + "&p=" + playerid + \
@@ -249,7 +252,7 @@ def head_html(title, nav_link, html_file):
         elif '<title>' in line:
             html += ["    <title>" + title + "</title>\n"]
         elif html_file in line or nav_link in line or (dropdown and dropdown in nav_link and dropdown in line):
-            if "dropdown-toggle"in line:
+            if "dropdown-toggle" in line:
                 html.pop()
                 html += ['                <li class="nav-item dropdown active">\n']
                 html += [line]

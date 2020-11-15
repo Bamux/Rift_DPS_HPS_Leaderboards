@@ -80,6 +80,8 @@ def get_encounter_id(sid, boss, website, parse_date):
 def cf_decode_email(encodedstring):
     r = int(encodedstring[:2], 16)
     name = ''.join([chr(int(encodedstring[i:i + 2], 16) ^ r) for i in range(2, len(encodedstring), 2)])
+    if name == "en@Brisesol":
+        name = "Kyurêen"
     name = name.split("@")[0]
     return name
 
@@ -206,7 +208,7 @@ def get_tank_role(website, eid, playerid):
         except:
             attack = int(attack[7].split('</td>')[0].strip())
         print("attack: " + str(attack))
-        if attack > 10:
+        if attack > 5:
             tank_role = True
     return tank_role
 
@@ -250,6 +252,7 @@ def get_player_class_dps(eid, player_class, website):
                 p_class = "Cleric"
             elif "-rogue" in player:
                 name = player.split('-rogue">')[1]
+                # print("rogue", name.split('</span>')[0])
                 p_class = "Rogue"
             elif "-warrior" in player:
                 name = player.split('-warrior">')[1]
@@ -378,9 +381,11 @@ def get_player_class_dps(eid, player_class, website):
                             playerdata = playerdata.split(", { data:")
                             for pdata in playerdata:
                                 if name in pdata:
+                                    # pdata = pdata.decode('utf-8')
                                     pdata = pdata.split("], name: '" + name)[0]
                                     pdata = pdata.split("[")[1]
                                     pdata = pdata.split(", ")
+                                    print("pdata", pdata)
                                     player_total_dmg = 0
                                     x = -1
                                     for playerdamage in pdata:
@@ -418,7 +423,7 @@ def get_player_class_dps(eid, player_class, website):
                                 hps = name_role[3]
                                 thps = name_role[4]
                                 aps = name_role[5]
-                                if int(thps) > 400000:
+                                if int(thps) > 800000:
                                     if role != "heal":
                                         role = role + "/heal"
                         for name_role in ability_name:
