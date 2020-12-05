@@ -2,8 +2,7 @@
 
 Python scripts, MySQL Database and templates with which the leaderboards are created.
 
-Example Website: https://rift-stats.s3.eu-central-1.amazonaws.com/index.html
-
+Example Website: https://top.prancingturtle.com/
 ## Installation Instructions:
 1. Import the database.sql from the database folder into your database.
 2. Configure the mysql_connect_config.py in the scripts folder to connect to your database
